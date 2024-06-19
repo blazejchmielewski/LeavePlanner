@@ -1,9 +1,13 @@
 package pl.chmielewski.LeavePlanner.Authentication.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import pl.chmielewski.LeavePlanner.Authentication.api.exception.UserNotFoundException;
+import pl.chmielewski.LeavePlanner.Authentication.api.exception.UserNotFoundByEmailException;
+import pl.chmielewski.LeavePlanner.Authentication.api.exception.UserNotFoundByIdException;
 import pl.chmielewski.LeavePlanner.Authentication.request.CreateUserDTO;
 import pl.chmielewski.LeavePlanner.Authentication.request.UpdateUserDTO;
 
@@ -13,7 +17,7 @@ import java.util.Set;
 import java.util.UUID;
 
 @Service
-public class UserService {
+public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
@@ -24,15 +28,19 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public List<User> getAllUsers(){
+    public List<User> getAllUsers() {
         return userRepository.findAll();
     }
 
-    public User getUserById(Long id){
-        return userRepository.findUserById(id).orElseThrow(()-> new UserNotFoundException(id));
+    public User getUserById(Long id) {
+        return userRepository.findUserById(id).orElseThrow(() -> new UserNotFoundByIdException(id));
     }
 
-    public User createUser(CreateUserDTO createUserDTO){
+    public User getUserByEmail(String email) {
+        return userRepository.findUserByEmail(email).orElseThrow(() -> new UserNotFoundByEmailException(email));
+    }
+
+    public User createUser(CreateUserDTO createUserDTO) {
         Set<Role> roleSet = new HashSet<>();
         roleSet.add(Role.USER);
 
@@ -47,7 +55,7 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public void updateUser(Long id, UpdateUserDTO updateUserDTO){
+    public void updateUser(Long id, UpdateUserDTO updateUserDTO) {
         User userById = getUserById(id);
         userById.setEmail(updateUserDTO.email());
         userById.setFirstname(updateUserDTO.firstname());
@@ -55,7 +63,12 @@ public class UserService {
         userRepository.save(userById);
     }
 
-    public void deleteUser(Long id){
+    public void deleteUser(Long id) {
         userRepository.delete(getUserById(id));
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return getUserByEmail(username);
     }
 }
