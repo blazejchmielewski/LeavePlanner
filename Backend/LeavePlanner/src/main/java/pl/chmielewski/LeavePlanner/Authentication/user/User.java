@@ -23,7 +23,9 @@ public class User implements UserDetails {
     private String email;
     private String password;
     private String uuid;
-    private Set<Role> role;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
     private Department department;
     private boolean isEnabled;
 
@@ -41,9 +43,7 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return role.stream()
-                .map(role -> new SimpleGrantedAuthority("ROLE_" + role.name()))
-                .collect(Collectors.toList());
+        return role.getAuthorities();
     }
 
     @Override
@@ -128,11 +128,11 @@ public class User implements UserDetails {
         this.department = department;
     }
 
-    public Set<Role> getRole() {
+    public Role getRole() {
         return role;
     }
 
-    public void setRole(Set<Role> role) {
+    public void setRole(Role role) {
         this.role = role;
     }
 
