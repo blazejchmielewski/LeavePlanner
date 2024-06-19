@@ -5,11 +5,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import pl.chmielewski.LeavePlanner.Authentication.api.exception.TokenNotFoundByUserException;
-import pl.chmielewski.LeavePlanner.Authentication.api.exception.UserNotFoundByEmailException;
-import pl.chmielewski.LeavePlanner.Authentication.api.exception.UserNotFoundByIdException;
-
-import java.time.LocalDateTime;
+import pl.chmielewski.LeavePlanner.Authentication.api.exception.*;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
@@ -17,7 +13,7 @@ public class GlobalExceptionHandler {
     @ResponseBody
     @ExceptionHandler(UserNotFoundByIdException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public AbstractResponse userNotFoundByIdHandler(UserNotFoundByIdException ex) {
+    public AbstractApiResponse userNotFoundByIdHandler(UserNotFoundByIdException ex) {
         return new ApiResponse(ex.getMessage(), HttpStatus.NOT_FOUND.value());
     }
 
@@ -34,5 +30,20 @@ public class GlobalExceptionHandler {
     public ApiResponse tokenNotFoundByUserHandler(TokenNotFoundByUserException ex){
         return new ApiResponse(ex.getMessage(), HttpStatus.NOT_FOUND.value());
     }
+
+    @ResponseBody
+    @ExceptionHandler(UserExistsByEmailException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ApiResponse userExistsWithEmailHandler(UserExistsByEmailException ex){
+        return new ApiResponse(ex.getMessage(), HttpStatus.CONFLICT.value());
+    }
+
+    @ResponseBody
+    @ExceptionHandler(TokenNotFoundByTokenException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ApiResponse tokenNotFoundByTokenHandler(TokenNotFoundByTokenException ex){
+        return new ApiResponse(ex.getMessage(), HttpStatus.NOT_FOUND.value());
+    }
+
 
 }
