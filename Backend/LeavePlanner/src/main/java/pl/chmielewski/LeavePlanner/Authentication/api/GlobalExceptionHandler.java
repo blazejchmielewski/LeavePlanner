@@ -1,8 +1,12 @@
 package pl.chmielewski.LeavePlanner.Authentication.api;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
-import pl.chmielewski.LeavePlanner.Authentication.api.exception.UserNotFoundException;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import pl.chmielewski.LeavePlanner.Authentication.api.exception.UserNotFoundByEmailException;
+import pl.chmielewski.LeavePlanner.Authentication.api.exception.UserNotFoundByIdException;
 
 import java.time.LocalDateTime;
 
@@ -10,9 +14,17 @@ import java.time.LocalDateTime;
 public class GlobalExceptionHandler {
 
     @ResponseBody
-    @ExceptionHandler(UserNotFoundException.class)
+    @ExceptionHandler(UserNotFoundByIdException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ApiResponse UserNotFoundHandler(UserNotFoundException ex){
-        return new ApiResponse(ex.getMessage(), HttpStatus.NOT_FOUND.value(), LocalDateTime.now());
+    public AbstractResponse userNotFoundByIdHandler(UserNotFoundByIdException ex) {
+        return new ApiResponse(ex.getMessage(), HttpStatus.NOT_FOUND.value());
     }
+
+    @ResponseBody
+    @ExceptionHandler(UserNotFoundByEmailException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ApiResponse userNotFoundByEmailHandler(UserNotFoundByEmailException ex){
+        return new ApiResponse(ex.getMessage(), HttpStatus.NOT_FOUND.value());
+    }
+
 }

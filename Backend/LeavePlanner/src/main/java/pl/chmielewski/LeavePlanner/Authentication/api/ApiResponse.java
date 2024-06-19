@@ -2,9 +2,12 @@ package pl.chmielewski.LeavePlanner.Authentication.api;
 
 import java.time.LocalDateTime;
 
-public record ApiResponse (
-        String message,
-        Integer code,
-        LocalDateTime timestamp
-){
+public class ApiResponse extends AbstractResponse{
+    private String message;
+    private Integer code;
+    private LocalDateTime timestamp;
+
+    public ApiResponse(String message, Integer code) {
+        super(message, code);
+    }
 }
