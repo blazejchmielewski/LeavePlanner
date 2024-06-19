@@ -1,8 +1,8 @@
 package pl.chmielewski.LeavePlanner.Authentication.api.exception;
 
-public class UserNotFoundException extends RuntimeException{
+public class UserNotFoundByIdException extends RuntimeException{
 
-    public UserNotFoundException(Long id) {
+    public UserNotFoundByIdException(Long id) {
         super("User not found with id: " + id);
     }
 }
