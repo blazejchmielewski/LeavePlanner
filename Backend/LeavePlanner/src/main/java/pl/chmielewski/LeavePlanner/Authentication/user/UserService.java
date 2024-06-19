@@ -8,12 +8,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import pl.chmielewski.LeavePlanner.Authentication.api.exception.UserNotFoundByEmailException;
 import pl.chmielewski.LeavePlanner.Authentication.api.exception.UserNotFoundByIdException;
-import pl.chmielewski.LeavePlanner.Authentication.request.CreateUserDTO;
+import pl.chmielewski.LeavePlanner.Authentication.request.RegisterUserDTO;
 import pl.chmielewski.LeavePlanner.Authentication.request.UpdateUserDTO;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
 @Service
@@ -40,10 +38,11 @@ public class UserService implements UserDetailsService {
         return userRepository.findUserByEmail(email).orElseThrow(() -> new UserNotFoundByEmailException(email));
     }
 
-    public User createUser(CreateUserDTO createUserDTO) {
-        Set<Role> roleSet = new HashSet<>();
-        roleSet.add(Role.USER);
+    public boolean userExistsByEmail(String email) {
+        return userRepository.existsByEmail(email);
+    }
 
+    public User createUser(RegisterUserDTO createUserDTO) {
         User user = new User(createUserDTO.firstname(),
                 createUserDTO.lastname(),
                 createUserDTO.email());
@@ -51,7 +50,7 @@ public class UserService implements UserDetailsService {
         user.setDepartment(Department.BAIO);
         user.setPassword(passwordEncoder.encode(createUserDTO.password()));
         user.setEnabled(true);
-        user.setRole(roleSet);
+        user.setRole(Role.USER);
         return userRepository.save(user);
     }
 

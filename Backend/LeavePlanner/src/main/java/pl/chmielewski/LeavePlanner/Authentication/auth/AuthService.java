@@ -4,8 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
-import pl.chmielewski.LeavePlanner.Authentication.api.ApiResponse;
+import pl.chmielewski.LeavePlanner.Authentication.api.exception.UserExistsByEmailException;
 import pl.chmielewski.LeavePlanner.Authentication.request.LoginUserDTO;
+import pl.chmielewski.LeavePlanner.Authentication.request.RegisterUserDTO;
 import pl.chmielewski.LeavePlanner.Authentication.token.JwtService;
 import pl.chmielewski.LeavePlanner.Authentication.token.TokenService;
 import pl.chmielewski.LeavePlanner.Authentication.user.User;
@@ -41,7 +42,13 @@ public class AuthService {
         return token;
     }
 
-    public ApiResponse register() {
-
+    public String register(RegisterUserDTO registerUserDTO){
+        if (userService.userExistsByEmail(registerUserDTO.email())) {
+            throw new UserExistsByEmailException(registerUserDTO.email());
+        }
+        User user = userService.createUser(registerUserDTO);
+        String token = jwtService.generateToken(user);
+        tokenService.saveTokenForUser(token, user);
+        return token;
     }
 }

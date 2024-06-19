@@ -4,10 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pl.chmielewski.LeavePlanner.Authentication.api.AbstractResponse;
+import pl.chmielewski.LeavePlanner.Authentication.api.AbstractApiResponse;
 import pl.chmielewski.LeavePlanner.Authentication.api.response.UserDeletedResponse;
 import pl.chmielewski.LeavePlanner.Authentication.api.response.UserUpdatedResponse;
-import pl.chmielewski.LeavePlanner.Authentication.request.CreateUserDTO;
 import pl.chmielewski.LeavePlanner.Authentication.request.UpdateUserDTO;
 
 import java.util.List;
@@ -33,19 +32,15 @@ public class UserController {
         return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.OK);
     }
 
-    @PostMapping("")
-    public User addNewUser(@RequestBody CreateUserDTO newUser) {
-        return userService.createUser(newUser);
-    }
 
     @PutMapping("/{id}")
-    public ResponseEntity<AbstractResponse> updateUser(@PathVariable("id") Long id, @RequestBody UpdateUserDTO updateUser) {
+    public ResponseEntity<AbstractApiResponse> updateUser(@PathVariable("id") Long id, @RequestBody UpdateUserDTO updateUser) {
         userService.updateUser(id, updateUser);
         return new ResponseEntity<>(new UserUpdatedResponse(id), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<AbstractResponse> deleteUser(@PathVariable("id") Long id) {
+    public ResponseEntity<AbstractApiResponse> deleteUser(@PathVariable("id") Long id) {
         userService.deleteUser(id);
         return new ResponseEntity<>(new UserDeletedResponse(id), HttpStatus.OK);
     }
