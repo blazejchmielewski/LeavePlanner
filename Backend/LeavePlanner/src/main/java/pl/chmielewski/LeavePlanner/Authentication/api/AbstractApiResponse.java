@@ -2,13 +2,13 @@ package pl.chmielewski.LeavePlanner.Authentication.api;
 
 import java.time.LocalDateTime;
 
-public abstract class AbstractResponse {
+public abstract class AbstractApiResponse {
 
     private String message;
     private Integer code;
     private LocalDateTime timestamp;
 
-    public AbstractResponse(String message, Integer code) {
+    public AbstractApiResponse(String message, Integer code) {
         this.message = message;
         this.code = code;
         this.timestamp = LocalDateTime.now();

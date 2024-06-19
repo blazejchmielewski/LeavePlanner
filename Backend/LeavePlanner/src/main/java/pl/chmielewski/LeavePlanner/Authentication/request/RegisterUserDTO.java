@@ -1,6 +1,6 @@
 package pl.chmielewski.LeavePlanner.Authentication.request;
 
-public record CreateUserDTO(
+public record RegisterUserDTO(
         String firstname,
         String lastname,
         String email,
