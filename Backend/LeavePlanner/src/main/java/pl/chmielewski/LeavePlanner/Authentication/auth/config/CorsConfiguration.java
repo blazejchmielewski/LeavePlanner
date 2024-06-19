@@ -1,4 +1,4 @@
-package pl.chmielewski.LeavePlanner.Authentication.auth;
+package pl.chmielewski.LeavePlanner.Authentication.auth.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;

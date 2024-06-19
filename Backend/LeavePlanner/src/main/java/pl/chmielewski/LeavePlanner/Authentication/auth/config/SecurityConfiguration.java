@@ -1,4 +1,4 @@
-package pl.chmielewski.LeavePlanner.Authentication.auth;
+package pl.chmielewski.LeavePlanner.Authentication.auth.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
