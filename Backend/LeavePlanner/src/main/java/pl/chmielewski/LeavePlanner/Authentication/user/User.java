@@ -7,8 +7,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import pl.chmielewski.LeavePlanner.Authentication.token.Token;
 
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Entity
 @Table(name = "users", schema = "leave")
@@ -29,7 +32,7 @@ public class User implements UserDetails {
     private Department department;
     private boolean isEnabled;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user")
     private Set<Token> tokens;
 
     public User() {
@@ -43,7 +46,7 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return role.getAuthorities();
+        return List.of(new SimpleGrantedAuthority(role.name()));
     }
 
     @Override

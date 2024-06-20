@@ -1,9 +1,6 @@
 package pl.chmielewski.LeavePlanner.Authentication.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import pl.chmielewski.LeavePlanner.Authentication.api.exception.UserNotFoundByEmailException;
@@ -15,7 +12,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-public class UserService implements UserDetailsService {
+public class UserService {
 
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
@@ -36,6 +33,12 @@ public class UserService implements UserDetailsService {
 
     public User getUserByEmail(String email) {
         return userRepository.findUserByEmail(email).orElseThrow(() -> new UserNotFoundByEmailException(email));
+    }
+
+    public void setRoleAdmin(Long id){
+        User userById = getUserById(id);
+        userById.setRole(Role.ADMIN);
+        userRepository.save(userById);
     }
 
     public boolean userExistsByEmail(String email) {
@@ -66,8 +69,4 @@ public class UserService implements UserDetailsService {
         userRepository.delete(getUserById(id));
     }
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return getUserByEmail(username);
-    }
 }

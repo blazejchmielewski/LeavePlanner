@@ -4,61 +4,71 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import pl.chmielewski.LeavePlanner.Authentication.user.Role;
+import pl.chmielewski.LeavePlanner.Authentication.auth.LogoutConfiguration;
+import pl.chmielewski.LeavePlanner.Authentication.user.UserDetailsServiceImpl;
 
-import static org.springframework.http.HttpMethod.*;
-import static org.springframework.http.HttpMethod.DELETE;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
-import static pl.chmielewski.LeavePlanner.Authentication.user.Permission.*;
-import static pl.chmielewski.LeavePlanner.Authentication.user.Role.ADMIN;
-import static pl.chmielewski.LeavePlanner.Authentication.user.Role.MANAGER;
 
 @Configuration
-@EnableMethodSecurity
 @EnableWebSecurity
 public class WebConfiguration {
 
     private final AuthenticationProvider authenticationProvider;
     private final AuthFilterConfiguration authFilterConfiguration;
+    private final UserDetailsServiceImpl userDetailsService;
+    private final LogoutConfiguration logoutService;
 
     private final String[] WHITE_LIST_URL = {
             "/auth/register",
-            "/auth/login"
+            "/auth/login",
+    };
+
+    private final String[] ADMIN_LIST_URL = {
+            "/users/**",
+            "/tokens/**",
+    };
+
+    private final String[] USER_LIST_URL = {
+            "/auth/register",
+            "/auth/login",
     };
 
     @Autowired
-    public WebConfiguration(AuthenticationProvider authenticationProvider, AuthFilterConfiguration authFilterConfiguration) {
+    public WebConfiguration(AuthenticationProvider authenticationProvider, AuthFilterConfiguration authFilterConfiguration, UserDetailsServiceImpl userDetailsService, LogoutConfiguration logoutService) {
         this.authenticationProvider = authenticationProvider;
         this.authFilterConfiguration = authFilterConfiguration;
+        this.userDetailsService = userDetailsService;
+        this.logoutService = logoutService;
     }
-
-
-
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(req ->
-                        req.requestMatchers(WHITE_LIST_URL)
-                                .permitAll()
-                                .requestMatchers("/users/**").hasAnyRole(ADMIN.name(), MANAGER.name())
-                                .requestMatchers(GET, "/users/**").hasAnyAuthority(USER_READ.name(), MANAGER_READ.name())
-                                .requestMatchers(POST, "/users/**").hasAnyAuthority(USER_CREATE.name(), MANAGER_CREATE.name())
-                                .requestMatchers(PUT, "/users/**").hasAnyAuthority(USER_UPDATE.name(), MANAGER_UPDATE.name())
-                                .requestMatchers(DELETE, "/users/**").hasAnyAuthority(USER_DELETE.name(), MANAGER_DELETE.name())
-                                .anyRequest()
-                                .authenticated()
+                .authorizeHttpRequests(req -> req
+                        .requestMatchers(WHITE_LIST_URL).permitAll()
+                        .requestMatchers(ADMIN_LIST_URL).hasAuthority("ADMIN")
+                        .requestMatchers(USER_LIST_URL).hasAuthority("USER")
+                        .anyRequest()
+                        .authenticated()
                 )
-                .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
+                .userDetailsService(userDetailsService)
                 .authenticationProvider(authenticationProvider)
-                .addFilterBefore(authFilterConfiguration, UsernamePasswordAuthenticationFilter.class);
+                .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
+                .addFilterBefore(authFilterConfiguration, UsernamePasswordAuthenticationFilter.class)
+                .exceptionHandling(e ->
+                        e.accessDeniedHandler((request, response, accessDeniedException) -> response.setStatus(403)))
+                .logout(l ->
+                        l.logoutUrl("/logout")
+                        .addLogoutHandler(logoutService)
+                        .logoutSuccessHandler((request, response, authentication) -> SecurityContextHolder.clearContext()));
+
         return http.build();
     }
 }

@@ -9,6 +9,7 @@ import pl.chmielewski.LeavePlanner.Authentication.request.LoginUserDTO;
 import pl.chmielewski.LeavePlanner.Authentication.request.RegisterUserDTO;
 import pl.chmielewski.LeavePlanner.Authentication.token.JwtService;
 import pl.chmielewski.LeavePlanner.Authentication.token.TokenService;
+import pl.chmielewski.LeavePlanner.Authentication.user.Role;
 import pl.chmielewski.LeavePlanner.Authentication.user.User;
 import pl.chmielewski.LeavePlanner.Authentication.user.UserService;
 
@@ -42,7 +43,7 @@ public class AuthService {
         return token;
     }
 
-    public String register(RegisterUserDTO registerUserDTO){
+    public String register(RegisterUserDTO registerUserDTO) {
         if (userService.userExistsByEmail(registerUserDTO.email())) {
             throw new UserExistsByEmailException(registerUserDTO.email());
         }
@@ -50,5 +51,9 @@ public class AuthService {
         String token = jwtService.generateToken(user);
         tokenService.saveTokenForUser(token, user);
         return token;
+    }
+
+    public void setAdminRole(Long id){
+        userService.setRoleAdmin(id);
     }
 }

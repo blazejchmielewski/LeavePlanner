@@ -13,8 +13,8 @@ public class Token {
 
     private String token;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "tk_us_id", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "tk_us_id")
     private User user;
 
     private boolean revoked;

@@ -3,6 +3,7 @@ package pl.chmielewski.LeavePlanner.Authentication.user;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pl.chmielewski.LeavePlanner.Authentication.api.AbstractApiResponse;
 import pl.chmielewski.LeavePlanner.Authentication.api.response.UserDeletedResponse;
@@ -31,7 +32,6 @@ public class UserController {
     public ResponseEntity<List<User>> getAllUsers() {
         return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.OK);
     }
-
 
     @PutMapping("/{id}")
     public ResponseEntity<AbstractApiResponse> updateUser(@PathVariable("id") Long id, @RequestBody UpdateUserDTO updateUser) {
