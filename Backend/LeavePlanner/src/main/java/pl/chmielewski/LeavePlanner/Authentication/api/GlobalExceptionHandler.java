@@ -1,5 +1,6 @@
 package pl.chmielewski.LeavePlanner.Authentication.api;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -44,6 +45,4 @@ public class GlobalExceptionHandler {
     public ApiResponse tokenNotFoundByTokenHandler(TokenNotFoundByTokenException ex){
         return new ApiResponse(ex.getMessage(), HttpStatus.NOT_FOUND.value());
     }
-
-
 }

@@ -31,7 +31,7 @@ public class AuthController {
     }
 
     @PostMapping("/admin/{id}")
-    public ResponseEntity<UserUpdatedResponse> setRoleAdmin(@PathVariable("id") Long id){
+    public ResponseEntity<UserUpdatedResponse> setUserRoleAdmin(@PathVariable("id") Long id){
         return new ResponseEntity<>(new UserUpdatedResponse(id), HttpStatus.OK);
     }
 }

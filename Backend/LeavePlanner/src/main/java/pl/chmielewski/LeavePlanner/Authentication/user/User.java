@@ -21,15 +21,30 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "us_id")
     private Long id;
+
+    @Column(name = "us_firstname")
     private String firstname;
+
+    @Column(name = "us_lastname")
     private String lastname;
+
+    @Column(name = "us_email")
     private String email;
+
+    @Column(name = "us_password")
     private String password;
+
+    @Column(name = "us_uuid")
     private String uuid;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "us_role")
     private Role role;
+
+    @Column(name = "us_department")
     private Department department;
+
+    @Column(name = "us_enabled")
     private boolean isEnabled;
 
     @OneToMany(mappedBy = "user")

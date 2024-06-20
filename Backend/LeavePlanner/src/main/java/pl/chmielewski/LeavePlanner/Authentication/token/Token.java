@@ -9,15 +9,20 @@ public class Token {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "tk_id")
     private Long id;
 
+    @Column(name = "tk_token")
     private String token;
 
     @ManyToOne
     @JoinColumn(name = "tk_us_id")
     private User user;
 
+    @Column(name = "tk_revoked")
     private boolean revoked;
+
+    @Column(name = "tk_expired")
     private boolean expired;
 
     public Token() {
