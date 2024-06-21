@@ -53,7 +53,13 @@ public class AuthService {
         return token;
     }
 
-    public void setAdminRole(Long id){
+    public Long setAdminRole(Long id){
         userService.setRoleAdmin(id);
+        return id;
+    }
+
+    public Long setUserRole(Long id){
+        userService.setRoleUser(id);
+        return id;
     }
 }

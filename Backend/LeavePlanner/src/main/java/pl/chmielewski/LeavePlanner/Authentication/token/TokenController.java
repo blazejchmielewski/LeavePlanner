@@ -22,4 +22,5 @@ public class TokenController {
     public List<Token> getAllTokens(){
         return tokenRepository.findAll();
     }
+
 }

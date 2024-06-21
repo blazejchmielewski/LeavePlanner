@@ -7,8 +7,11 @@ import pl.chmielewski.LeavePlanner.Authentication.api.exception.UserNotFoundByEm
 import pl.chmielewski.LeavePlanner.Authentication.api.exception.UserNotFoundByIdException;
 import pl.chmielewski.LeavePlanner.Authentication.request.RegisterUserDTO;
 import pl.chmielewski.LeavePlanner.Authentication.request.UpdateUserDTO;
+import pl.chmielewski.LeavePlanner.Authentication.token.Token;
+import pl.chmielewski.LeavePlanner.Authentication.token.TokenRepository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -16,11 +19,13 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
+    private final TokenRepository tokenRepository;
 
     @Autowired
-    public UserService(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder, TokenRepository tokenRepository) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.tokenRepository = tokenRepository;
     }
 
     public List<User> getAllUsers() {
@@ -41,6 +46,12 @@ public class UserService {
         userRepository.save(userById);
     }
 
+    public void setRoleUser(Long id){
+        User userById = getUserById(id);
+        userById.setRole(Role.USER);
+        userRepository.save(userById);
+    }
+
     public boolean userExistsByEmail(String email) {
         return userRepository.existsByEmail(email);
     }
@@ -53,7 +64,7 @@ public class UserService {
         user.setDepartment(Department.BAIO);
         user.setPassword(passwordEncoder.encode(createUserDTO.password()));
         user.setEnabled(true);
-        user.setRole(Role.USER);
+        user.setRole(createUserDTO.role());
         return userRepository.save(user);
     }
 
@@ -66,7 +77,8 @@ public class UserService {
     }
 
     public void deleteUser(Long id) {
+        Optional<List<Token>> allByUser = tokenRepository.findAllByUser(getUserById(id));
+        allByUser.ifPresent(tokenRepository::deleteAll);
         userRepository.delete(getUserById(id));
     }
-
 }

@@ -8,12 +8,14 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import pl.chmielewski.LeavePlanner.Authentication.auth.LogoutConfiguration;
-import pl.chmielewski.LeavePlanner.Authentication.user.UserDetailsServiceImpl;
+import pl.chmielewski.LeavePlanner.Authentication.user.Role;
 
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
+
 
 @Configuration
 @EnableWebSecurity
@@ -21,30 +23,28 @@ public class WebConfiguration {
 
     private final AuthenticationProvider authenticationProvider;
     private final AuthFilterConfiguration authFilterConfiguration;
-    private final UserDetailsServiceImpl userDetailsService;
     private final LogoutConfiguration logoutService;
+    private final UserDetailsService userDetailsService;
 
     private final String[] WHITE_LIST_URL = {
             "/auth/register",
             "/auth/login",
-    };
 
-    private final String[] ADMIN_LIST_URL = {
-            "/users/**",
-            "/tokens/**",
     };
 
     private final String[] USER_LIST_URL = {
-            "/auth/register",
-            "/auth/login",
+            "/test/razem",
+            "/test/user",
+            "/users/all",
+            "/users/get/**"
     };
 
     @Autowired
-    public WebConfiguration(AuthenticationProvider authenticationProvider, AuthFilterConfiguration authFilterConfiguration, UserDetailsServiceImpl userDetailsService, LogoutConfiguration logoutService) {
+    public WebConfiguration(AuthenticationProvider authenticationProvider, AuthFilterConfiguration authFilterConfiguration, LogoutConfiguration logoutService, UserDetailsService userDetailsService) {
         this.authenticationProvider = authenticationProvider;
         this.authFilterConfiguration = authFilterConfiguration;
-        this.userDetailsService = userDetailsService;
         this.logoutService = logoutService;
+        this.userDetailsService = userDetailsService;
     }
 
     @Bean
@@ -53,8 +53,8 @@ public class WebConfiguration {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(req -> req
                         .requestMatchers(WHITE_LIST_URL).permitAll()
-                        .requestMatchers(ADMIN_LIST_URL).hasAuthority("ADMIN")
-                        .requestMatchers(USER_LIST_URL).hasAuthority("USER")
+                        .requestMatchers(USER_LIST_URL).hasAnyAuthority(Role.USER.name())
+                        .requestMatchers("/**").hasAuthority(Role.ADMIN.name())
                         .anyRequest()
                         .authenticated()
                 )
@@ -66,8 +66,8 @@ public class WebConfiguration {
                         e.accessDeniedHandler((request, response, accessDeniedException) -> response.setStatus(403)))
                 .logout(l ->
                         l.logoutUrl("/logout")
-                        .addLogoutHandler(logoutService)
-                        .logoutSuccessHandler((request, response, authentication) -> SecurityContextHolder.clearContext()));
+                                .addLogoutHandler(logoutService)
+                                .logoutSuccessHandler((request, response, authentication) -> SecurityContextHolder.clearContext()));
 
         return http.build();
     }

@@ -32,6 +32,11 @@ public class AuthController {
 
     @PostMapping("/admin/{id}")
     public ResponseEntity<UserUpdatedResponse> setUserRoleAdmin(@PathVariable("id") Long id){
-        return new ResponseEntity<>(new UserUpdatedResponse(id), HttpStatus.OK);
+        return new ResponseEntity<>(new UserUpdatedResponse(authService.setAdminRole(id)), HttpStatus.OK);
+    }
+
+    @PostMapping("/user/{id}")
+    public ResponseEntity<UserUpdatedResponse> setUserRoleUser(@PathVariable("id") Long id){
+        return new ResponseEntity<>(new UserUpdatedResponse(authService.setUserRole(id)), HttpStatus.OK);
     }
 }
