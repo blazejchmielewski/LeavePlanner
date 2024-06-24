@@ -29,7 +29,6 @@ public class WebConfiguration {
     private final String[] WHITE_LIST_URL = {
             "/auth/register",
             "/auth/login",
-
     };
 
     private final String[] USER_LIST_URL = {
