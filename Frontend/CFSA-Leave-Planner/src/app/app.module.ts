@@ -6,6 +6,8 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AuthModule } from './modules/auth/auth.module';
 import { CoreModule } from './modules/core/core.module';
+import { StoreModule } from '@ngrx/store';
+import { authReducer } from './modules/auth/store/auth.reducer';
 
 @NgModule({
   declarations: [
@@ -16,7 +18,8 @@ import { CoreModule } from './modules/core/core.module';
     AppRoutingModule,
     BrowserAnimationsModule,
     CoreModule,
-    AuthModule
+    AuthModule,
+    StoreModule.forRoot({auth: authReducer}, {}),
   ],
   providers: [],
   bootstrap: [AppComponent]

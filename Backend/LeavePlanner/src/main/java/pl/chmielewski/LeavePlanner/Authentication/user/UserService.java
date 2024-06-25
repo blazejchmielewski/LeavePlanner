@@ -64,7 +64,7 @@ public class UserService {
         user.setDepartment(Department.BAIO);
         user.setPassword(passwordEncoder.encode(createUserDTO.password()));
         user.setEnabled(true);
-        user.setRole(createUserDTO.role());
+        user.setRole(Role.USER);
         return userRepository.save(user);
     }
 

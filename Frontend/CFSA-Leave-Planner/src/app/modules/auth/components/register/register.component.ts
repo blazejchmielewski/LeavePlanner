@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
-import { Route, Router, RouterLink } from '@angular/router';
-import { FormService } from '../../core/services/form.service';
+import { Router } from '@angular/router';
 import { FormControl, FormGroup } from '@angular/forms';
-import { LoginRequest, RegisterRequest } from '../../core/models/forms.model';
+import { RegisterRequest } from 'src/app/modules/core/models/forms.model';
+import { FormService } from 'src/app/modules/core/services/form.service';
+
 
 @Component({
   selector: 'app-register',

@@ -6,7 +6,6 @@ public record RegisterUserDTO(
         String firstname,
         String lastname,
         String email,
-        String password,
-        Role role
+        String password
 ) {
 }

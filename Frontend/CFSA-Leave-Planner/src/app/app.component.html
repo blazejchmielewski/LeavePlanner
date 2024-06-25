@@ -1,7 +1,7 @@
 <head>
   <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
-<app-header *ngIf="!isLoginPage && !isRegisterPage"></app-header>
+<app-header *ngIf="!isLoginPage && !isRegisterPage && !isPasswordRecoveryPage && !isPasswordRecoveryFormPage"></app-header>
 <div>
   <router-outlet></router-outlet>
 </div>
