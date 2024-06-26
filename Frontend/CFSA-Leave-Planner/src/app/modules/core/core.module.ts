@@ -1,24 +1,41 @@
 import { NgModule } from '@angular/core';
-import { HeaderComponent } from './header/header.component';
+import { HeaderComponent } from './components/header/header.component';
 import { RouterLink, RouterLinkActive } from '@angular/router';
-import { HomeComponent } from './home/home.component';
+import { HomeComponent } from './components/home/home.component';
 import { SharedModule } from '../shared/shared.module';
-
-
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http'
+import { ErrorHandlingInterceptor } from './interceptors/error-handling.interceptor';
+import { SpinnerComponent } from './components/spinner/spinner.component';
+import { SpinnerInterceptor } from './interceptors/spinner.interceptor';
 
 @NgModule({
   declarations: [
     HeaderComponent,
-    HomeComponent
+    HomeComponent,
+    SpinnerComponent
   ],
   imports: [
+    HttpClientModule,
     SharedModule,
     RouterLink,
-    RouterLinkActive
+    RouterLinkActive,
   ],
   exports:[
     HeaderComponent,
-    HomeComponent
+    HomeComponent,
+    SpinnerComponent
+  ],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ErrorHandlingInterceptor,
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: SpinnerInterceptor,
+      multi: true
+    }
   ]
 })
 export class CoreModule { }

@@ -1,7 +1,7 @@
 
 <body>
     <div class="wrapper">
-        <form [formGroup]="loginForm">
+        <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
             <h1>Logowanie</h1>
             <div class="form-input input-box">
                 <input type="text" placeholder="E-mail" required [formControl]="controls.email">

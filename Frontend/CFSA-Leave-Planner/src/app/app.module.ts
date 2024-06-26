@@ -8,6 +8,24 @@ import { AuthModule } from './modules/auth/auth.module';
 import { CoreModule } from './modules/core/core.module';
 import { StoreModule } from '@ngrx/store';
 import { authReducer } from './modules/auth/store/auth.reducer';
+import { NotifierModule, NotifierOptions } from 'angular-notifier';
+import { EffectsModule } from '@ngrx/effects';
+import { AuthEffects } from './modules/auth/store/auth.effects';
+
+
+const customNotifier: NotifierOptions = {
+  position: {
+    horizontal: {
+      position: 'right',
+      distance: 12,
+    },
+    vertical: {
+      position: 'top',
+      distance: 12,
+      gap: 10,
+    },
+  }, theme: 'material'
+}
 
 @NgModule({
   declarations: [
@@ -20,6 +38,8 @@ import { authReducer } from './modules/auth/store/auth.reducer';
     CoreModule,
     AuthModule,
     StoreModule.forRoot({auth: authReducer}, {}),
+    EffectsModule.forRoot([AuthEffects]),
+    NotifierModule.withConfig(customNotifier)
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -25,7 +25,6 @@ public class LogoutConfiguration implements LogoutHandler {
                        HttpServletResponse response,
                        Authentication authentication) {
         String authHeader = request.getHeader("Authorization");
-
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             return;
         }

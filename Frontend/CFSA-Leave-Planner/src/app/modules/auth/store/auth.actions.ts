@@ -26,7 +26,7 @@ export const loginFailure = createAction(
 
 
 export const register = createAction(
-    REGISTER_TYPE, props<{loginData: RegisterData}>()
+    REGISTER_TYPE, props<{registerData: RegisterData}>()
 );
 
 export const registerSuccess = createAction(

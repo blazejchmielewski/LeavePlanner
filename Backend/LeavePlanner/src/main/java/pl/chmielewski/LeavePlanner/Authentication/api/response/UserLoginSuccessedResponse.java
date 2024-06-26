@@ -1,6 +1,9 @@
 package pl.chmielewski.LeavePlanner.Authentication.api.response;
 
-public record TokenResponse (
+public record UserLoginSuccessedResponse (
+
+        String email,
+        String role,
         String token
 ){
 }

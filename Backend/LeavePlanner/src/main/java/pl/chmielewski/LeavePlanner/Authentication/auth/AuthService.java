@@ -5,6 +5,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
 import pl.chmielewski.LeavePlanner.Authentication.api.exception.UserExistsByEmailException;
+import pl.chmielewski.LeavePlanner.Authentication.api.response.UserLoginSuccessedResponse;
 import pl.chmielewski.LeavePlanner.Authentication.request.LoginUserDTO;
 import pl.chmielewski.LeavePlanner.Authentication.request.RegisterUserDTO;
 import pl.chmielewski.LeavePlanner.Authentication.token.JwtService;
@@ -30,7 +31,7 @@ public class AuthService {
         this.jwtService = jwtService;
     }
 
-    public String login(LoginUserDTO loginUserDTO) {
+    public UserLoginSuccessedResponse login(LoginUserDTO loginUserDTO) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         loginUserDTO.email(),
@@ -40,7 +41,7 @@ public class AuthService {
         tokenService.revokeAllUserTokens(user);
         String token = jwtService.generateToken(user);
         tokenService.saveTokenForUser(token, user);
-        return token;
+        return new UserLoginSuccessedResponse(user.getEmail(), user.getRole().name(), token);
     }
 
     public String register(RegisterUserDTO registerUserDTO) {
@@ -51,6 +52,10 @@ public class AuthService {
         String token = jwtService.generateToken(user);
         tokenService.saveTokenForUser(token, user);
         return token;
+    }
+
+    public void Logout(){
+
     }
 
     public Long setAdminRole(Long id){
