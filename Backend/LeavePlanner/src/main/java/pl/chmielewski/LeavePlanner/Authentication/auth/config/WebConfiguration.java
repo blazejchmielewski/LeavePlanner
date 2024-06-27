@@ -27,8 +27,9 @@ public class WebConfiguration {
     private final UserDetailsService userDetailsService;
 
     private final String[] WHITE_LIST_URL = {
-            "/auth/register",
-            "/auth/login",
+            "/auth/**",
+            "/api/**"
+
     };
 
     private final String[] USER_LIST_URL = {
