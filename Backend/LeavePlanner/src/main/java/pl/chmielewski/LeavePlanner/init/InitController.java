@@ -36,7 +36,6 @@ public class InitController {
             UserRegisterSuccessedDTO register = authService.register(registerUserDTO, response);
             authService.enableUser(register.uuid());
         } catch (Exception e) {
-
             e.printStackTrace();
         }
     }

@@ -1,6 +1,7 @@
 package pl.chmielewski.LeavePlanner.Authentication.auth;
 
 import jakarta.mail.MessagingException;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,6 +14,8 @@ import pl.chmielewski.LeavePlanner.Authentication.request.LoginUserDTO;
 import pl.chmielewski.LeavePlanner.Authentication.request.RegisterUserDTO;
 import pl.chmielewski.LeavePlanner.Authentication.request.ResetPasswordRequest;
 import pl.chmielewski.LeavePlanner.Authentication.user.User;
+
+import java.time.LocalDate;
 
 @RestController
 @RequestMapping("/auth")
@@ -69,5 +72,11 @@ public class AuthController {
     public ResponseEntity<ChangePasswordResponse> changePassword(@RequestBody ChangePasswordRequest request){
         authService.changePassword(request.password(), request.uid());
         return new ResponseEntity<>(new ChangePasswordResponse(), HttpStatus.OK);
+    }
+
+    @GetMapping("/logged-in")
+    public ResponseEntity<UserIsLoggedInDTO> isUserLoggedIn(HttpServletRequest request, HttpServletResponse response){
+        boolean userLoggedIn = authService.isUserLoggedIn(request, response);
+        return new ResponseEntity<>(new UserIsLoggedInDTO(userLoggedIn, 200, LocalDate.now()),HttpStatus.OK);
     }
 }

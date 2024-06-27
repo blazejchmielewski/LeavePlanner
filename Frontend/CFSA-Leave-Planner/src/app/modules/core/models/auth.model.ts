@@ -28,6 +28,10 @@ export interface AuthResponse {
     timestamp: string;
 }
 
+export interface LoggedInResponse extends Omit<AuthResponse, 'message'>{
+    message: boolean;
+}
+
 export interface ToResetPasswordData {
     email : string;
 }

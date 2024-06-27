@@ -6,12 +6,12 @@ import { RegisterComponent } from './modules/auth/components/register/register.c
 import { PasswordRecoveryComponent } from './modules/auth/components/password-recovery/password-recovery.component';
 import { PasswordRecoveryFormComponent } from './modules/auth/components/password-recovery-form/password-recovery-form.component';
 import { AccountActivationComponent } from './modules/auth/components/account-activation/account-activation.component';
+import { UnauthGuard } from './modules/core/guards/unauth.guard';
 
 const routes: Routes = [
-  { path: '', component: HomeComponent },
-  { path: 'home', component: HomeComponent },
-  { path: 'logowanie', component: LoginComponent },
-  { path: 'rejestracja', component: RegisterComponent },
+  { path: 'home', component: HomeComponent},
+  { path: 'logowanie', component: LoginComponent, canActivate: [UnauthGuard] },
+  { path: 'rejestracja', component: RegisterComponent, canActivate: [UnauthGuard] },
   { path: 'aktywuj/:uid', component: AccountActivationComponent },
   { path: 'odzyskaj-haslo', component: PasswordRecoveryComponent },
   { path: 'odzyskaj-haslo/:uid', component: PasswordRecoveryFormComponent },

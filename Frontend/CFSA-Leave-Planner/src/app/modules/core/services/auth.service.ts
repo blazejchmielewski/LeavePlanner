@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment.development';
-import { AuthResponse, ChangePasswordData, IUser, LoginData, RegisterData, ToResetPasswordData } from '../models/auth.model';
+import { AuthResponse, ChangePasswordData, IUser, LoggedInResponse, LoginData, RegisterData, ToResetPasswordData } from '../models/auth.model';
 
 @Injectable({
   providedIn: 'root'
@@ -25,6 +25,12 @@ export class AuthService {
 
   logout(): Observable<AuthResponse>{
     return this.http.get<AuthResponse>(`${this.apiUrl}/logout`,
+      {withCredentials: true}
+    );
+  }
+
+  isLoggedIn(): Observable<LoggedInResponse>{
+    return this.http.get<LoggedInResponse>(`${this.apiUrl}/logged-in`,
       {withCredentials: true}
     );
   }

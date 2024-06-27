@@ -1,11 +1,15 @@
 package pl.chmielewski.LeavePlanner.Authentication.auth;
 
+import io.jsonwebtoken.ExpiredJwtException;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
 import pl.chmielewski.LeavePlanner.Authentication.api.exception.UserExistsByEmailException;
+import pl.chmielewski.LeavePlanner.Authentication.api.response.UserIsLoggedInDTO;
 import pl.chmielewski.LeavePlanner.Authentication.api.response.UserLoginSuccessedDTO;
 import pl.chmielewski.LeavePlanner.Authentication.api.response.UserRegisterSuccessedDTO;
 import pl.chmielewski.LeavePlanner.Authentication.request.LoginUserDTO;
@@ -14,6 +18,9 @@ import pl.chmielewski.LeavePlanner.Authentication.token.JwtService;
 import pl.chmielewski.LeavePlanner.Authentication.token.TokenService;
 import pl.chmielewski.LeavePlanner.Authentication.user.User;
 import pl.chmielewski.LeavePlanner.Authentication.user.UserService;
+
+import java.util.Arrays;
+import java.util.Optional;
 
 @Service
 public class AuthService {
@@ -47,6 +54,15 @@ public class AuthService {
         return new UserLoginSuccessedDTO(user.getEmail(), user.getRole().name(), token);
     }
 
+    public boolean isUserLoggedIn(HttpServletRequest request, HttpServletResponse response) {
+        try {
+            validateToken(request, response);
+            return true;
+        } catch (ExpiredJwtException | IllegalArgumentException e) {
+            return false;
+        }
+    }
+
     public UserRegisterSuccessedDTO register(RegisterUserDTO registerUserDTO, HttpServletResponse response) {
         if (userService.userExistsByEmail(registerUserDTO.email())) {
             throw new UserExistsByEmailException(registerUserDTO.email());
@@ -58,7 +74,7 @@ public class AuthService {
         return new UserRegisterSuccessedDTO(token, user.getEmail(), user.getUuid());
     }
 
-    public void changePassword(String password, String uuid){
+    public void changePassword(String password, String uuid) {
         userService.changePassword(password, uuid);
     }
 
@@ -74,5 +90,21 @@ public class AuthService {
 
     public User getUserByEmail(String email) {
         return userService.getUserByEmail(email);
+    }
+
+    private  void validateToken(HttpServletRequest request, HttpServletResponse response) throws ExpiredJwtException, IllegalArgumentException {
+        String token = null;
+
+        if (request.getCookies() != null) {
+            for (Cookie value : request.getCookies()) {
+                if ("Authorization".equals(value.getName())) {
+                    token = value.getValue();
+                    break;
+                }
+            }
+        } else {
+            throw new IllegalArgumentException("Token can't be null");
+        }
+        jwtService.isTokenExpired(token);
     }
 }
