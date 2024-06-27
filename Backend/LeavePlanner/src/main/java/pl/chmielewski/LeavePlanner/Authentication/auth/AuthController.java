@@ -74,6 +74,12 @@ public class AuthController {
         return new ResponseEntity<>(new ChangePasswordResponse(), HttpStatus.OK);
     }
 
+    @GetMapping("/auto-login")
+    public ResponseEntity<UserLoginSuccessedDTO> autoLogin(HttpServletRequest request, HttpServletResponse response){
+        UserLoginSuccessedDTO userLoginSuccessedDTO = authService.autoLogin(request, response);
+        return new ResponseEntity<>(userLoginSuccessedDTO, HttpStatus.OK);
+    }
+
     @GetMapping("/logged-in")
     public ResponseEntity<UserIsLoggedInDTO> isUserLoggedIn(HttpServletRequest request, HttpServletResponse response){
         boolean userLoggedIn = authService.isUserLoggedIn(request, response);

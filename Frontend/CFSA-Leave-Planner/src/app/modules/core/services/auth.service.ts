@@ -35,6 +35,12 @@ export class AuthService {
     );
   }
 
+  autoLogin(): Observable<IUser>{
+    return this.http.get<IUser>(`${this.apiUrl}/auto-login`,
+      {withCredentials: true}
+    );
+  }
+
   activateAccount(uid: string): Observable<AuthResponse>{
     const params = new HttpParams().append('uid', uid);
     return this.http.get<AuthResponse>(`${this.apiUrl}/activate`, {

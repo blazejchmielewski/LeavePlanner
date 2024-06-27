@@ -1,12 +1,14 @@
 export interface IUser {
     email: string;
     role: string;
+    token: string;
 }
 
 export class User implements IUser{
     constructor(
         public email: string, 
-        public role: string
+        public role: string,
+        public token: string
     ){}
 }
 

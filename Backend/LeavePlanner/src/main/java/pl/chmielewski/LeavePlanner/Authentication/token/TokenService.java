@@ -3,6 +3,7 @@ package pl.chmielewski.LeavePlanner.Authentication.token;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.chmielewski.LeavePlanner.Authentication.api.exception.TokenNotFoundByTokenException;
+import pl.chmielewski.LeavePlanner.Authentication.api.exception.UserNotFoundByToken;
 import pl.chmielewski.LeavePlanner.Authentication.user.User;
 
 import java.util.List;
@@ -39,5 +40,9 @@ public class TokenService {
 
     public Token getTokenByToken(String token){
         return tokenRepository.findByToken(token).orElseThrow(()-> new TokenNotFoundByTokenException(token));
+    }
+
+    public User getUserByToken(String token){
+        return tokenRepository.findUserByToken(token).orElseThrow(() -> new UserNotFoundByToken(token));
     }
 }
