@@ -26,6 +26,13 @@ public class GlobalExceptionHandler {
     }
 
     @ResponseBody
+    @ExceptionHandler(UserNotFoundByUuid.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ApiResponse userNotFoundByUuidHandler(UserNotFoundByUuid ex){
+        return new ApiResponse(ex.getMessage(), HttpStatus.NOT_FOUND.value());
+    }
+
+    @ResponseBody
     @ExceptionHandler(TokenNotFoundByUserException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ApiResponse tokenNotFoundByUserHandler(TokenNotFoundByUserException ex){
@@ -45,4 +52,6 @@ public class GlobalExceptionHandler {
     public ApiResponse tokenNotFoundByTokenHandler(TokenNotFoundByTokenException ex){
         return new ApiResponse(ex.getMessage(), HttpStatus.NOT_FOUND.value());
     }
+
+
 }
