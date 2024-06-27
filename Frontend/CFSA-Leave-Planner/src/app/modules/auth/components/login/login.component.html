@@ -22,6 +22,9 @@
             <div class="register-link">
                 <p>Nie masz konta? <a routerLink="/rejestracja">Zarejestruj się</a></p>
             </div>
+            <div class="alert-warning alert-dismissible fade show" role="alert" *ngIf="errorMsg$ | async as error">
+                {{ error }}
+            </div>
         </form>
     </div>
 </body>
