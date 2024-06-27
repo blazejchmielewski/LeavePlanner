@@ -4,7 +4,7 @@ import pl.chmielewski.LeavePlanner.Authentication.api.AbstractApiResponse;
 
 public class UserCreatedResponse extends AbstractApiResponse {
 
-    public UserCreatedResponse(String message) {
-        super(message, 201);
+    public UserCreatedResponse() {
+        super("User created", 201);
     }
 }
