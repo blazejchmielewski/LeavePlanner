@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Route, Router } from '@angular/router';
+import { NotifierService } from 'angular-notifier';
 import { switchMap } from 'rxjs';
 import { AuthService } from 'src/app/modules/core/services/auth.service';
 
@@ -10,19 +11,25 @@ import { AuthService } from 'src/app/modules/core/services/auth.service';
 })
 export class AccountActivationComponent implements OnInit{
 
-  constructor(private route: ActivatedRoute, private authService: AuthService){}
+  errorMessage: string | null = null;
+
+  constructor(
+    private route: ActivatedRoute, 
+    private authService: AuthService,
+    private notifier: NotifierService,
+    private router: Router){}
   
   ngOnInit(): void {
-    this.route.paramMap.subscribe({
-      next: (param) => {
-        console.log(param.get('uid'));
-      }
-    });
-
     this.route.paramMap.pipe(
       switchMap(params => this.authService.activateAccount(params.get('uid') as string))
-    )
+    ).subscribe({
+      next: (response) => {
+        this.router.navigate(['/logowanie'])
+        this.notifier.notify('success', response.message)
+        console.log(response)
+      }, error: (err)=> {
+        this.errorMessage = err;
+      }
+    })
   }
-
-  
 }
