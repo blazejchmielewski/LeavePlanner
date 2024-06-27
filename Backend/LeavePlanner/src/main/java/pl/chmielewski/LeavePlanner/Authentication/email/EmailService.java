@@ -1,19 +1,19 @@
-package pl.chmielewski.LeavePlanner.Authentication.configuration;
+package pl.chmielewski.LeavePlanner.Authentication.email;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.stereotype.Service;
 
-@Configuration
-public class EmailConfiguration {
+@Service
+public class EmailService {
 
     private final JavaMailSender javaMailSender;
 
     @Autowired
-    public EmailConfiguration(JavaMailSender javaMailSender) {
+    public EmailService(JavaMailSender javaMailSender) {
         this.javaMailSender = javaMailSender;
     }
 
