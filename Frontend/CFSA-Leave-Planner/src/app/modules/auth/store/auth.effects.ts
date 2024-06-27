@@ -16,7 +16,7 @@ export class AuthEffects {
         switchMap(action =>{
             return this.authService.login(action.loginData).pipe(
                 map((user) => {
-                    this.router.navigate(['/home']);
+                    this.router.navigate(['/']);
                     this.notifierService.notify('success', 'Zalogowano pomyślnie');
                     return AuthActions.loginSuccess({user: {...user}})
                 }),
@@ -41,7 +41,25 @@ export class AuthEffects {
                 )
                 );
             })
-        ))
+        ));
+        
+
+        logout$ = createEffect(()=>
+            this.actions$.pipe(
+                ofType(AuthActions.logout),
+                switchMap(() => {
+                    return this.authService.logout().pipe(
+                        map((user) => {
+                            this.router.navigate(['/logowanie']);
+                            this.notifierService.notify('success', 'Wylogowano się');
+                            return AuthActions.logoutSuccess();
+                        }),
+                        catchError((err) => {
+                            this.notifierService.notify('warning', err)
+                            return of(AuthActions.logoutFailure())}
+                        ));
+                })
+            ))
 
     constructor(private actions$: Actions, 
                 private authService: AuthService,
