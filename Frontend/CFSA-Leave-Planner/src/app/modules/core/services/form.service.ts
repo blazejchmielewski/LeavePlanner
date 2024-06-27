@@ -33,14 +33,14 @@ export class FormService {
       firstname: new FormControl('', {
         validators: [
           Validators.required, 
-          Validators.minLength(8), 
+          Validators.minLength(3), 
           Validators.maxLength(30)],
         nonNullable: true,
       }),
       lastname: new FormControl('', {
         validators: [
           Validators.required, 
-          Validators.minLength(8), 
+          Validators.minLength(3), 
           Validators.maxLength(30)],
         nonNullable: true,
       }),
