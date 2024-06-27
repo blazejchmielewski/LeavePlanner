@@ -5,6 +5,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import pl.chmielewski.LeavePlanner.Authentication.api.exception.UserNotFoundByEmailException;
 import pl.chmielewski.LeavePlanner.Authentication.api.exception.UserNotFoundByIdException;
+import pl.chmielewski.LeavePlanner.Authentication.api.exception.UserNotFoundByUuid;
 import pl.chmielewski.LeavePlanner.Authentication.request.RegisterUserDTO;
 import pl.chmielewski.LeavePlanner.Authentication.request.UpdateUserDTO;
 import pl.chmielewski.LeavePlanner.Authentication.token.Token;
@@ -40,16 +41,26 @@ public class UserService {
         return userRepository.findUserByEmail(email).orElseThrow(() -> new UserNotFoundByEmailException(email));
     }
 
-    public void setRoleAdmin(Long id){
+    public User getUserByUuid(String uuid){
+        return userRepository.findUserByUuid(uuid).orElseThrow(()-> new UserNotFoundByUuid(uuid));
+    }
+
+    public void saveUser(User user){
+        userRepository.save(user);
+    }
+
+    public Long setRoleAdmin(Long id){
         User userById = getUserById(id);
         userById.setRole(Role.ADMIN);
         userRepository.save(userById);
+        return userById.getId();
     }
 
-    public void setRoleUser(Long id){
+    public Long setRoleUser(Long id){
         User userById = getUserById(id);
         userById.setRole(Role.USER);
         userRepository.save(userById);
+        return userById.getId();
     }
 
     public boolean userExistsByEmail(String email) {
@@ -63,7 +74,7 @@ public class UserService {
         user.setUuid(UUID.randomUUID().toString());
         user.setDepartment(Department.BAIO);
         user.setPassword(passwordEncoder.encode(createUserDTO.password()));
-        user.setEnabled(true);
+        user.setEnabled(false);
         user.setRole(Role.USER);
         return userRepository.save(user);
     }
@@ -80,5 +91,11 @@ public class UserService {
         Optional<List<Token>> allByUser = tokenRepository.findAllByUser(getUserById(id));
         allByUser.ifPresent(tokenRepository::deleteAll);
         userRepository.delete(getUserById(id));
+    }
+
+    public void changePassword(String password, String uuid){
+        User userByUuid = getUserByUuid(uuid);
+        userByUuid.setPassword(passwordEncoder.encode(password));
+        userRepository.save(userByUuid);
     }
 }
