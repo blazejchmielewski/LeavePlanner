@@ -1,40 +1,36 @@
-
-  <header class="header">
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="logo container">
-      <img class="logo-img" src="../../../../../assets/ikona.ico">
-        <div>
-          <div class="title">Centrum Finansowe S.A.</div> 
-          <div class="subtitle">LeavePlanner</div>
-        </div>
+ <header id="main-header">
+    <div class="logo-container">
+      <a><img src="../../../../../assets/ikona.ico" alt="Logo"></a>
+      <div class="logo-text-container">
+        <h3 class="logo-text">Centrum Finansowe S.A.</h3>
+      </div>
     </div>
-  
-    <nav class="navbar container">
-        <li>
-          <a routerLink="" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Urlopy</a>
+    <nav>
+      <ul>
+        <li class="has-submenu">
+          <a href="#">Konto</a>
+          <ul>
+            <li><a href="#">Branding</a></li>
+            <li><a href="#">Web Design</a></li>
+            <li><a href="#">Web Development</a></li>
+            <li><a href="#">eCommerce</a></li>
+            <li><a href="#">Print</a></li>
+          </ul>
         </li>
-        <li>
-          <a routerLink="" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Wnioski</a>
-        </li>
-        <li>
-          <a routerLink="" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Kalendarz</a>
-        </li>
+        <li><a routerLink="" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Urlopy</a></li>
+        <li><a routerLink="" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Wnioski</a></li>
+        <li><a routerLink="" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Kalendarz</a></li>
         <ng-container *ngIf='user$ | async as user; else notUser'>
-          <li class="nav-item" *ngIf='isAdmin(user.role)'>
-            <a class="nav-link" routerLink='admin'>Administracja</a>
-          </li>
-          <li class='nav-item'>
-            <button (click)='logout()'>Wyloguj się</button>
-          </li>
+          <li *ngIf='isAdmin(user.role)'><a routerLink='admin'>Administracja</a></li>
+          <div class="logout">
+            <li><button  (click)='logout()'>Wyloguj się</button></li>
+          </div>
         </ng-container>
         <ng-template #notUser>
           <li class="nav-item">
             <a class="nav-link" routerLink="logowanie" routerLinkActive="active">Logowanie</a>
           </li>
         </ng-template>
+      </ul>
     </nav>
   </header>
-
-
