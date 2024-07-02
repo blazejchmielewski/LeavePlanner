@@ -7,12 +7,14 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http'
 import { ErrorHandlingInterceptor } from './interceptors/error-handling.interceptor';
 import { SpinnerComponent } from './components/spinner/spinner.component';
 import { SpinnerInterceptor } from './interceptors/spinner.interceptor';
+import { AdminComponent } from './components/admin/admin.component';
 
 @NgModule({
   declarations: [
     HeaderComponent,
     HomeComponent,
-    SpinnerComponent
+    SpinnerComponent,
+    AdminComponent
   ],
   imports: [
     HttpClientModule,
@@ -23,7 +25,7 @@ import { SpinnerInterceptor } from './interceptors/spinner.interceptor';
   exports:[
     HeaderComponent,
     HomeComponent,
-    SpinnerComponent
+    SpinnerComponent,
   ],
   providers: [
     {

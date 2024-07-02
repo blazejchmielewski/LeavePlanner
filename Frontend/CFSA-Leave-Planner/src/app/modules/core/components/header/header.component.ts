@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { NavigationEnd, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import * as AuthActions from '../../../auth/store/auth.actions'
 import { AppState } from 'src/app/store/app.reducer';
@@ -14,11 +13,15 @@ import { selectAuthUser } from 'src/app/modules/auth/store/auth.selectors';
 })
 export class HeaderComponent {
 
-  constructor(private store: Store<AppState>){}
-
-  user$: Observable<User | null> = this.store.select(selectAuthUser)
-
-  logout(){
-    this.store.dispatch(AuthActions.logout())
+  user$: Observable<User | null> = this.store.select(selectAuthUser);
+  constructor(private store: Store<AppState>) {}
+  
+  logout() {
+    this.store.dispatch(AuthActions.logout());
   }
+
+  isAdmin(role: string) {
+    return role === 'ADMIN';
+  }
+
 }

@@ -1,5 +1,14 @@
 /* You can add global styles to this file, and also import other style files */
 @import "node_modules/angular-notifier/styles";
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html, body { 
+    height: 100%;
+    background-image: linear-gradient(to top, #9be15d 0%, #00e3ae 100%);
+    background-size: cover;
+    background-position: center; 
+    
+}
+body { 
+    margin: 0; font-family: Roboto, 
+    "Helvetica Neue", sans-serif; 
+}

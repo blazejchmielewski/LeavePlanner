@@ -7,9 +7,12 @@ import { PasswordRecoveryComponent } from './modules/auth/components/password-re
 import { PasswordRecoveryFormComponent } from './modules/auth/components/password-recovery-form/password-recovery-form.component';
 import { AccountActivationComponent } from './modules/auth/components/account-activation/account-activation.component';
 import { UnauthGuard } from './modules/core/guards/unauth.guard';
+import { AdminComponent } from './modules/core/components/admin/admin.component';
+import { AuthGuard } from './modules/core/guards/auth.guard';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent},
+  { path: 'admin', component: AdminComponent, canActivate: [AuthGuard]},
   { path: 'logowanie', component: LoginComponent, canActivate: [UnauthGuard] },
   { path: 'rejestracja', component: RegisterComponent, canActivate: [UnauthGuard] },
   { path: 'aktywuj/:uid', component: AccountActivationComponent },

@@ -28,7 +28,7 @@ export class AuthEffects {
 
     autoLogin$ = createEffect(()=>
         this.actions$.pipe(
-            ofType(AuthActions.login),
+            ofType(AuthActions.autoLogin),
             switchMap(() =>{
                 return this.authService.autoLogin().pipe(
                     map((user) => {
