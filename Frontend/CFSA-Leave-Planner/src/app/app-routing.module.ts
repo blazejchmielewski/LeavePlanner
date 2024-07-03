@@ -10,6 +10,7 @@ import { UnauthGuard } from './modules/core/guards/unauth.guard';
 import { AdminComponent } from './modules/core/components/admin/admin.component';
 import { AuthGuard } from './modules/core/guards/auth.guard';
 import { CalendarComponent } from './modules/core/components/header/calendar/calendar.component';
+import { UsersComponent } from './modules/core/components/admin/users/users.component';
 
 const routes: Routes = [
   { path: '', component: AdminComponent},
@@ -21,6 +22,7 @@ const routes: Routes = [
   { path: 'odzyskaj-haslo', component: PasswordRecoveryComponent },
   { path: 'odzyskaj-haslo/:uid', component: PasswordRecoveryFormComponent },
   { path: 'calendar', component: CalendarComponent},
+  { path: 'users', component: UsersComponent},
 ];
 
 @NgModule({

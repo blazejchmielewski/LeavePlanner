@@ -8,13 +8,16 @@ import pl.chmielewski.LeavePlanner.Authentication.api.exception.UserNotFoundById
 import pl.chmielewski.LeavePlanner.Authentication.api.exception.UserNotFoundByUuidException;
 import pl.chmielewski.LeavePlanner.Authentication.api.request.RegisterUserDTO;
 import pl.chmielewski.LeavePlanner.Authentication.api.request.UpdateUserDTO;
+import pl.chmielewski.LeavePlanner.Authentication.api.response.UserToTableResponse;
 import pl.chmielewski.LeavePlanner.Authentication.token.Token;
 import pl.chmielewski.LeavePlanner.Authentication.token.TokenRepository;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -32,6 +35,18 @@ public class UserService {
 
     public List<User> getAllUsers() {
         return userRepository.findAll();
+    }
+
+    public List<UserToTableResponse> getAllUsersToTable() {
+        List<User> all = userRepository.findAll();
+        return all.stream()
+                .map(user -> new UserToTableResponse(
+                        user.getFirstname(),
+                        user.getLastname(),
+                        user.getEmail(),
+                        user.getDepartment().name()
+                ))
+                .collect(Collectors.toList());
     }
 
     public User getUserById(Long id) {

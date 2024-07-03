@@ -10,6 +10,7 @@ import { SpinnerInterceptor } from './interceptors/spinner.interceptor';
 import { AdminComponent } from './components/admin/admin.component';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { CalendarComponent } from './components/header/calendar/calendar.component';
+import { UsersComponent } from './components/admin/users/users.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { CalendarComponent } from './components/header/calendar/calendar.compone
     HomeComponent,
     SpinnerComponent,
     AdminComponent,
-    CalendarComponent
+    CalendarComponent,
+    UsersComponent
   ],
   imports: [
     HttpClientModule,

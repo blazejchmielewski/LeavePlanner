@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.chmielewski.LeavePlanner.Authentication.api.AbstractApiResponse;
 import pl.chmielewski.LeavePlanner.Authentication.api.response.UserDeletedResponse;
+import pl.chmielewski.LeavePlanner.Authentication.api.response.UserToTableResponse;
 import pl.chmielewski.LeavePlanner.Authentication.api.response.UserUpdatedResponse;
 import pl.chmielewski.LeavePlanner.Authentication.api.request.UpdateUserDTO;
 
@@ -30,6 +31,11 @@ public class UserController {
     @GetMapping("/all")
     public ResponseEntity<List<User>> getAllUsers() {
         return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.OK);
+    }
+
+    @GetMapping("/table/all")
+    public ResponseEntity<List<UserToTableResponse>> getAllUsersToTable() {
+        return new ResponseEntity<>(userService.getAllUsersToTable(), HttpStatus.OK);
     }
 
     @PutMapping("/update/{id}")
