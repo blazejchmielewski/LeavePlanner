@@ -1,4 +1,4 @@
-package pl.chmielewski.LeavePlanner.Authentication.request;
+package pl.chmielewski.LeavePlanner.Authentication.api.request;
 
 public record UpdateUserDTO(
         String firstname,

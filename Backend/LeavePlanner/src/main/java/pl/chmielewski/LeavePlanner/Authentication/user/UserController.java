@@ -3,12 +3,11 @@ package pl.chmielewski.LeavePlanner.Authentication.user;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pl.chmielewski.LeavePlanner.Authentication.api.AbstractApiResponse;
 import pl.chmielewski.LeavePlanner.Authentication.api.response.UserDeletedResponse;
 import pl.chmielewski.LeavePlanner.Authentication.api.response.UserUpdatedResponse;
-import pl.chmielewski.LeavePlanner.Authentication.request.UpdateUserDTO;
+import pl.chmielewski.LeavePlanner.Authentication.api.request.UpdateUserDTO;
 
 import java.util.List;
 
@@ -42,6 +41,6 @@ public class UserController {
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<AbstractApiResponse> deleteUser(@PathVariable("id") Long id) {
         userService.deleteUser(id);
-        return new ResponseEntity<>(new UserDeletedResponse(id), HttpStatus.OK);
+        return new ResponseEntity<>(new UserDeletedResponse(id), HttpStatus.NO_CONTENT);
     }
 }

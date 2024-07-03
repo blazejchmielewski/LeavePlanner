@@ -11,6 +11,7 @@ import pl.chmielewski.LeavePlanner.Authentication.api.request.UpdateUserDTO;
 import pl.chmielewski.LeavePlanner.Authentication.token.Token;
 import pl.chmielewski.LeavePlanner.Authentication.token.TokenRepository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -52,6 +53,7 @@ public class UserService {
     public Long setRoleAdmin(Long id){
         User userById = getUserById(id);
         userById.setRole(Role.ADMIN);
+        userById.setUpdatedAt(LocalDateTime.now());
         userRepository.save(userById);
         return userById.getId();
     }
@@ -59,6 +61,7 @@ public class UserService {
     public Long setRoleUser(Long id){
         User userById = getUserById(id);
         userById.setRole(Role.USER);
+        userById.setUpdatedAt(LocalDateTime.now());
         userRepository.save(userById);
         return userById.getId();
     }
@@ -70,7 +73,9 @@ public class UserService {
     public User createUser(RegisterUserDTO createUserDTO) {
         User user = new User(createUserDTO.firstname(),
                 createUserDTO.lastname(),
-                createUserDTO.email());
+                createUserDTO.email(),
+                LocalDateTime.now(),
+                LocalDateTime.now());
         user.setUuid(UUID.randomUUID().toString());
         user.setDepartment(Department.BAIO);
         user.setPassword(passwordEncoder.encode(createUserDTO.password()));
@@ -84,6 +89,7 @@ public class UserService {
         userById.setEmail(updateUserDTO.email());
         userById.setFirstname(updateUserDTO.firstname());
         userById.setLastname(updateUserDTO.lastname());
+        userById.setUpdatedAt(LocalDateTime.now());
         userRepository.save(userById);
     }
 
@@ -96,6 +102,7 @@ public class UserService {
     public void changePassword(String password, String uuid){
         User userByUuid = getUserByUuid(uuid);
         userByUuid.setPassword(passwordEncoder.encode(password));
+        userByUuid.setUpdatedAt(LocalDateTime.now());
         userRepository.save(userByUuid);
     }
 }

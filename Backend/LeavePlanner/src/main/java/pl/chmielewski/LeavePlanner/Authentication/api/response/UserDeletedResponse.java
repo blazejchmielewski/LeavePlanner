@@ -5,6 +5,6 @@ import pl.chmielewski.LeavePlanner.Authentication.api.AbstractApiResponse;
 public class UserDeletedResponse extends AbstractApiResponse {
 
     public UserDeletedResponse(Long id) {
-        super("User deleted with id: " + id, 201);
+        super("User has been deleted with id: " + id, 204);
     }
 }

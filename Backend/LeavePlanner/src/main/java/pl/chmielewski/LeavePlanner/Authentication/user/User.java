@@ -6,6 +6,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import pl.chmielewski.LeavePlanner.Authentication.token.Token;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -47,16 +48,24 @@ public class User implements UserDetails {
     @Column(name = "us_enabled")
     private boolean isEnabled;
 
+    @Column(name = "us_created_at")
+    private LocalDateTime createdAt;
+
+    @Column(name = "us_updated_at")
+    private LocalDateTime updatedAt;
+
     @OneToMany(mappedBy = "user")
     private Set<Token> tokens;
 
     public User() {
     }
 
-    public User(String firstname, String lastname, String email) {
+    public User(String firstname, String lastname, String email, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 
     @Override
@@ -164,5 +173,37 @@ public class User implements UserDetails {
 
     public void setTokens(Set<Token> tokens) {
         this.tokens = tokens;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", firstname='" + firstname + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", uuid='" + uuid + '\'' +
+                ", role=" + role +
+                ", department=" + department +
+                ", isEnabled=" + isEnabled +
+                ", tokens=" + tokens +
+                '}';
     }
 }
