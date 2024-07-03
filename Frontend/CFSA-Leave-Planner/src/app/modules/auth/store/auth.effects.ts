@@ -32,7 +32,6 @@ export class AuthEffects {
             switchMap(() =>{
                 return this.authService.autoLogin().pipe(
                     map((user) => {
-                        console.log('Parsed userData:', user);
                         return AuthActions.autoLoginSuccess({user: {...user}})
                     }),
                     catchError((err)=> of(AuthActions.autoLoginFailure()))

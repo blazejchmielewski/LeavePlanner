@@ -8,13 +8,16 @@ import { ErrorHandlingInterceptor } from './interceptors/error-handling.intercep
 import { SpinnerComponent } from './components/spinner/spinner.component';
 import { SpinnerInterceptor } from './interceptors/spinner.interceptor';
 import { AdminComponent } from './components/admin/admin.component';
+import { AuthInterceptor } from './interceptors/auth.interceptor';
+import { CalendarComponent } from './components/header/calendar/calendar.component';
 
 @NgModule({
   declarations: [
     HeaderComponent,
     HomeComponent,
     SpinnerComponent,
-    AdminComponent
+    AdminComponent,
+    CalendarComponent
   ],
   imports: [
     HttpClientModule,
@@ -36,6 +39,10 @@ import { AdminComponent } from './components/admin/admin.component';
     {
       provide: HTTP_INTERCEPTORS,
       useClass: SpinnerInterceptor,
+      multi: true
+    },
+    {provide: HTTP_INTERCEPTORS, 
+      useClass: AuthInterceptor,
       multi: true
     }
   ]

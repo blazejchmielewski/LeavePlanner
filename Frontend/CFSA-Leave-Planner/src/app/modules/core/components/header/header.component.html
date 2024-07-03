@@ -19,7 +19,7 @@
         </li>
         <li><a routerLink="" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Urlopy</a></li>
         <li><a routerLink="" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Wnioski</a></li>
-        <li><a routerLink="" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Kalendarz</a></li>
+        <li><a routerLink="/calendar" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Kalendarz</a></li>
         <ng-container *ngIf='user$ | async as user; else notUser'>
           <li *ngIf='isAdmin(user.role)'><a routerLink='admin'>Administracja</a></li>
           <div class="logout">

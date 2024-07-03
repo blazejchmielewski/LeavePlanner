@@ -9,10 +9,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.chmielewski.LeavePlanner.Authentication.api.response.*;
 import pl.chmielewski.LeavePlanner.Authentication.email.EmailService;
-import pl.chmielewski.LeavePlanner.Authentication.request.ChangePasswordRequest;
-import pl.chmielewski.LeavePlanner.Authentication.request.LoginUserDTO;
-import pl.chmielewski.LeavePlanner.Authentication.request.RegisterUserDTO;
-import pl.chmielewski.LeavePlanner.Authentication.request.ResetPasswordRequest;
+import pl.chmielewski.LeavePlanner.Authentication.api.request.ChangePasswordRequest;
+import pl.chmielewski.LeavePlanner.Authentication.api.request.LoginUserDTO;
+import pl.chmielewski.LeavePlanner.Authentication.api.request.RegisterUserDTO;
+import pl.chmielewski.LeavePlanner.Authentication.api.request.ResetPasswordRequest;
 import pl.chmielewski.LeavePlanner.Authentication.user.User;
 
 import java.time.LocalDate;

@@ -9,8 +9,10 @@ import { AccountActivationComponent } from './modules/auth/components/account-ac
 import { UnauthGuard } from './modules/core/guards/unauth.guard';
 import { AdminComponent } from './modules/core/components/admin/admin.component';
 import { AuthGuard } from './modules/core/guards/auth.guard';
+import { CalendarComponent } from './modules/core/components/header/calendar/calendar.component';
 
 const routes: Routes = [
+  { path: '', component: AdminComponent},
   { path: 'home', component: HomeComponent},
   { path: 'admin', component: AdminComponent, canActivate: [AuthGuard]},
   { path: 'logowanie', component: LoginComponent, canActivate: [UnauthGuard] },
@@ -18,6 +20,7 @@ const routes: Routes = [
   { path: 'aktywuj/:uid', component: AccountActivationComponent },
   { path: 'odzyskaj-haslo', component: PasswordRecoveryComponent },
   { path: 'odzyskaj-haslo/:uid', component: PasswordRecoveryFormComponent },
+  { path: 'calendar', component: CalendarComponent},
 ];
 
 @NgModule({

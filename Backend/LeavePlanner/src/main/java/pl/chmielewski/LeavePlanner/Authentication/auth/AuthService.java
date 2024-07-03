@@ -10,18 +10,14 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.stereotype.Service;
 import pl.chmielewski.LeavePlanner.Authentication.api.exception.TokenNotFoundByCookieException;
 import pl.chmielewski.LeavePlanner.Authentication.api.exception.UserExistsByEmailException;
-import pl.chmielewski.LeavePlanner.Authentication.api.response.UserIsLoggedInDTO;
 import pl.chmielewski.LeavePlanner.Authentication.api.response.UserLoginSuccessedDTO;
 import pl.chmielewski.LeavePlanner.Authentication.api.response.UserRegisterSuccessedDTO;
-import pl.chmielewski.LeavePlanner.Authentication.request.LoginUserDTO;
-import pl.chmielewski.LeavePlanner.Authentication.request.RegisterUserDTO;
+import pl.chmielewski.LeavePlanner.Authentication.api.request.LoginUserDTO;
+import pl.chmielewski.LeavePlanner.Authentication.api.request.RegisterUserDTO;
 import pl.chmielewski.LeavePlanner.Authentication.token.JwtService;
 import pl.chmielewski.LeavePlanner.Authentication.token.TokenService;
 import pl.chmielewski.LeavePlanner.Authentication.user.User;
 import pl.chmielewski.LeavePlanner.Authentication.user.UserService;
-
-import java.util.Arrays;
-import java.util.Optional;
 
 @Service
 public class AuthService {
@@ -127,7 +123,7 @@ public class AuthService {
         } else {
             throw new TokenNotFoundByCookieException();
         }
-        Cookie cookie = cookieService.generateCookie("Authorization", jwtService.refreshToken(token, exp), exp);
+        Cookie cookie = cookieService.generateCookie("Authorization", token, exp);
         response.addCookie(cookie);
         jwtService.isTokenExpired(token);
     }

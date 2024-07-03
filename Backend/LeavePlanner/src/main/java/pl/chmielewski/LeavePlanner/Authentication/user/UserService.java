@@ -5,9 +5,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import pl.chmielewski.LeavePlanner.Authentication.api.exception.UserNotFoundByEmailException;
 import pl.chmielewski.LeavePlanner.Authentication.api.exception.UserNotFoundByIdException;
-import pl.chmielewski.LeavePlanner.Authentication.api.exception.UserNotFoundByUuid;
-import pl.chmielewski.LeavePlanner.Authentication.request.RegisterUserDTO;
-import pl.chmielewski.LeavePlanner.Authentication.request.UpdateUserDTO;
+import pl.chmielewski.LeavePlanner.Authentication.api.exception.UserNotFoundByUuidException;
+import pl.chmielewski.LeavePlanner.Authentication.api.request.RegisterUserDTO;
+import pl.chmielewski.LeavePlanner.Authentication.api.request.UpdateUserDTO;
 import pl.chmielewski.LeavePlanner.Authentication.token.Token;
 import pl.chmielewski.LeavePlanner.Authentication.token.TokenRepository;
 
@@ -42,7 +42,7 @@ public class UserService {
     }
 
     public User getUserByUuid(String uuid){
-        return userRepository.findUserByUuid(uuid).orElseThrow(()-> new UserNotFoundByUuid(uuid));
+        return userRepository.findUserByUuid(uuid).orElseThrow(()-> new UserNotFoundByUuidException(uuid));
     }
 
     public void saveUser(User user){
@@ -75,7 +75,7 @@ public class UserService {
         user.setDepartment(Department.BAIO);
         user.setPassword(passwordEncoder.encode(createUserDTO.password()));
         user.setEnabled(false);
-        user.setRole(Role.USER);
+        user.setRole(Role.ADMIN);
         return userRepository.save(user);
     }
 

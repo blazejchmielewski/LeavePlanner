@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import pl.chmielewski.LeavePlanner.Authentication.api.response.UserRegisterSuccessedDTO;
 import pl.chmielewski.LeavePlanner.Authentication.auth.AuthService;
-import pl.chmielewski.LeavePlanner.Authentication.request.RegisterUserDTO;
+import pl.chmielewski.LeavePlanner.Authentication.api.request.RegisterUserDTO;
 
 @RestController
 @RequestMapping("/api/initialize")
