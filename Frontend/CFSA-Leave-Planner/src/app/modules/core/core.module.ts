@@ -8,9 +8,11 @@ import { ErrorHandlingInterceptor } from './interceptors/error-handling.intercep
 import { SpinnerComponent } from './components/spinner/spinner.component';
 import { SpinnerInterceptor } from './interceptors/spinner.interceptor';
 import { AdminComponent } from './components/admin/admin.component';
-import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { CalendarComponent } from './components/header/calendar/calendar.component';
 import { UsersComponent } from './components/admin/users/users.component';
+import { AuthInterceptor } from './interceptors/auth.interceptor';
+import { ConfirmDialogComponent } from './components/admin/users/confirm-dialog/confirm-dialog.component';
+import { EditUserDialogComponent } from './components/admin/users/edit-user-dialog/edit-user-dialog.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +21,9 @@ import { UsersComponent } from './components/admin/users/users.component';
     SpinnerComponent,
     AdminComponent,
     CalendarComponent,
-    UsersComponent
+    UsersComponent,
+    ConfirmDialogComponent,
+    EditUserDialogComponent
   ],
   imports: [
     HttpClientModule,
@@ -43,10 +47,11 @@ import { UsersComponent } from './components/admin/users/users.component';
       useClass: SpinnerInterceptor,
       multi: true
     },
-    {provide: HTTP_INTERCEPTORS, 
-      useClass: AuthInterceptor,
-      multi: true
-    }
-  ]
+      {
+        provide: HTTP_INTERCEPTORS,
+        useClass: AuthInterceptor,
+        multi: true
+      }
+    ],
 })
 export class CoreModule { }

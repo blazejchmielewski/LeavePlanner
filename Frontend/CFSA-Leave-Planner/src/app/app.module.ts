@@ -41,7 +41,7 @@ const customNotifier: NotifierOptions = {
     EffectsModule.forRoot([AuthEffects]),
     NotifierModule.withConfig(customNotifier)
   ],
- 
+
   bootstrap: [AppComponent]
 })
 export class AppModule { }

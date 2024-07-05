@@ -43,7 +43,6 @@ public class TokenService {
     }
 
     public User getUserByToken(String token){
-        System.out.println(tokenRepository.findUserByToken(token).orElseThrow(() -> new UserNotFoundByTokenException(token)).toString());
         return tokenRepository.findUserByToken(token).orElseThrow(() -> new UserNotFoundByTokenException(token));
     }
 }

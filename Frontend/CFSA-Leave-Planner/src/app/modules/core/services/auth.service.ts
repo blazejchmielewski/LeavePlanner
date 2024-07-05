@@ -54,5 +54,5 @@ export class AuthService {
 
   changePassword(body: ChangePasswordData): Observable<AuthResponse>{
     return this.http.put<AuthResponse>(`${this.apiUrl}/change-password`, body);
-  }
+  } 
 }

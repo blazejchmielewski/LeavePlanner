@@ -8,15 +8,13 @@ import pl.chmielewski.LeavePlanner.Authentication.api.exception.UserNotFoundById
 import pl.chmielewski.LeavePlanner.Authentication.api.exception.UserNotFoundByUuidException;
 import pl.chmielewski.LeavePlanner.Authentication.api.request.RegisterUserDTO;
 import pl.chmielewski.LeavePlanner.Authentication.api.request.UpdateUserDTO;
+import pl.chmielewski.LeavePlanner.Authentication.api.response.UserDataResponse;
 import pl.chmielewski.LeavePlanner.Authentication.api.response.UserToTableResponse;
 import pl.chmielewski.LeavePlanner.Authentication.token.Token;
 import pl.chmielewski.LeavePlanner.Authentication.token.TokenRepository;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -37,16 +35,20 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public List<UserToTableResponse> getAllUsersToTable() {
-        List<User> all = userRepository.findAll();
-        return all.stream()
-                .map(user -> new UserToTableResponse(
-                        user.getFirstname(),
-                        user.getLastname(),
-                        user.getEmail(),
-                        user.getDepartment().name()
-                ))
-                .collect(Collectors.toList());
+    public List<UserDataResponse> getAllUsersToTable() {
+        List<UserDataResponse> users = new ArrayList<>();
+        userRepository.findEnabledUsers().forEach(u-> {
+            users.add(new UserDataResponse(
+                    u.getId(),
+                    u.getUuid(),
+                    u.getFirstname(),
+                    u.getLastname(),
+                    u.getEmail(),
+                    u.getDepartment().name(),
+                    u.getRole().name()
+            ));
+        });
+        return users;
     }
 
     public User getUserById(Long id) {
@@ -67,7 +69,7 @@ public class UserService {
 
     public Long setRoleAdmin(Long id){
         User userById = getUserById(id);
-        userById.setRole(Role.ADMIN);
+        userById.setRole(Role.USER);
         userById.setUpdatedAt(LocalDateTime.now());
         userRepository.save(userById);
         return userById.getId();
@@ -75,7 +77,7 @@ public class UserService {
 
     public Long setRoleUser(Long id){
         User userById = getUserById(id);
-        userById.setRole(Role.USER);
+        userById.setRole(Role.ADMIN);
         userById.setUpdatedAt(LocalDateTime.now());
         userRepository.save(userById);
         return userById.getId();
@@ -104,7 +106,14 @@ public class UserService {
         userById.setEmail(updateUserDTO.email());
         userById.setFirstname(updateUserDTO.firstname());
         userById.setLastname(updateUserDTO.lastname());
+        userById.setDepartment(Department.valueOf(updateUserDTO.department()));
         userById.setUpdatedAt(LocalDateTime.now());
+        userRepository.save(userById);
+    }
+
+    public void  disableUser(Long id) {
+        User userById = getUserById(id);
+        userById.setEnabled(false);
         userRepository.save(userById);
     }
 
@@ -119,5 +128,11 @@ public class UserService {
         userByUuid.setPassword(passwordEncoder.encode(password));
         userByUuid.setUpdatedAt(LocalDateTime.now());
         userRepository.save(userByUuid);
+    }
+
+    public List<String> getDepartments(){
+        return Arrays.stream(Department.values())
+                .map(Enum::name)
+                .collect(Collectors.toList());
     }
 }

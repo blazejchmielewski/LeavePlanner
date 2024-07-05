@@ -19,6 +19,8 @@ import pl.chmielewski.LeavePlanner.Authentication.token.TokenService;
 import pl.chmielewski.LeavePlanner.Authentication.user.User;
 import pl.chmielewski.LeavePlanner.Authentication.user.UserService;
 
+import java.util.Arrays;
+
 @Service
 public class AuthService {
 

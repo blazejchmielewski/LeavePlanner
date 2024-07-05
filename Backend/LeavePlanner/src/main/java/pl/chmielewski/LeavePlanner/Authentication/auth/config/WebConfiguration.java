@@ -28,8 +28,6 @@ public class WebConfiguration {
 
     private final String[] WHITE_LIST_URL = {
             "/auth/**",
-            "/api/**"
-
     };
 
     private final String[] USER_LIST_URL = {
@@ -53,7 +51,7 @@ public class WebConfiguration {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(req -> req
                         .requestMatchers(WHITE_LIST_URL).permitAll()
-                        .requestMatchers(USER_LIST_URL).hasAnyAuthority(Role.USER.name())
+                        .requestMatchers(USER_LIST_URL).hasAnyAuthority(Role.USER.name(), Role.ADMIN.name())
                         .requestMatchers("/**").hasAuthority(Role.ADMIN.name())
                         .anyRequest()
                         .authenticated()

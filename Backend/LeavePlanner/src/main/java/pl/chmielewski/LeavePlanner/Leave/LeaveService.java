@@ -1,9 +1,9 @@
 package pl.chmielewski.LeavePlanner.Leave;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.chmielewski.LeavePlanner.Authentication.user.User;
-import pl.chmielewski.LeavePlanner.Authentication.user.UserRepository;
 import pl.chmielewski.LeavePlanner.Authentication.user.UserService;
 import pl.chmielewski.LeavePlanner.Leave.api.exception.LeaveNotFoundByIdException;
 import pl.chmielewski.LeavePlanner.Leave.api.request.CreateLeaveDTO;
@@ -20,20 +20,20 @@ public class LeaveService {
     private final UserService userService;
 
     @Autowired
-    public Leave getLeaveById(Long id){
-        return leaveRepository.findLeaveById(id).orElseThrow(() -> new LeaveNotFoundByIdException(id));
-    }
-
     public LeaveService(LeaveRepository leaveRepository, UserService userService) {
         this.leaveRepository = leaveRepository;
         this.userService = userService;
     }
 
-    public List<Leave> getAllLeaves(){
+    public Leave getLeaveById(Long id) {
+        return leaveRepository.findLeaveById(id).orElseThrow(() -> new LeaveNotFoundByIdException(id));
+    }
+
+    public List<Leave> getAllLeaves() {
         return leaveRepository.findAll();
     }
 
-    public void createLeave(String uuid, CreateLeaveDTO dto){
+    public void createLeave(String uuid, CreateLeaveDTO dto) {
         User userByUuid = userService.getUserByUuid(uuid);
         Leave leave = new Leave(
                 dto.startDate(),
@@ -47,7 +47,7 @@ public class LeaveService {
         leaveRepository.save(leave);
     }
 
-    public void updateLeave(Long id,UpdateLeaveDTO dto){
+    public void updateLeave(Long id, UpdateLeaveDTO dto) {
         Leave leave = getLeaveById(id);
         leave.setStartDate(dto.startDate());
         leave.setEndDate(dto.endDate());
@@ -57,7 +57,7 @@ public class LeaveService {
         leaveRepository.save(leave);
     }
 
-    public void deleteLeave(Long id){
+    public void deleteLeave(Long id) {
         Leave leaveById = getLeaveById(id);
         leaveRepository.delete(leaveById);
     }

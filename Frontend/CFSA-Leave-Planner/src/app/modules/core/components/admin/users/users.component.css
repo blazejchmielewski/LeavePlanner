@@ -1,0 +1,39 @@
+
+.container {
+    margin-top: 50px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 1000px;
+    
+}
+
+.table-container {
+    width: 100%;
+}
+
+.filter-container {
+    width: 100%;
+}
+
+.btn {
+    width: 40%;
+    color: white;
+    transition: background-color .3 ease-in-out;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+
+.edit:hover{
+    background-color: #FFFC4C;
+}
+
+.block:hover {
+    background-color: #F66558;
+}
+
+.edit {
+    background-color: #FFEB3B;
+}
+
+.block {
+    background-color: #F44336;
+}

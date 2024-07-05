@@ -16,7 +16,7 @@ public class AppInitializer {
     public ApplicationRunner initializerRunner() {
         return args -> {
             try {
-                restTemplate.getForObject("http://localhost:8080/api/initialize", String.class);
+                restTemplate.getForObject("http://localhost:8080/auth/initialize", String.class);
             } catch (Exception e) {
                 e.printStackTrace();
             }

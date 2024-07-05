@@ -13,6 +13,13 @@ export interface RegisterRequest{
     repeatedPassword: FormControl<string>
 }
 
+export interface EditUserRequest{
+    firstname: FormControl<string>;
+    lastname: FormControl<string>;
+    email: FormControl<string>
+    department: FormControl<string>
+}
+
 export interface ToGetPasswordRecoveryRequest{
     email: FormControl<string>;
 }

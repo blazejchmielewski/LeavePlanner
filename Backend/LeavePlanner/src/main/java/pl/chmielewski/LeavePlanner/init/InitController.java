@@ -13,7 +13,7 @@ import pl.chmielewski.LeavePlanner.Authentication.auth.AuthService;
 import pl.chmielewski.LeavePlanner.Authentication.api.request.RegisterUserDTO;
 
 @RestController
-@RequestMapping("/api/initialize")
+@RequestMapping("/auth/initialize")
 public class InitController {
 
     private final AuthService authService;
@@ -27,14 +27,22 @@ public class InitController {
     @ResponseStatus(HttpStatus.OK)
     public void initialize(HttpServletResponse response) {
         RegisterUserDTO registerUserDTO = new RegisterUserDTO(
-                "Default",
-                "User",
+                "Błażej",
+                "Chmielewski",
+                "blazejchmielewski01@gmail.com",
+                "haslo123"
+        );
+        RegisterUserDTO registerUserDTO2 = new RegisterUserDTO(
+                "Adam",
+                "Adamowski",
                 "blazej13032000@wp.pl",
                 "haslo123"
         );
         try {
             UserRegisterSuccessedDTO register = authService.register(registerUserDTO, response);
+            UserRegisterSuccessedDTO register2 = authService.register(registerUserDTO2, response);
             authService.enableUser(register.uuid());
+            authService.enableUser(register2.uuid());
         } catch (Exception e) {
             e.printStackTrace();
         }

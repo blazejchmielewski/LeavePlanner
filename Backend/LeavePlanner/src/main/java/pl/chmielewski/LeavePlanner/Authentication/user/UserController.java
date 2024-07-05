@@ -1,14 +1,12 @@
 package pl.chmielewski.LeavePlanner.Authentication.user;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pl.chmielewski.LeavePlanner.Authentication.api.AbstractApiResponse;
-import pl.chmielewski.LeavePlanner.Authentication.api.response.UserDeletedResponse;
-import pl.chmielewski.LeavePlanner.Authentication.api.response.UserToTableResponse;
-import pl.chmielewski.LeavePlanner.Authentication.api.response.UserUpdatedResponse;
 import pl.chmielewski.LeavePlanner.Authentication.api.request.UpdateUserDTO;
+import pl.chmielewski.LeavePlanner.Authentication.api.response.*;
 
 import java.util.List;
 
@@ -18,14 +16,19 @@ public class UserController {
 
     private final UserService userService;
 
-    @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
     }
 
+
     @GetMapping("/get/{id}")
     public ResponseEntity<User> getUserById(@PathVariable("id") Long id) {
         return new ResponseEntity<>(userService.getUserById(id), HttpStatus.OK);
+    }
+
+    @GetMapping("/departments")
+    public ResponseEntity<List<String>> getAllDepartments(){
+        return new ResponseEntity<>(userService.getDepartments(), HttpStatus.OK) ;
     }
 
     @GetMapping("/all")
@@ -34,8 +37,14 @@ public class UserController {
     }
 
     @GetMapping("/table/all")
-    public ResponseEntity<List<UserToTableResponse>> getAllUsersToTable() {
+    public ResponseEntity<List<UserDataResponse>> getAllUsersToTable() {
         return new ResponseEntity<>(userService.getAllUsersToTable(), HttpStatus.OK);
+    }
+
+    @PutMapping("/expire/{id}")
+    public ResponseEntity<AbstractApiResponse> disableUser(@PathVariable("id") Long id){
+        userService.disableUser(id);
+        return new ResponseEntity<>(new UserDisabledResponse(id), HttpStatus.OK);
     }
 
     @PutMapping("/update/{id}")

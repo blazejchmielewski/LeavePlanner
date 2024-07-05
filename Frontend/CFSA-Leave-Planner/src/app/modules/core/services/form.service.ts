@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { LoginRequest, PasswordRecoveryRequest, RegisterRequest, ToGetPasswordRecoveryRequest } from '../models/forms.model';
+import { EditUserRequest, LoginRequest, PasswordRecoveryRequest, RegisterRequest, ToGetPasswordRecoveryRequest } from '../models/forms.model';
 import { equivalentValidator } from '../../shared/validators/equivalent.validator';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -67,6 +68,31 @@ export class FormService {
     });
   }
 
+  initEditUserForm(): FormGroup<EditUserRequest>{
+    return new FormGroup({
+      firstname: new FormControl('', {
+        validators: [
+          Validators.required],
+        nonNullable: true,
+      }),
+      lastname: new FormControl('', {
+        validators: [
+          Validators.required],
+        nonNullable: true,
+      }),
+      email: new FormControl('', {
+        validators: [
+          Validators.required, 
+          Validators.email],
+        nonNullable: true,
+      }), 
+      department: new FormControl('', {
+        validators:[
+          Validators.required,
+        ],nonNullable: true,
+      }),  
+    });
+  }
 
 initToGetPasswordRecoveryForm(): FormGroup<ToGetPasswordRecoveryRequest>{
     return new FormGroup({

@@ -67,4 +67,15 @@ public class Token {
     public void setExpired(boolean expired) {
         this.expired = expired;
     }
+
+    @Override
+    public String toString() {
+        return "Token{" +
+                "id=" + id +
+                ", token='" + token + '\'' +
+                ", user=" + user +
+                ", revoked=" + revoked +
+                ", expired=" + expired +
+                '}';
+    }
 }

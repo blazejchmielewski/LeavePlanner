@@ -1,10 +1,14 @@
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { UserToTableData } from '../../../models/user.model';
 import { UserService } from '../../../services/user.service';
 import { Router } from '@angular/router';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
+import { EditUserDialogComponent } from './edit-user-dialog/edit-user-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
+import { UserAllData } from '../../../models/user.model';
+import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-users',
@@ -13,16 +17,21 @@ import { MatSort } from '@angular/material/sort';
 })
 export class UsersComponent implements AfterViewInit {
 
-  displayedColumns: string[] = ['lp', 'firstname', 'lastname', 'email', 'department', 'buttons'];
+  displayedColumns: string[] = ['lp', 'firstname', 'lastname', 'email', 'department' , 'actions'];
   
-  currentUser!: UserToTableData; 
-  users: UserToTableData[] = [];
-
-  dataSource !: MatTableDataSource<UserToTableData>
+  currentUser!: UserAllData; 
+  users: UserAllData[] = [];
+  userToDelete: UserAllData | null = null;
+  
+  dataSource !: MatTableDataSource<UserAllData>
   @ViewChild (MatPaginator) paginator !: MatPaginator
   @ViewChild (MatSort) sort !: MatSort;
 
-  constructor(private userService: UserService, private router: Router){}
+  constructor(private userService: UserService,
+    public dialog: MatDialog,
+    private changeDetectorRefs: ChangeDetectorRef,
+    private router: Router,
+    private _snackBar: MatSnackBar) {}
 
   ngAfterViewInit(): void {
     this.refreshData();
@@ -31,8 +40,8 @@ export class UsersComponent implements AfterViewInit {
   refreshData(): void {
   this.userService.getAllUsers().subscribe({
     next: (users) => {
-      this.users = users; // users jest już tablicą, nie używamy slice() ani przypisania pojedynczego obiektu
-      this.dataSource = new MatTableDataSource<UserToTableData>(this.users);
+      this.users = users.slice();
+      this.dataSource = new MatTableDataSource<UserAllData>(this.users);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     },
@@ -51,4 +60,56 @@ export class UsersComponent implements AfterViewInit {
     }
   }
 
+  openEditUserDialog(user: UserAllData) {
+    console.log("robie")
+    this.userService.setCurrentUser(user);
+    const dialogRef = this.dialog.open(EditUserDialogComponent, {
+      width: '700px',
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === 'success') {
+        this.refresh();
+      }
+    });
+  } 
+
+  refresh() {
+    this.userService.getAllUsers().subscribe((res) => {
+      this.changeDetectorRefs.detectChanges();
+    });
+  }
+
+  
+
+  confirmDeactivateUser(user: UserAllData): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '350px',
+      data: { name: `${user.firstname} ${user.lastname}` }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.deactivateUser(user);
+      }
+    });
+  }
+
+  deactivateUser(user: UserAllData): void {
+    this.userService.expireUser(user.id).subscribe({
+      next: (response) => {
+        console.log(response);
+        this.users = this.users.filter(u => u.id !== user.id);
+        this.dataSource.data = this.users;
+        this.openSnackBar('Zablokowano użytkownika', 'Zamknij');
+      },
+      error: (err) => {
+        console.error('Wystąpił błąd podczas wygaszania użytkownika:', err);
+      }
+    });
+  }
+
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action);
+  }
 }
