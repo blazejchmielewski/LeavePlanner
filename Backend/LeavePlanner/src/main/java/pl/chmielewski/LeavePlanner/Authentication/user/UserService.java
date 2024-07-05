@@ -1,6 +1,8 @@
 package pl.chmielewski.LeavePlanner.Authentication.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import pl.chmielewski.LeavePlanner.Authentication.api.exception.UserNotFoundByEmailException;
@@ -50,6 +52,7 @@ public class UserService {
         });
         return users;
     }
+
 
     public User getUserById(Long id) {
         return userRepository.findUserById(id).orElseThrow(() -> new UserNotFoundByIdException(id));
@@ -111,7 +114,7 @@ public class UserService {
         userRepository.save(userById);
     }
 
-    public void  disableUser(Long id) {
+    public void disableUser(Long id) {
         User userById = getUserById(id);
         userById.setEnabled(false);
         userRepository.save(userById);

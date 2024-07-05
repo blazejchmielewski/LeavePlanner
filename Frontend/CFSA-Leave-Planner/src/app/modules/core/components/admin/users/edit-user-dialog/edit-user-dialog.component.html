@@ -1,0 +1,34 @@
+<!-- edit-user-dialog.component.html -->
+<div class="container">
+    <div class="form-wrapper">
+      <h1 class="d-flex justify-content-center">Formularz Edycji</h1>
+      <form [formGroup]="editForm" (ngSubmit)="onEdit()"> 
+        <mat-form-field appearance="fill" class="form-input">
+          <mat-label>Imię</mat-label>
+          <input matInput formControlName="firstname" [value]="currentUser?.firstname">
+          <mat-error *ngIf="controls.firstname.invalid">{{ getErrorMessage(controls.firstname) }}</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="form-input">
+          <mat-label>Nazwisko</mat-label>
+          <input matInput formControlName="lastname" [value]="currentUser?.lastname">
+          <mat-error *ngIf="controls.lastname.invalid">{{ getErrorMessage(controls.lastname) }}</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="form-input">
+          <mat-label>E-mail</mat-label>
+          <input matInput formControlName="email" [value]="currentUser?.email">
+          <mat-error *ngIf="controls.email.invalid">{{ getErrorMessage(controls.email) }}</mat-error>
+        </mat-form-field>          
+        <h3>Wybierz dział:</h3>
+        <mat-radio-group aria-label="Select an option" formControlName="department">
+          <mat-radio-button *ngFor="let department of departments" [value]="department" [checked]="department === currentUser?.department">
+            {{ department }}
+          </mat-radio-button>
+        </mat-radio-group>      
+        <div mat-dialog-actions class="d-flex justify-content-end mb-2 mr-3">
+          <button mat-button [mat-dialog-close]="true" cdkFocusInitial color="warn">Anuluj</button>
+          <button mat-raised-button color="primary" type="submit" (click)="openSnackBar('Pomyślnie zaktualizowano użytkownika','Zamknij')" [disabled]="editForm.invalid">Zapisz zmiany</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  
