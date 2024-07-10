@@ -37,8 +37,9 @@ public class LeaveService {
         return leaveRepository.findAll();
     }
 
-    public void createLeave(String uuid, CreateLeaveDTO dto) {
-        User userByUuid = userService.getUserByUuid(uuid);
+    public void createLeave(CreateLeaveDTO dto, HttpServletRequest http) {
+        User userTakingLeave = userService.getUserByToken(http);
+        User replacingUser = userService.getUserByUuid(dto.userUuid());
         Leave leave = new Leave(
                 dto.startDate(),
                 dto.endDate(),
@@ -46,7 +47,8 @@ public class LeaveService {
                 Status.PENDING,
                 LocalDateTime.now(),
                 LocalDateTime.now(),
-                userByUuid
+                userTakingLeave,
+                replacingUser
         );
         leaveRepository.save(leave);
     }
@@ -70,7 +72,8 @@ public class LeaveService {
         User userByToken = userService.getUserByToken(http);
         return userService.getUsersByDepartment(userByToken.getDepartment())
                 .stream()
-                .map(u -> new UsersToSwitchResponse(u.getFirstname(), u.getLastname()))
+                .map(u -> new UsersToSwitchResponse(u.getUuid(), u.getFirstname(), u.getLastname()))
+                .filter(u -> !u.uuid().equals(userByToken.getUuid()))
                 .toList();
     }
 }

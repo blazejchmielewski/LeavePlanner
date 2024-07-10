@@ -11,6 +11,7 @@ export interface RegisterRequest{
     email: FormControl<string>;
     password: FormControl<string>;
     repeatedPassword: FormControl<string>
+    department: FormControl<string>
 }
 
 export interface EditUserRequest{
@@ -33,5 +34,6 @@ export interface LeaveRequest{
     startDate: FormControl<Date>;
     endDate: FormControl<Date>;
     type: FormControl<string>;
+    userUuid: FormControl<string>
 }
 

@@ -31,17 +31,16 @@ export class EditUserDialogComponent implements OnInit {
   ngOnInit(): void {
     
     this.currentUser = this.userService.getCurrentUser();
-    console.log(this.currentUser)
     this.getDepartments();
   
-  if (this.currentUser) {
-    this.editForm.patchValue({
-      firstname: this.currentUser.firstname,
-      lastname: this.currentUser.lastname,
-      email: this.currentUser.email,
-      department: this.currentUser.department
-    });
-  }
+    if (this.currentUser) {
+      this.editForm.patchValue({
+        firstname: this.currentUser.firstname,
+        lastname: this.currentUser.lastname,
+        email: this.currentUser.email,
+        department: this.currentUser.department
+      });
+    }
   }
   
   getErrorMessage(control: FormControl): string {

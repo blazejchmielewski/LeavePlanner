@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 public record CreateLeaveDTO(
         LocalDateTime startDate,
         LocalDateTime endDate,
-        LeaveType type
+        LeaveType type,
+        String userUuid
 ) {
 }

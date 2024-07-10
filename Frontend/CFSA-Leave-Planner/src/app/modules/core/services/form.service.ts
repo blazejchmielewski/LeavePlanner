@@ -64,6 +64,11 @@ export class FormService {
           Validators.maxLength(30)],
         nonNullable: true,
       }),
+      department: new FormControl('', {
+        validators: [
+          Validators.required],
+        nonNullable: true,
+      }),
     });
   }
 
@@ -136,6 +141,11 @@ initToGetPasswordRecoveryForm(): FormGroup<ToGetPasswordRecoveryRequest>{
         nonNullable: true,
       }),
       type: new FormControl('', {
+        validators: [
+          Validators.required],
+        nonNullable: true,
+      }),
+      userUuid: new FormControl('', {
         validators: [
           Validators.required],
         nonNullable: true,

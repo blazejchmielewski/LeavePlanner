@@ -15,8 +15,11 @@ export class LeaveService {
 
   constructor(private http: HttpClient) { }
 
-  public addLeave(body: LeaveData):Observable<AuthResponse>{
-    return this.http.post<AuthResponse>(`${this.apiUrl}/leave/add`, body)
+  addLeave(body: LeaveData):Observable<AuthResponse>{
+    const requestOptions = {
+      withCredentials: true
+    };
+    return this.http.post<AuthResponse>(`${this.apiUrl}/leave/add`, body, requestOptions)
   }
 
   getUsersToSwitch(): Observable<UsersToSwitch[]> {

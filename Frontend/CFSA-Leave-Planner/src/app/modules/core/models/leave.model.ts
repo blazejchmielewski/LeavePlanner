@@ -1,7 +1,8 @@
 export interface LeaveData {
     startDate: Date,
     endDate: Date,
-    type: string
+    type: string,
+    userUuid: string
 }
 
 export enum LeaveType {
@@ -14,6 +15,7 @@ export enum LeaveType {
 }
 
 export interface UsersToSwitch {
+    uuid: string
     firstname: string;
     lastname: string;
 }

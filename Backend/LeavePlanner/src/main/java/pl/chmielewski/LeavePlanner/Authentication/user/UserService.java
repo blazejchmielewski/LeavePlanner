@@ -108,7 +108,7 @@ public class UserService {
                 LocalDateTime.now(),
                 LocalDateTime.now());
         user.setUuid(UUID.randomUUID().toString());
-        user.setDepartment(Department.BAIO);
+        user.setDepartment(Department.valueOf(createUserDTO.department()));
         user.setPassword(passwordEncoder.encode(createUserDTO.password()));
         user.setEnabled(false);
         user.setRole(Role.ADMIN);

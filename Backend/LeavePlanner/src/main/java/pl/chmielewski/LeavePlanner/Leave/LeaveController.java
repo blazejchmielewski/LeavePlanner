@@ -42,9 +42,9 @@ public class LeaveController {
         return new ResponseEntity<>(leaveService.usersToSwitch(http), HttpStatus.OK);
     }
 
-    @PostMapping("/add/{uuid}")
-    public ResponseEntity<LeaveCreatedResponse> createLeave(String uuid, @RequestBody CreateLeaveDTO dto) {
-        leaveService.createLeave(uuid, dto);
+    @PostMapping("/add")
+    public ResponseEntity<LeaveCreatedResponse> createLeave(@RequestBody CreateLeaveDTO dto, HttpServletRequest request) {
+        leaveService.createLeave(dto, request);
         return new ResponseEntity<>(new LeaveCreatedResponse(), HttpStatus.CREATED);
     }
 

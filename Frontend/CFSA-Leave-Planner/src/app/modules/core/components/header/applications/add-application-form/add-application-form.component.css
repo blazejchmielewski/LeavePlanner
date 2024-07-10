@@ -29,6 +29,7 @@
 
 .btn-form:hover {
     background-color: #0086EE;
+    cursor: pointer;
 }
 
 .option {

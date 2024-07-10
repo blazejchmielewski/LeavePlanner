@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import pl.chmielewski.LeavePlanner.Authentication.api.response.UserRegisterSuccessedDTO;
 import pl.chmielewski.LeavePlanner.Authentication.auth.AuthService;
 import pl.chmielewski.LeavePlanner.Authentication.api.request.RegisterUserDTO;
+import pl.chmielewski.LeavePlanner.Authentication.user.Department;
 
 @RestController
 @RequestMapping("/auth/initialize")
@@ -30,19 +31,30 @@ public class InitController {
                 "Błażej",
                 "Chmielewski",
                 "blazejchmielewski01@gmail.com",
-                "haslo123"
+                "haslo123",
+                Department.BI.name()
         );
         RegisterUserDTO registerUserDTO2 = new RegisterUserDTO(
                 "Adam",
                 "Adamowski",
                 "blazej13032000@wp.pl",
-                "haslo123"
+                "haslo123",
+                Department.DWWD.name()
+        );
+        RegisterUserDTO registerUserDTO3 = new RegisterUserDTO(
+                "Błażej",
+                "Kosmopolitańczyk",
+                "blazej130320001@wp.pl",
+                "haslo123",
+                Department.DWWD.name()
         );
         try {
             UserRegisterSuccessedDTO register = authService.register(registerUserDTO, response);
             UserRegisterSuccessedDTO register2 = authService.register(registerUserDTO2, response);
+            UserRegisterSuccessedDTO register3 = authService.register(registerUserDTO3, response);
             authService.enableUser(register.uuid());
             authService.enableUser(register2.uuid());
+            authService.enableUser(register3.uuid());
         } catch (Exception e) {
             e.printStackTrace();
         }

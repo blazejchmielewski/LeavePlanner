@@ -11,7 +11,6 @@ import { LeaveService } from 'src/app/modules/core/services/leave.service';
   styleUrls: ['./add-application-form.component.css']
 })
 
-
 export class AddApplicationFormComponent {
 
   addApplicationForm: FormGroup<LeaveRequest> = this.formService.initLeaveFrom();
@@ -27,11 +26,13 @@ export class AddApplicationFormComponent {
       const body: LeaveData = {
         startDate: this.addApplicationForm.value.startDate ?? new Date(),
         endDate: this.addApplicationForm.value.endDate ?? new Date(),
-        type: this.addApplicationForm.value.type ?? ''
+        type: this.addApplicationForm.value.type ?? '',
+        userUuid: this.addApplicationForm.value.userUuid ?? ''
       };
       this.leaveService.addLeave(body).subscribe({
         next: (resp) => {
           console.log(resp)
+        
         }, error: (err) => console.log(err)
       })
     }  

@@ -33,10 +33,14 @@ public class Leave {
     @JoinColumn(name = "lv_us_id")
     private User user;
 
+    @ManyToOne
+    @JoinColumn(name = "lv_replacing_us_id")
+    private User replacementUser;
+
     public Leave() {
     }
 
-    public Leave(LocalDateTime startDate, LocalDateTime endDate, LeaveType type, Status status, LocalDateTime createdAt, LocalDateTime updatedAt, User user) {
+    public Leave(LocalDateTime startDate, LocalDateTime endDate, LeaveType type, Status status, LocalDateTime createdAt, LocalDateTime updatedAt, User user, User replacementUser) {
         this.startDate = startDate;
         this.endDate = endDate;
         this.type = type;
@@ -44,6 +48,7 @@ public class Leave {
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.user = user;
+        this.replacementUser = replacementUser;
     }
 
     public Long getId() {
@@ -108,5 +113,13 @@ public class Leave {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public User getReplacementUser() {
+        return replacementUser;
+    }
+
+    public void setReplacementUser(User replacementUser) {
+        this.replacementUser = replacementUser;
     }
 }

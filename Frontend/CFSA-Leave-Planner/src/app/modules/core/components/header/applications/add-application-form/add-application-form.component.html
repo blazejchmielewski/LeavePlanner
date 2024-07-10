@@ -1,44 +1,44 @@
 <div class="container">
-    <form [formGroup]="addApplicationForm" (ngSubmit)="onAdd()">
-        <div class="content">
-            <h1>Wniosek urlopowy</h1>
-            <div class="form-input input-box">
-                <mat-form-field>
+  <form [formGroup]="addApplicationForm" (ngSubmit)="onAdd()">
+      <div class="content">
+          <h1>Wniosek urlopowy</h1>
+          <div class="form-input input-box">
+              <mat-form-field>
                   <mat-label>Początek</mat-label>
-                  <input matInput [matDatepicker]="startDatePicker" [formControl]="controls.startDate">
+                  <input matInput [matDatepicker]="startDatePicker" formControlName="startDate">
                   <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
                   <mat-datepicker #startDatePicker></mat-datepicker>
-                </mat-form-field>
-                <mat-error *ngIf="controls.startDate.invalid" class="error">{{getErrorMessage(controls.startDate)}}</mat-error>
-              </div>
-              <div class="form-input input-box">
-                <mat-form-field>
+              </mat-form-field>
+              <mat-error *ngIf="controls.startDate.invalid && controls.startDate.touched" class="error">{{ getErrorMessage(controls.startDate) }}</mat-error>
+          </div>
+          <div class="form-input input-box">
+              <mat-form-field>
                   <mat-label>Koniec</mat-label>
-                  <input matInput [matDatepicker]="endDatePicker" [formControl]="controls.endDate">
+                  <input matInput [matDatepicker]="endDatePicker" formControlName="endDate">
                   <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
                   <mat-datepicker #endDatePicker></mat-datepicker>
-                </mat-form-field>
-                <mat-error *ngIf="controls.endDate.invalid" class="error">{{getErrorMessage(controls.endDate)}}</mat-error>
-              </div>
-              <div class="form-input input-box">
-                <mat-form-field class="option">
+              </mat-form-field>
+              <mat-error *ngIf="controls.endDate.invalid && controls.endDate.touched" class="error">{{ getErrorMessage(controls.endDate) }}</mat-error>
+          </div>
+          <div class="form-input input-box">
+              <mat-form-field class="option">
                   <mat-label>Typ urlopu</mat-label>
-                  <mat-select formControlName="type" >
-                    <mat-option *ngFor="let type of leaveTypes" [value]="type">{{ translateLeaveType(type) }}</mat-option>
+                  <mat-select formControlName="type">
+                      <mat-option *ngFor="let type of leaveTypes" [value]="type">{{ translateLeaveType(type) }}</mat-option>
                   </mat-select>
-                </mat-form-field>
-              </div>
-              <div class="form-input input-box">
-                <mat-form-field class="option">
+              </mat-form-field>
+          </div>
+          <div class="form-input input-box">
+              <mat-form-field class="option">
                   <mat-label>Zastępstwo</mat-label>
-                  <mat-select formControlName="type" >
-                    <mat-option *ngFor="let user of usersToSwitch" [value]="user">{{ user.firstname + ' ' + user.lastname }}</mat-option>
+                  <mat-select formControlName="userUuid">
+                      <mat-option *ngFor="let user of usersToSwitch" [value]="user.uuid">{{ user.firstname + ' ' + user.lastname }}</mat-option>
                   </mat-select>
-                </mat-form-field>
-              </div>
-              <div>
-                <button class="btn-form" type="Submit">Wyślij wniosek</button>
-            </div>
-        </div>
-    </form>
+              </mat-form-field>
+          </div>
+          <div>
+              <button class="btn-form" type="submit">Wyślij wniosek</button>
+          </div>
+      </div>
+  </form>
 </div>

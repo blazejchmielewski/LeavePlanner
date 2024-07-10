@@ -42,12 +42,12 @@ export class AddUserComponent {
   }
 
   onRegister(){
-    const {firstname, lastname, email, password, repeatedPassword} = this.registerForm.getRawValue();
+    const {firstname, lastname, email, password, repeatedPassword, department} = this.registerForm.getRawValue();
     if(password !== repeatedPassword){
       this.notMatchingPasswordsError = 'Hasła muszą być takie same'
       return;
     }
-    this.store.dispatch(AuthActions.addUser({registerData: {firstname, lastname, email, password}}))
+    this.store.dispatch(AuthActions.addUser({registerData: {firstname, lastname, email, password, department}}))
   }
 
   ngOnDestroy(): void {
