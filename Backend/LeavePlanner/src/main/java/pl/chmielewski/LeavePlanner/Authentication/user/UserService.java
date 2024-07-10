@@ -1,8 +1,7 @@
 package pl.chmielewski.LeavePlanner.Authentication.user;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import pl.chmielewski.LeavePlanner.Authentication.api.exception.UserNotFoundByEmailException;
@@ -11,9 +10,9 @@ import pl.chmielewski.LeavePlanner.Authentication.api.exception.UserNotFoundByUu
 import pl.chmielewski.LeavePlanner.Authentication.api.request.RegisterUserDTO;
 import pl.chmielewski.LeavePlanner.Authentication.api.request.UpdateUserDTO;
 import pl.chmielewski.LeavePlanner.Authentication.api.response.UserDataResponse;
-import pl.chmielewski.LeavePlanner.Authentication.api.response.UserToTableResponse;
 import pl.chmielewski.LeavePlanner.Authentication.token.Token;
 import pl.chmielewski.LeavePlanner.Authentication.token.TokenRepository;
+import pl.chmielewski.LeavePlanner.Authentication.token.TokenService;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -24,13 +23,21 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
-    private final TokenRepository tokenRepository;
+    private final TokenService tokenService;
 
     @Autowired
-    public UserService(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder, TokenRepository tokenRepository) {
+    public UserService(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder, TokenService tokenService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
-        this.tokenRepository = tokenRepository;
+        this.tokenService = tokenService;
+    }
+
+    public User getUserByToken(HttpServletRequest request) {
+        String authorizationHeader = request.getHeader("Authorization");
+        if(authorizationHeader != null && authorizationHeader.startsWith("Bearer ")){
+            return tokenService.getUserByToken(authorizationHeader.substring(7));
+        }
+        return null;
     }
 
     public List<User> getAllUsers() {
@@ -39,7 +46,7 @@ public class UserService {
 
     public List<UserDataResponse> getAllUsersToTable() {
         List<UserDataResponse> users = new ArrayList<>();
-        userRepository.findEnabledUsers().forEach(u-> {
+        userRepository.findEnabledUsers().forEach(u -> {
             users.add(new UserDataResponse(
                     u.getId(),
                     u.getUuid(),
@@ -53,6 +60,10 @@ public class UserService {
         return users;
     }
 
+    public List<User> getUsersByDepartment(Department department) {
+        return userRepository.findByDepartment(department);
+    }
+
 
     public User getUserById(Long id) {
         return userRepository.findUserById(id).orElseThrow(() -> new UserNotFoundByIdException(id));
@@ -62,15 +73,15 @@ public class UserService {
         return userRepository.findUserByEmail(email).orElseThrow(() -> new UserNotFoundByEmailException(email));
     }
 
-    public User getUserByUuid(String uuid){
-        return userRepository.findUserByUuid(uuid).orElseThrow(()-> new UserNotFoundByUuidException(uuid));
+    public User getUserByUuid(String uuid) {
+        return userRepository.findUserByUuid(uuid).orElseThrow(() -> new UserNotFoundByUuidException(uuid));
     }
 
-    public void saveUser(User user){
+    public void saveUser(User user) {
         userRepository.save(user);
     }
 
-    public Long setRoleAdmin(Long id){
+    public Long setRoleAdmin(Long id) {
         User userById = getUserById(id);
         userById.setRole(Role.USER);
         userById.setUpdatedAt(LocalDateTime.now());
@@ -78,7 +89,7 @@ public class UserService {
         return userById.getId();
     }
 
-    public Long setRoleUser(Long id){
+    public Long setRoleUser(Long id) {
         User userById = getUserById(id);
         userById.setRole(Role.ADMIN);
         userById.setUpdatedAt(LocalDateTime.now());
@@ -121,19 +132,19 @@ public class UserService {
     }
 
     public void deleteUser(Long id) {
-        Optional<List<Token>> allByUser = tokenRepository.findAllByUser(getUserById(id));
-        allByUser.ifPresent(tokenRepository::deleteAll);
+        Optional<List<Token>> allByUser = tokenService.findAllByUser(getUserById(id));
+        allByUser.ifPresent(tokenService::deleteAll);
         userRepository.delete(getUserById(id));
     }
 
-    public void changePassword(String password, String uuid){
+    public void changePassword(String password, String uuid) {
         User userByUuid = getUserByUuid(uuid);
         userByUuid.setPassword(passwordEncoder.encode(password));
         userByUuid.setUpdatedAt(LocalDateTime.now());
         userRepository.save(userByUuid);
     }
 
-    public List<String> getDepartments(){
+    public List<String> getDepartments() {
         return Arrays.stream(Department.values())
                 .map(Enum::name)
                 .collect(Collectors.toList());

@@ -13,6 +13,12 @@ import { UsersComponent } from './components/admin/users/users.component';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { ConfirmDialogComponent } from './components/admin/users/confirm-dialog/confirm-dialog.component';
 import { EditUserDialogComponent } from './components/admin/users/edit-user-dialog/edit-user-dialog.component';
+import { FormsModule } from '@angular/forms';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { CustomDateAdapter, MY_DATE_FORMATS } from './adapters/CustomDateAdapter';
+import { AddUserComponent } from './components/admin/users/add-user/add-user.component';
+import { ApplicationsComponent } from './components/header/applications/applications.component';
+import { AddApplicationFormComponent } from './components/header/applications/add-application-form/add-application-form.component';
 
 @NgModule({
   declarations: [
@@ -23,11 +29,15 @@ import { EditUserDialogComponent } from './components/admin/users/edit-user-dial
     CalendarComponent,
     UsersComponent,
     ConfirmDialogComponent,
-    EditUserDialogComponent
+    EditUserDialogComponent,
+    AddUserComponent,
+    ApplicationsComponent,
+    AddApplicationFormComponent,
   ],
   imports: [
     HttpClientModule,
     SharedModule,
+    FormsModule,
     RouterLink,
     RouterLinkActive,
   ],
@@ -51,7 +61,10 @@ import { EditUserDialogComponent } from './components/admin/users/edit-user-dial
         provide: HTTP_INTERCEPTORS,
         useClass: AuthInterceptor,
         multi: true
-      }
+      },
+    { provide: DateAdapter, useClass: CustomDateAdapter },
+    { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS },
+    { provide: MAT_DATE_LOCALE, useValue: 'pl' }
     ],
 })
 export class CoreModule { }

@@ -20,4 +20,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     boolean existsByEmail(String email);
     @Query("SELECT u FROM User u WHERE u.isEnabled = true")
     List<User> findEnabledUsers();
+
+    List<User> findByDepartment(Department department);
 }

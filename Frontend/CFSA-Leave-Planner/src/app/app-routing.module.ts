@@ -11,9 +11,12 @@ import { AdminComponent } from './modules/core/components/admin/admin.component'
 import { AuthGuard } from './modules/core/guards/auth.guard';
 import { CalendarComponent } from './modules/core/components/header/calendar/calendar.component';
 import { UsersComponent } from './modules/core/components/admin/users/users.component';
+import { AddUserComponent } from './modules/core/components/admin/users/add-user/add-user.component';
+import { ApplicationsComponent } from './modules/core/components/header/applications/applications.component';
+import { AddApplicationFormComponent } from './modules/core/components/header/applications/add-application-form/add-application-form.component';
 
 const routes: Routes = [
-  { path: '', component: AdminComponent},
+  { path: '', component: CalendarComponent},
   { path: 'home', component: HomeComponent},
   { path: 'admin', component: AdminComponent, canActivate: [AuthGuard]},
   { path: 'logowanie', component: LoginComponent, canActivate: [UnauthGuard] },
@@ -23,6 +26,9 @@ const routes: Routes = [
   { path: 'odzyskaj-haslo/:uid', component: PasswordRecoveryFormComponent },
   { path: 'calendar', component: CalendarComponent},
   { path: 'users', component: UsersComponent},
+  { path: 'add-user', component: AddUserComponent},
+  { path: 'application', component: ApplicationsComponent},
+  { path: 'add-application-form', component: AddApplicationFormComponent},
 ];
 
 @NgModule({

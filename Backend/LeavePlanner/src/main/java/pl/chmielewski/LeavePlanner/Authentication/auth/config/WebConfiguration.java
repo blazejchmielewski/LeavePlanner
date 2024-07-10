@@ -34,7 +34,9 @@ public class WebConfiguration {
             "/test/razem",
             "/test/user",
             "/users/all",
-            "/users/get/**"
+            "/users/get/**",
+            "/leave/users-to-switch",
+            "/leave/add/**"
     };
 
     @Autowired

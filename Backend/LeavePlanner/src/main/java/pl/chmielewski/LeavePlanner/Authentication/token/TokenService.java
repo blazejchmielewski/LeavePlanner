@@ -45,4 +45,12 @@ public class TokenService {
     public User getUserByToken(String token){
         return tokenRepository.findUserByToken(token).orElseThrow(() -> new UserNotFoundByTokenException(token));
     }
+
+    public Optional<List<Token>> findAllByUser(User userById) {
+        return tokenRepository.findAllByUser(userById);
+    }
+
+    public void deleteAll(List<Token> tokens){
+        tokenRepository.deleteAll(tokens);
+    }
 }

@@ -112,4 +112,8 @@ export class UsersComponent implements AfterViewInit {
   openSnackBar(message: string, action: string) {
     this._snackBar.open(message, action);
   }
+
+  navigateToRegister(){
+    this.router.navigate(['/add-user'])
+  }
 }

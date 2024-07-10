@@ -12,8 +12,6 @@ export class User implements IUser{
     ){}
 }
 
-
-
 export interface LoginData {
     email: string;
     password: string;

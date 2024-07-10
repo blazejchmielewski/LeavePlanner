@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { EditUserRequest, LoginRequest, PasswordRecoveryRequest, RegisterRequest, ToGetPasswordRecoveryRequest } from '../models/forms.model';
+import { EditUserRequest, LeaveRequest, LoginRequest, PasswordRecoveryRequest, RegisterRequest, ToGetPasswordRecoveryRequest } from '../models/forms.model';
 import { equivalentValidator } from '../../shared/validators/equivalent.validator';
-import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -124,6 +123,25 @@ initToGetPasswordRecoveryForm(): FormGroup<ToGetPasswordRecoveryRequest>{
     }, {validators: [equivalentValidator('password','repeatedPassword')]});
   }
 
+  initLeaveFrom(): FormGroup<LeaveRequest>{
+    return new FormGroup({
+      startDate: new FormControl(new Date(), {
+        validators: [
+          Validators.required],
+        nonNullable: true,
+      }),
+      endDate: new FormControl(new Date(), {
+        validators: [
+          Validators.required],
+        nonNullable: true,
+      }),
+      type: new FormControl('', {
+        validators: [
+          Validators.required],
+        nonNullable: true,
+      }),
+    });
+  }
 
   getErrorMessage(control: FormControl): string{
     if(control.hasError('required') && control.touched){

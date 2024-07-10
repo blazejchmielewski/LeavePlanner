@@ -76,6 +76,21 @@ const _authReducer = createReducer(
         loading: false,
         error: action.error,
     })),
+    on(AuthActions.addUser, (state, action) => ({
+        ...state,
+        loading: true,
+        error: null,
+    })),
+    on(AuthActions.addUserSuccess, (state, action) => ({
+        ...state,
+        loading: false,
+        error: null
+    })),
+    on(AuthActions.addUserFailure, (state, action) => ({
+        ...state,
+        loading: false,
+        error: action.error,
+    })),
     on(AuthActions.clearError, (state, action) => ({
         ...state,
         error: null,

@@ -57,6 +57,22 @@ export class AuthEffects {
             })
         ));
         
+    addUser$ = createEffect(()=>
+        this.actions$.pipe(
+            ofType(AuthActions.addUser),
+            switchMap(action =>{
+                return this.authService.register(action.registerData).pipe(
+                    map(() => {
+                        this.router.navigate(['/users']);
+                        this.notifierService.notify('success', 'Dodano konto użtytkownika')
+                        return AuthActions.addUserSuccess();
+                    }),
+                catchError((err) => {
+                    return of(AuthActions.addUserFailure({error: err}))}
+                )
+                );
+            })
+        ));
 
         logout$ = createEffect(()=>
             this.actions$.pipe(

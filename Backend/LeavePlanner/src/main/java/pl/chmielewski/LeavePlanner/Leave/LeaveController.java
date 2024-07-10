@@ -1,5 +1,6 @@
 package pl.chmielewski.LeavePlanner.Leave;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,6 +10,7 @@ import pl.chmielewski.LeavePlanner.Leave.api.request.UpdateLeaveDTO;
 import pl.chmielewski.LeavePlanner.Leave.api.response.LeaveCreatedResponse;
 import pl.chmielewski.LeavePlanner.Leave.api.response.LeaveDeletedResponse;
 import pl.chmielewski.LeavePlanner.Leave.api.response.LeaveUpdatedResponse;
+import pl.chmielewski.LeavePlanner.Leave.api.response.UsersToSwitchResponse;
 
 import java.util.List;
 
@@ -33,6 +35,11 @@ public class LeaveController {
     public ResponseEntity<List<Leave>> getAllLeaves() {
         List<Leave> allLeaves = leaveService.getAllLeaves();
         return new ResponseEntity<>(allLeaves, HttpStatus.OK);
+    }
+
+    @GetMapping("/users-to-switch")
+    public ResponseEntity<List<UsersToSwitchResponse>> getUsersToSwitch(HttpServletRequest http){
+        return new ResponseEntity<>(leaveService.usersToSwitch(http), HttpStatus.OK);
     }
 
     @PostMapping("/add/{uuid}")

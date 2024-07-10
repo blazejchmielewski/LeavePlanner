@@ -28,3 +28,10 @@ export interface PasswordRecoveryRequest{
     password: FormControl<string>;
     repeatedPassword: FormControl<string>
 }
+
+export interface LeaveRequest{
+    startDate: FormControl<Date>;
+    endDate: FormControl<Date>;
+    type: FormControl<string>;
+}
+

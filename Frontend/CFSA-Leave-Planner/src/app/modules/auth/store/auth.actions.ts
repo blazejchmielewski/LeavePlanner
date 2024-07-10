@@ -18,6 +18,11 @@ const REGISTER_TYPE = '[Auth] Register'
 const REGISTER_SUCCESS_TYPE = '[Auth] Register Success'
 const REGISTER_FAILURE_TYPE = '[Auth] Register Failure'
 
+const ADD_USER_TYPE = '[Auth] AddUser'
+const ADD_USER_SUCCESS_TYPE = '[Auth] AddUser Success'
+const ADD_USER_FAILURE_TYPE = '[Auth] AddUser Failure'
+
+
 const CLEAR_ERROR_TYPE = '[Auth] Clear Error'
 
 export const login = createAction(
@@ -68,7 +73,17 @@ export const registerFailure = createAction(
     REGISTER_FAILURE_TYPE, props<{error: string}>()
 );
 
+export const addUser = createAction(
+    ADD_USER_TYPE, props<{registerData: RegisterData}>()
+);
 
+export const addUserSuccess = createAction(
+    ADD_USER_SUCCESS_TYPE
+);
+
+export const addUserFailure = createAction(
+    ADD_USER_FAILURE_TYPE, props<{error: string}>()
+);
 
 export const clearError = createAction(
     CLEAR_ERROR_TYPE

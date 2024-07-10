@@ -1,17 +1,21 @@
 package pl.chmielewski.LeavePlanner.Leave;
 
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pl.chmielewski.LeavePlanner.Authentication.user.Department;
 import pl.chmielewski.LeavePlanner.Authentication.user.User;
 import pl.chmielewski.LeavePlanner.Authentication.user.UserService;
 import pl.chmielewski.LeavePlanner.Leave.api.exception.LeaveNotFoundByIdException;
 import pl.chmielewski.LeavePlanner.Leave.api.request.CreateLeaveDTO;
 import pl.chmielewski.LeavePlanner.Leave.api.request.UpdateLeaveDTO;
+import pl.chmielewski.LeavePlanner.Leave.api.response.UsersToSwitchResponse;
 import pl.chmielewski.LeavePlanner.Leave.leave.Status;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class LeaveService {
@@ -60,5 +64,13 @@ public class LeaveService {
     public void deleteLeave(Long id) {
         Leave leaveById = getLeaveById(id);
         leaveRepository.delete(leaveById);
+    }
+
+    public List<UsersToSwitchResponse> usersToSwitch(HttpServletRequest http){
+        User userByToken = userService.getUserByToken(http);
+        return userService.getUsersByDepartment(userByToken.getDepartment())
+                .stream()
+                .map(u -> new UsersToSwitchResponse(u.getFirstname(), u.getLastname()))
+                .toList();
     }
 }
