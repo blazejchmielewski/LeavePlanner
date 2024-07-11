@@ -1,0 +1,54 @@
+<div class="container">
+  <p>dsf</p>
+  <div *ngIf="leaveToShow">
+    <h2>Application Details</h2>
+    <p><strong>Type:</strong> {{ leaveToShow.type }}</p>
+    <p><strong>From:</strong> {{ leaveToShow.startDate }}</p>
+    <p><strong>To:</strong> {{ leaveToShow.endDate }}</p>
+    <!-- Dodaj więcej pól w zależności od potrzeb -->
+  </div>
+</div>
+
+
+  
+
+
+    <!-- <mat-stepper linear>
+    
+      <mat-step *ngIf="shouldDisplayStep(status)">
+        <ng-template matStepLabel>Pending Step</ng-template>
+        <div>
+          <p>This step is visible for pending status.</p>
+        </div>
+      </mat-step>
+  
+      <mat-step *ngIf="shouldDisplayStep(status)">
+        <ng-template matStepLabel>Approved Step</ng-template>
+        <div>
+          <p>This step is visible for approved status.</p>
+        </div>
+      </mat-step>
+  
+      <mat-step *ngIf="shouldDisplayStep(status)">
+        <ng-template matStepLabel>Rejected Step</ng-template>
+        <div>
+          <p>This step is visible for rejected status.</p>
+        </div>
+      </mat-step>
+  
+      <mat-step *ngIf="shouldDisplayStep(status)">
+        <ng-template matStepLabel>Cancelled Step</ng-template>
+        <div>
+          <p>This step is visible for cancelled status.</p>
+        </div>
+      </mat-step>
+  
+
+  
+      <mat-step>
+        <ng-template matStepLabel>Completed</ng-template>
+        <div>
+          <p>The leave lifecycle is completed.</p>
+        </div>
+      </mat-step>
+    </mat-stepper> -->
