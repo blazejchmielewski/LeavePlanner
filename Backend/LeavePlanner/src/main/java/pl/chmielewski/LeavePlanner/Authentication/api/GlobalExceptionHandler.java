@@ -6,12 +6,14 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import pl.chmielewski.LeavePlanner.Authentication.api.exception.*;
+import pl.chmielewski.LeavePlanner.Leave.api.exception.LeaveNotFoundByIdException;
+import pl.chmielewski.LeavePlanner.Leave.api.exception.LeaveNotFoundByUuidException;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
 
-    // User
+    // <----- User ----->
 
     @ResponseBody
     @ExceptionHandler(UserNotFoundByIdException.class)
@@ -41,7 +43,7 @@ public class GlobalExceptionHandler {
         return new ApiResponse(ex.getMessage(), HttpStatus.NOT_FOUND.value());
     }
 
-    // Token
+    // <----- Token ----->
 
     @ResponseBody
     @ExceptionHandler(TokenNotFoundByUserException.class)
@@ -71,5 +73,19 @@ public class GlobalExceptionHandler {
         return new ApiResponse(ex.getMessage(), HttpStatus.NOT_FOUND.value());
     }
 
+    // <----- Leave ----->
 
+    @ResponseBody
+    @ExceptionHandler(LeaveNotFoundByIdException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ApiResponse leaveNotFoundById(LeaveNotFoundByIdException ex) {
+        return new ApiResponse(ex.getMessage(), HttpStatus.NOT_FOUND.value());
+    }
+
+    @ResponseBody
+    @ExceptionHandler(LeaveNotFoundByUuidException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ApiResponse leaveNotFoundByUuid(LeaveNotFoundByUuidException ex) {
+        return new ApiResponse(ex.getMessage(), HttpStatus.NOT_FOUND.value());
+    }
 }

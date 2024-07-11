@@ -124,3 +124,7 @@ body {
     justify-content:left;
     font-size: 12px;
 }
+
+.departments-container {
+    margin-bottom: 15px;
+}

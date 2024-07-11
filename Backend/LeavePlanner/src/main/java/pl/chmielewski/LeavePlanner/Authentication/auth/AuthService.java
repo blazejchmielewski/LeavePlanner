@@ -30,7 +30,7 @@ public class AuthService {
     private final JwtService jwtService;
     private final CookieService cookieService;
 
-    final int exp = 7 * 24 * 60 * 60;
+    final int exp = 7 * 24 * 60 * 60 * 1000;
 
     @Autowired
     public AuthService(AuthenticationManager authenticationManager, UserService userService, TokenService tokenService, JwtService jwtService, CookieService cookieService) {

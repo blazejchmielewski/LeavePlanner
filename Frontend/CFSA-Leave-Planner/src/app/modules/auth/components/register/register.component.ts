@@ -8,6 +8,7 @@ import { AppState } from 'src/app/store/app.reducer';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { selectAuthError, selectAuthLoading } from '../../store/auth.selectors';
+import { UserService } from 'src/app/modules/core/services/user.service';
 
 @Component({
   selector: 'app-register',
@@ -16,8 +17,13 @@ import { selectAuthError, selectAuthLoading } from '../../store/auth.selectors';
 })
 export class RegisterComponent implements OnDestroy {
 
-  constructor(private formService: FormService, private router: Router, private store: Store<AppState>) {}
-
+  constructor(private formService: FormService, 
+    private router: Router, 
+    private store: Store<AppState>,
+    private userService: UserService) {
+    this.getDepartments();
+  }
+  departments: string[] = [];
   registerForm: FormGroup<RegisterRequest> = this.formService.initRegisterForm();
   notMatchingPasswordsError: string | null = null;
 
@@ -37,15 +43,26 @@ export class RegisterComponent implements OnDestroy {
   }
 
   onRegister(){
-    const {firstname, lastname, email, password, repeatedPassword} = this.registerForm.getRawValue();
+    const {firstname, lastname, email, password, repeatedPassword, department} = this.registerForm.getRawValue();
     if(password !== repeatedPassword){
       this.notMatchingPasswordsError = 'Hasła muszą być takie same'
       return;
     }
-    this.store.dispatch(AuthActions.register({registerData: {firstname, lastname, email, password}}))
+    this.store.dispatch(AuthActions.register({registerData: {firstname, lastname, email, password, department}}))
   }
 
   ngOnDestroy(): void {
     this.store.dispatch(AuthActions.clearError());
+  }
+
+  getDepartments(): void {
+    this.userService.departments().subscribe({
+      next: (response: string[]) => {
+        this.departments = response;
+      },
+      error: (err) => {
+        console.error('Error fetching departments:', err);
+      }
+    });
   }
 }

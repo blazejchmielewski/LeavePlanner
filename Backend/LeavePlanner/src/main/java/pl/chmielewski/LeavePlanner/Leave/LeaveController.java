@@ -7,10 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.chmielewski.LeavePlanner.Leave.api.request.CreateLeaveDTO;
 import pl.chmielewski.LeavePlanner.Leave.api.request.UpdateLeaveDTO;
-import pl.chmielewski.LeavePlanner.Leave.api.response.LeaveCreatedResponse;
-import pl.chmielewski.LeavePlanner.Leave.api.response.LeaveDeletedResponse;
-import pl.chmielewski.LeavePlanner.Leave.api.response.LeaveUpdatedResponse;
-import pl.chmielewski.LeavePlanner.Leave.api.response.UsersToSwitchResponse;
+import pl.chmielewski.LeavePlanner.Leave.api.response.*;
 
 import java.util.List;
 
@@ -31,6 +28,12 @@ public class LeaveController {
         return new ResponseEntity<>(leaveById, HttpStatus.OK);
     }
 
+    @GetMapping("/get-by-uuid")
+    public ResponseEntity<LeaveDataExtendResponse> getLeaveByUuid(@RequestParam("uuid") String uuid) {
+        System.out.println(uuid);
+        return new ResponseEntity<>(leaveService.getLeaveByUuid(uuid), HttpStatus.OK);
+    }
+
     @GetMapping("/get/all")
     public ResponseEntity<List<Leave>> getAllLeaves() {
         List<Leave> allLeaves = leaveService.getAllLeaves();
@@ -38,9 +41,15 @@ public class LeaveController {
     }
 
     @GetMapping("/users-to-switch")
-    public ResponseEntity<List<UsersToSwitchResponse>> getUsersToSwitch(HttpServletRequest http){
+    public ResponseEntity<List<UsersToSwitchResponse>> getUsersToSwitch(HttpServletRequest http) {
         return new ResponseEntity<>(leaveService.usersToSwitch(http), HttpStatus.OK);
     }
+
+    @GetMapping("/all-user-leaves")
+    public ResponseEntity<List<LeaveDataResponse>> getAllUserLeaves(HttpServletRequest http) {
+        return new ResponseEntity<>(leaveService.getAllUserLeaves(http), HttpStatus.OK);
+    }
+
 
     @PostMapping("/add")
     public ResponseEntity<LeaveCreatedResponse> createLeave(@RequestBody CreateLeaveDTO dto, HttpServletRequest request) {

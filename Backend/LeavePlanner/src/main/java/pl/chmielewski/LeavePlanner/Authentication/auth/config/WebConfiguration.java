@@ -37,7 +37,9 @@ public class WebConfiguration {
             "/users/all",
             "/users/get/**",
             "/leave/users-to-switch",
-            "/leave/add/**"
+            "/leave/add/**",
+            "/leave/all-user-leaves",
+            "/leave/get-by-uuid/**"
     };
 
     @Autowired

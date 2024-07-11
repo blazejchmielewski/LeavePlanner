@@ -54,9 +54,6 @@ public class User implements UserDetails {
     @Column(name = "us_updated_at")
     private LocalDateTime updatedAt;
 
-    @OneToMany(mappedBy = "user")
-    private Set<Token> tokens;
-
     public User() {
     }
 
@@ -167,13 +164,6 @@ public class User implements UserDetails {
         isEnabled = enabled;
     }
 
-    public Set<Token> getTokens() {
-        return tokens;
-    }
-
-    public void setTokens(Set<Token> tokens) {
-        this.tokens = tokens;
-    }
 
     public LocalDateTime getCreatedAt() {
         return createdAt;
@@ -203,7 +193,6 @@ public class User implements UserDetails {
                 ", role=" + role +
                 ", department=" + department +
                 ", isEnabled=" + isEnabled +
-                ", tokens=" + tokens +
                 '}';
     }
 }

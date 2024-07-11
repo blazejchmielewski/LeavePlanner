@@ -10,10 +10,6 @@
     justify-content: center;
 }
 
-.applications-container {
-
-}
-
 .new-application {
     width: 50%;
     height: 50px;
@@ -27,5 +23,32 @@
 }
 
 .new-application:hover {
+    background-color: #0086EE;
+}
+
+.filter-container {
+    width: 100%;
+}
+
+.table-container {
+    padding: 15px;
+    margin: 20px auto;
+    width: 60%;
+    border-radius: 15px;
+}
+
+.filter-error-container {
+    color: red;
+    margin: 20px 10px 0px 0px
+}
+
+.btn {
+    background-color: #0096FF;
+    color: white;
+    transition: all .3s ease-in-out;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.btn:hover {
     background-color: #0086EE;
 }

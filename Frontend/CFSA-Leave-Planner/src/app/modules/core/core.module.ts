@@ -19,6 +19,7 @@ import { CustomDateAdapter, MY_DATE_FORMATS } from './adapters/CustomDateAdapter
 import { AddUserComponent } from './components/admin/users/add-user/add-user.component';
 import { ApplicationsComponent } from './components/header/applications/applications.component';
 import { AddApplicationFormComponent } from './components/header/applications/add-application-form/add-application-form.component';
+import { ApplicationDetailsComponent } from './components/header/applications/application-details/application-details.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { AddApplicationFormComponent } from './components/header/applications/ad
     AddUserComponent,
     ApplicationsComponent,
     AddApplicationFormComponent,
+    ApplicationDetailsComponent,
   ],
   imports: [
     HttpClientModule,

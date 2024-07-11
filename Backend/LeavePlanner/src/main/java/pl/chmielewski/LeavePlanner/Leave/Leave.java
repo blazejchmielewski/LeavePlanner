@@ -16,6 +16,8 @@ public class Leave {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "lv_id")
     private Long id;
+    @Column(name = "lv_uuid")
+    private String uuid;
     @Column(name = "lv_start_date")
     private LocalDateTime startDate;
     @Column(name = "lv_end_date")
@@ -40,7 +42,7 @@ public class Leave {
     public Leave() {
     }
 
-    public Leave(LocalDateTime startDate, LocalDateTime endDate, LeaveType type, Status status, LocalDateTime createdAt, LocalDateTime updatedAt, User user, User replacementUser) {
+    public Leave(LocalDateTime startDate, LocalDateTime endDate, LeaveType type, Status status, LocalDateTime createdAt, LocalDateTime updatedAt, User user, User replacementUser, String uuid) {
         this.startDate = startDate;
         this.endDate = endDate;
         this.type = type;
@@ -49,6 +51,7 @@ public class Leave {
         this.updatedAt = updatedAt;
         this.user = user;
         this.replacementUser = replacementUser;
+        this.uuid = uuid;
     }
 
     public Long getId() {
@@ -121,5 +124,13 @@ public class Leave {
 
     public void setReplacementUser(User replacementUser) {
         this.replacementUser = replacementUser;
+    }
+
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
     }
 }

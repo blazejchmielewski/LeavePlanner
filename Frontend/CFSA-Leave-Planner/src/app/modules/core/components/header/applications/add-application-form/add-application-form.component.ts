@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 import { LeaveRequest } from 'src/app/modules/core/models/forms.model';
 import { LeaveData, LeaveType, UsersToSwitch } from 'src/app/modules/core/models/leave.model';
 import { FormService } from 'src/app/modules/core/services/form.service';
@@ -17,7 +19,10 @@ export class AddApplicationFormComponent {
   usersToSwitch: UsersToSwitch[] = [];
   leaveTypes = Object.values(LeaveType);
 
-  constructor(private formService: FormService, private leaveService: LeaveService){
+  constructor(private formService: FormService, 
+    private leaveService: LeaveService,
+    private router: Router,
+    private _snackBar: MatSnackBar){
     this.getUsersToSwitch();
   }
   
@@ -31,8 +36,8 @@ export class AddApplicationFormComponent {
       };
       this.leaveService.addLeave(body).subscribe({
         next: (resp) => {
-          console.log(resp)
-        
+          this.router.navigate(['/application'])
+          this.openSnackBar('Dodano wniosek o urlop', 'Zamknij');
         }, error: (err) => console.log(err)
       })
     }  
@@ -74,5 +79,8 @@ export class AddApplicationFormComponent {
         return '';
     }
   }
-  
+
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action);
+  }
 }
