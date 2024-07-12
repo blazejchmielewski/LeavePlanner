@@ -32,15 +32,39 @@ export class ApplicationDetailsComponent implements OnInit{
     })
   }
 
-  shouldDisplayStep(): boolean {
-    switch (this.leaveStatus) {
-      case LeaveStatus.PENDING:
-      case LeaveStatus.APPROVED:
-      case LeaveStatus.REJECTED:
-      case LeaveStatus.CANCELLED:
-        return true;
-      default:
-        return false;
+  translatorStatus(status: string): string{
+    switch(status){
+      case 'PENDING': return 'OCZEKUJĄCY';
+      case 'APPROVED': return 'ZAAKCEPTOWANY';
+      case 'IN_PROGRESS': return 'ROZPATRYWANY';
+      case 'REJECTED': return 'ODRZUCONY';
+      case 'CANCELLED': return 'ANULOWANY';
     }
+    return '';
+  }
+
+  translatorType(type: string): string{
+    switch(type){
+      case 'SICK_LEAVE': return 'ZDROWOTNY';
+      case 'ANNUAL_LEAVE': return 'WYPOCZYNKOWY';
+      case 'MATERNITY_LEAVE': return 'MACIERZYŃSKI';
+      case 'PATERNITY_LEAVE': return 'OJCOWSKI';
+      case 'UNPAID_LEAVE': return 'NIEPŁATNY';
+      case 'OTHER': return 'INNY';
+    }
+    return ''
+  }
+
+  getStageClass(stage: number): string {
+    if (!this.leaveToShow) {
+      return '';
+    }
+    const status = this.leaveToShow.status;
+    if ((status === LeaveStatus.APPROVED && stage <= 3) || 
+        (status === LeaveStatus.IN_PROGRESS && stage <= 2) || 
+        (status === LeaveStatus.PENDING && stage === 1)) {
+      return 'active';
+    }
+    return 'inactive';
   }
 }

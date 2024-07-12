@@ -1,0 +1,66 @@
+
+.container {
+    margin: 60px auto;
+    width: 80%;
+}
+
+.add-new-application-container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.new-application {
+    width: 50%;
+    height: 50px;
+    font-size: 20px;
+    border: none;
+    border-radius: 15px;
+    color: white;
+    background-color: #0096FF;
+    transition: all .3s ease-in-out;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.new-application:hover {
+    background-color: #0086EE;
+}
+
+.filter-container {
+    width: 100%;
+}
+
+.table-container {
+    padding: 15px;
+    margin: 20px auto;
+    width: 80%;
+    border-radius: 15px;
+}
+
+.filter-error-container {
+    color: red;
+    margin: 20px 10px 0px 0px
+}
+
+.btn {
+    color: white;
+    transition: all .3s ease-in-out;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.accept {
+    background-color: #61BB46
+}
+
+.reject {
+    background-color: #CF082A;
+}
+
+.accept:hover {
+    background-color: #72CC57;
+}
+
+.reject:hover {
+    background-color: #DF393B;
+}

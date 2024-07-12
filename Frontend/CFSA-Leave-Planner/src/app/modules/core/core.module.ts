@@ -20,6 +20,8 @@ import { AddUserComponent } from './components/admin/users/add-user/add-user.com
 import { ApplicationsComponent } from './components/header/applications/applications.component';
 import { AddApplicationFormComponent } from './components/header/applications/add-application-form/add-application-form.component';
 import { ApplicationDetailsComponent } from './components/header/applications/application-details/application-details.component';
+import { LeavesComponent } from './components/admin/leaves/leaves.component';
+import { AcceptLeaveComponent } from './components/admin/leaves/accept-leave/accept-leave.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +37,8 @@ import { ApplicationDetailsComponent } from './components/header/applications/ap
     ApplicationsComponent,
     AddApplicationFormComponent,
     ApplicationDetailsComponent,
+    LeavesComponent,
+    AcceptLeaveComponent,
   ],
   imports: [
     HttpClientModule,

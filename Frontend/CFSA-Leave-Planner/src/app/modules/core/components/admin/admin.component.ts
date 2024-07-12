@@ -13,4 +13,8 @@ export class AdminComponent {
   navigateToUser(){
     this.router.navigate(['/users'])
   };
+
+  navigateToLeaves(){
+    this.router.navigate(['/leaves'])
+  };
 }

@@ -38,6 +38,7 @@ export enum LeaveType {
 export enum LeaveStatus {
     PENDING = 'PENDING',
     APPROVED = 'APPROVED',
+    IN_PROGRESS = 'IN_PROGRESS',
     REJECTED = 'REJECTED',
     CANCELLED = 'CANCELLED'
 }

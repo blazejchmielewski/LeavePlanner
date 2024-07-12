@@ -1,54 +1,32 @@
+<div class="stage-container">
+  <div class="stage" [ngClass]="getStageClass(1)">
+    <div class="circle"></div>
+    <div class="label fw-bold">Złóżenie wniosku</div>
+    <div *ngIf="leaveToShow">{{ leaveToShow.creationDate | date: 'dd-MM-yyyy hh:MM'}} </div>
+  </div>
+  <div class="line"></div>
+  <div class="stage" [ngClass]="getStageClass(2)">
+    <div class="circle"></div>
+    <div class="label fw-bold">Potwierdzenie zastępstwa</div>
+    <div *ngIf="leaveToShow !== null && (leaveToShow.status == 'IN_PROGRESS' || leaveToShow.status == 'APPROVED')">{{ leaveToShow.creationDate | date: 'dd-MM-yyyy hh:MM' }}</div>
+  </div>
+  <div class="line"></div>
+  <div class="stage" [ngClass]="getStageClass(3)">
+    <div class="circle"></div>
+    <div class="label fw-bold">Akceptacja przełożonego</div>
+    <div *ngIf="leaveToShow !== null && leaveToShow.status == 'APPROVED'">{{ leaveToShow.lastUpdateDate | date: 'dd-MM-yyyy hh:MM' }}</div>
+  </div>
+</div>
 <div class="container">
-  <p>dsf</p>
   <div *ngIf="leaveToShow">
-    <h2>Application Details</h2>
-    <p><strong>Type:</strong> {{ leaveToShow.type }}</p>
-    <p><strong>From:</strong> {{ leaveToShow.startDate }}</p>
-    <p><strong>To:</strong> {{ leaveToShow.endDate }}</p>
-    <!-- Dodaj więcej pól w zależności od potrzeb -->
+    <h1 class="text-center fw-bold">Szczegóły urlopu</h1>
+    <p><strong>Zgłaszający:</strong> {{ leaveToShow.declaringUser }}</p>
+    <p><strong>Od:</strong> {{ leaveToShow.startDate | date: 'dd.MM.yyyy'}}</p>
+    <p><strong>Do:</strong> {{ leaveToShow.endDate | date: 'dd.MM.yyyy'}}</p>
+    <p><strong>Typ:</strong> {{ translatorType(leaveToShow.type)}}</p>
+    <p><strong>Status:</strong> {{ translatorStatus(leaveToShow.status) }}</p>
+    <p><strong>Zgłoszono:</strong> {{ leaveToShow.creationDate | date: 'dd-MM-yyyy hh:MM'}}</p>
+    <p><strong>Ostatnia zmiana:</strong> {{ leaveToShow.lastUpdateDate | date : 'dd-MM-yyyy hh:MM'}}</p>
   </div>
 </div>
 
-
-  
-
-
-    <!-- <mat-stepper linear>
-    
-      <mat-step *ngIf="shouldDisplayStep(status)">
-        <ng-template matStepLabel>Pending Step</ng-template>
-        <div>
-          <p>This step is visible for pending status.</p>
-        </div>
-      </mat-step>
-  
-      <mat-step *ngIf="shouldDisplayStep(status)">
-        <ng-template matStepLabel>Approved Step</ng-template>
-        <div>
-          <p>This step is visible for approved status.</p>
-        </div>
-      </mat-step>
-  
-      <mat-step *ngIf="shouldDisplayStep(status)">
-        <ng-template matStepLabel>Rejected Step</ng-template>
-        <div>
-          <p>This step is visible for rejected status.</p>
-        </div>
-      </mat-step>
-  
-      <mat-step *ngIf="shouldDisplayStep(status)">
-        <ng-template matStepLabel>Cancelled Step</ng-template>
-        <div>
-          <p>This step is visible for cancelled status.</p>
-        </div>
-      </mat-step>
-  
-
-  
-      <mat-step>
-        <ng-template matStepLabel>Completed</ng-template>
-        <div>
-          <p>The leave lifecycle is completed.</p>
-        </div>
-      </mat-step>
-    </mat-stepper> -->

@@ -1,21 +1,22 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
-import { LeaveService } from '../../../services/leave.service';
+import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { LeaveDataDetails, LeaveDataDetailsExtended, LeaveType } from '../../../models/leave.model';
+import { LeaveService } from '../../../services/leave.service';
+import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { AcceptLeaveComponent } from './accept-leave/accept-leave.component';
 
 @Component({
-  selector: 'app-applications',
-  templateUrl: './applications.component.html',
-  styleUrls: ['./applications.component.css']
+  selector: 'app-leaves',
+  templateUrl: './leaves.component.html',
+  styleUrls: ['./leaves.component.css']
 })
-export class ApplicationsComponent implements AfterViewInit{
+export class LeavesComponent {
 
-  displayedColumns: string[] = ['lp', 'type', 'from', 'to', 'actions'];
+  displayedColumns: string[] = ['lp', 'creator', 'replacing','type', 'from', 'to', 'actions'];
   leaveToShow: LeaveDataDetailsExtended | null = null;
 
 
@@ -34,10 +35,6 @@ export class ApplicationsComponent implements AfterViewInit{
   dataSource !: MatTableDataSource<LeaveDataDetails>
   @ViewChild (MatPaginator) paginator !: MatPaginator
   @ViewChild (MatSort) sort !: MatSort;
-  
-  navigateToForm(){
-    this.router.navigate(['/add-application-form'])
-  }
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
@@ -91,8 +88,15 @@ export class ApplicationsComponent implements AfterViewInit{
       });
     }
 
-    navigateToDetails(uuid: string) {
-      console.log(uuid);
-      this.router.navigate([`/application-details/${uuid}`]);
-    }
+    openAcceptDialog(leave: LeaveDataDetailsExtended) {
+      const dialogRef = this.dialog.open(AcceptLeaveComponent, {
+        width: '400px',
+      });
+  
+      dialogRef.afterClosed().subscribe(result => {
+        if (result === 'success') {
+          this.refresh();
+        }
+      });
+    } 
 }

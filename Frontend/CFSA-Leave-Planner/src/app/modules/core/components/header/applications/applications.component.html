@@ -34,9 +34,9 @@
         
               <ng-container matColumnDef="actions">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-center"> Akcje </th>
-                <td mat-cell *matCellDef="let row">
+                <td mat-cell *matCellDef="let row" >
                   <p>{{row.uuid}}</p>
-                  <div class="d-flex">
+                  <div class="mb-2">
                     <button class="btn me-3" (click)="navigateToDetails(row.leaveUuid)">Szczegóły</button>
                   </div>
                 </td>

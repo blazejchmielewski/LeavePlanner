@@ -36,14 +36,14 @@ export class LeaveService {
   }
 
   getLeaveByUuid(uuid: string): Observable<LeaveDataDetailsExtended> {
-    const params = new HttpParams().set('uuid', uuid); // Ustawienie parametrów zapytania
+    const params = new HttpParams().set('uuid', uuid);
     const requestOptions = {
-      withCredentials: true // Ustawienie przesyłania credentials
+      withCredentials: true
     };
 
     return this.http.get<LeaveDataDetailsExtended>(`${this.apiUrl}/get-by-uuid`, {
       params,
-      ...requestOptions // Łączenie opcji żądania
+      ...requestOptions
     });
   }
 }
