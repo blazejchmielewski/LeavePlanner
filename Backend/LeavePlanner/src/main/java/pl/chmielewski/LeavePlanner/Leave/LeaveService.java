@@ -10,9 +10,7 @@ import pl.chmielewski.LeavePlanner.Leave.api.exception.LeaveNotFoundByIdExceptio
 import pl.chmielewski.LeavePlanner.Leave.api.exception.LeaveNotFoundByUuidException;
 import pl.chmielewski.LeavePlanner.Leave.api.request.CreateLeaveDTO;
 import pl.chmielewski.LeavePlanner.Leave.api.request.UpdateLeaveDTO;
-import pl.chmielewski.LeavePlanner.Leave.api.response.LeaveDataExtendResponse;
-import pl.chmielewski.LeavePlanner.Leave.api.response.LeaveDataResponse;
-import pl.chmielewski.LeavePlanner.Leave.api.response.UsersToSwitchResponse;
+import pl.chmielewski.LeavePlanner.Leave.api.response.*;
 import pl.chmielewski.LeavePlanner.Leave.leave.Status;
 
 import java.time.LocalDateTime;
@@ -36,14 +34,28 @@ public class LeaveService {
         return leaveRepository.findLeaveById(id).orElseThrow(() -> new LeaveNotFoundByIdException(id));
     }
 
-    public LeaveDataExtendResponse getLeaveByUuid(String uuid) {
-        Leave leave = leaveRepository.findLeaveByUuid(uuid).orElseThrow(() -> new LeaveNotFoundByUuidException(uuid));
+    private Leave getLeaveByUuid(String uuid){
+        return leaveRepository.findLeaveByUuid(uuid).orElseThrow(() -> new LeaveNotFoundByUuidException(uuid));
+    }
+
+    public LeaveDataExtendResponse getLeaveByUuidMapped(String uuid) {
+        Leave leave = getLeaveByUuid(uuid);
         return new LeaveDataExtendResponse(
                 leave.getUuid(), leave.getStartDate(), leave.getEndDate(), leave.getType().name(),
                 leave.getUser().getFirstname() + " " + leave.getUser().getLastname(),
                 leave.getReplacementUser().getFirstname() + " " + leave.getReplacementUser().getLastname(),
                 leave.getStatus().name(),leave.getCreatedAt(), leave.getUpdatedAt()
         );
+    }
+
+    public List<LeaveDataExtendResponse> getAll() {
+        List<Leave> all = leaveRepository.findAll();
+        return all.stream().map(leave -> new LeaveDataExtendResponse(
+                leave.getUuid(), leave.getStartDate(), leave.getEndDate(), leave.getType().name(),
+                leave.getUser().getFirstname() + " " + leave.getUser().getLastname(),
+                leave.getReplacementUser().getFirstname() + " " + leave.getReplacementUser().getLastname(),
+                leave.getStatus().name(),leave.getCreatedAt(), leave.getUpdatedAt()
+        )).collect(Collectors.toList());
     }
 
     public List<Leave> getAllLeaves() {
@@ -66,6 +78,8 @@ public class LeaveService {
         );
         leaveRepository.save(leave);
     }
+
+
 
     public void updateLeave(Long id, UpdateLeaveDTO dto) {
         Leave leave = getLeaveById(id);
@@ -106,5 +120,23 @@ public class LeaveService {
                         l.getReplacementUser().getFirstname() + " " + l.getReplacementUser().getLastname()
                 ))
                 .collect(Collectors.toList());
+    }
+
+    public void rejectLeave(String uuid) {
+        Leave leave = getLeaveByUuid(uuid);
+
+        if (!leave.getStatus().equals(Status.REJECTED.name())) {
+            leave.setStatus(Status.REJECTED);
+            leaveRepository.save(leave);
+        }
+    }
+
+
+    public void acceptLeave(String uuid){
+        Leave leave = getLeaveByUuid(uuid);
+        if (!leave.getStatus().equals(Status.APPROVED.name())) {
+            leave.setStatus(Status.APPROVED);
+            leaveRepository.save(leave);
+        }
     }
 }

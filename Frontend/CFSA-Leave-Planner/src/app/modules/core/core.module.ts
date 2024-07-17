@@ -22,6 +22,7 @@ import { AddApplicationFormComponent } from './components/header/applications/ad
 import { ApplicationDetailsComponent } from './components/header/applications/application-details/application-details.component';
 import { LeavesComponent } from './components/admin/leaves/leaves.component';
 import { AcceptLeaveComponent } from './components/admin/leaves/accept-leave/accept-leave.component';
+import { RejectLeaveComponent } from './components/admin/leaves/reject-leave/reject-leave.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { AcceptLeaveComponent } from './components/admin/leaves/accept-leave/acc
     ApplicationDetailsComponent,
     LeavesComponent,
     AcceptLeaveComponent,
+    RejectLeaveComponent
   ],
   imports: [
     HttpClientModule,

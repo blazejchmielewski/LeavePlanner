@@ -5,6 +5,10 @@ export interface LeaveData {
     userUuid: string
 }
 
+export interface UuidObject{
+    uuid: string
+}
+
 export interface LeaveDataDetails {
     leaveUuid: string,
     startDate: Date;

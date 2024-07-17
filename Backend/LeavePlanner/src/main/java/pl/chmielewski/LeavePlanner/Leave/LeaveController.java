@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pl.chmielewski.LeavePlanner.Leave.api.request.CreateAcceptLeave;
 import pl.chmielewski.LeavePlanner.Leave.api.request.CreateLeaveDTO;
 import pl.chmielewski.LeavePlanner.Leave.api.request.UpdateLeaveDTO;
 import pl.chmielewski.LeavePlanner.Leave.api.response.*;
@@ -28,10 +29,14 @@ public class LeaveController {
         return new ResponseEntity<>(leaveById, HttpStatus.OK);
     }
 
+    @GetMapping("/all")
+    public ResponseEntity<List<LeaveDataExtendResponse>> getLeaveByUuid() {
+        return new ResponseEntity<>(leaveService.getAll(), HttpStatus.OK);
+    }
+
     @GetMapping("/get-by-uuid")
     public ResponseEntity<LeaveDataExtendResponse> getLeaveByUuid(@RequestParam("uuid") String uuid) {
-        System.out.println(uuid);
-        return new ResponseEntity<>(leaveService.getLeaveByUuid(uuid), HttpStatus.OK);
+        return new ResponseEntity<>(leaveService.getLeaveByUuidMapped(uuid), HttpStatus.OK);
     }
 
     @GetMapping("/get/all")
@@ -67,6 +72,18 @@ public class LeaveController {
     public ResponseEntity<LeaveDeletedResponse> deleteLeave(@PathVariable("id") Long id) {
         leaveService.deleteLeave(id);
         return new ResponseEntity<>(new LeaveDeletedResponse(id), HttpStatus.NO_CONTENT);
+    }
+
+    @PostMapping("/accept")
+    public ResponseEntity<LeaveAcceptedResponse> acceptLeave(@RequestBody CreateAcceptLeave createAcceptLeave){
+        leaveService.acceptLeave(createAcceptLeave.uuid());
+        return new ResponseEntity<>(new LeaveAcceptedResponse(), HttpStatus.OK);
+    }
+
+    @PostMapping("/reject")
+    public ResponseEntity<LeaveRejectedResponse> rejectLeave(@RequestBody CreateAcceptLeave createAcceptLeave){
+        leaveService.rejectLeave(createAcceptLeave.uuid());
+        return new ResponseEntity<>(new LeaveRejectedResponse(), HttpStatus.OK);
     }
 }
 

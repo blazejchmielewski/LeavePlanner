@@ -39,7 +39,8 @@ public class WebConfiguration {
             "/leave/users-to-switch",
             "/leave/add/**",
             "/leave/all-user-leaves",
-            "/leave/get-by-uuid/**"
+            "/leave/get-by-uuid/**",
+            "/leave/add",
     };
 
     @Autowired
@@ -57,7 +58,7 @@ public class WebConfiguration {
                 .authorizeHttpRequests(req -> req
                         .requestMatchers(WHITE_LIST_URL).permitAll()
                         .requestMatchers(USER_LIST_URL).hasAnyAuthority(Role.USER.name(), Role.ADMIN.name())
-                        .requestMatchers("/**").hasAuthority(Role.ADMIN.name())
+                        .requestMatchers("/**").hasAnyAuthority(Role.ADMIN.name())
                         .anyRequest()
                         .authenticated()
                 )
@@ -71,7 +72,6 @@ public class WebConfiguration {
                         l.logoutUrl("/logout")
                                 .addLogoutHandler(logoutService)
                                 .logoutSuccessHandler((request, response, authentication) -> SecurityContextHolder.clearContext()));
-
         return http.build();
     }
 }
