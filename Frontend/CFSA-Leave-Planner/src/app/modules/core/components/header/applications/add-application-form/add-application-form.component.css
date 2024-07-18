@@ -22,13 +22,13 @@
     border: none;
     border-radius: 15px;
     color: white;
-    background-color: #0096FF;
+    background-color: #0c723b;
     transition: all .3s ease-in-out;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
 .btn-form:hover {
-    background-color: #0086EE;
+    background-color: #1D834C;
     cursor: pointer;
 }
 

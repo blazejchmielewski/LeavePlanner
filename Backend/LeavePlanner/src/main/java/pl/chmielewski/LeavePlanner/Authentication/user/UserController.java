@@ -1,8 +1,8 @@
 package pl.chmielewski.LeavePlanner.Authentication.user;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pl.chmielewski.LeavePlanner.Authentication.api.AbstractApiResponse;
 import pl.chmielewski.LeavePlanner.Authentication.api.request.UpdateUserDTO;
@@ -27,8 +27,8 @@ public class UserController {
     }
 
     @GetMapping("/departments")
-    public ResponseEntity<List<String>> getAllDepartments(){
-        return new ResponseEntity<>(userService.getDepartments(), HttpStatus.OK) ;
+    public ResponseEntity<List<String>> getAllDepartments() {
+        return new ResponseEntity<>(userService.getDepartments(), HttpStatus.OK);
     }
 
     @GetMapping("/all")
@@ -41,8 +41,13 @@ public class UserController {
         return new ResponseEntity<>(userService.getAllUsersToTable(), HttpStatus.OK);
     }
 
+    @GetMapping("/user-details")
+    public ResponseEntity<UserProfileData> getUserDetails(HttpServletRequest request) {
+        return new ResponseEntity<>(userService.getUserProfileDate(request), HttpStatus.OK);
+    }
+
     @PutMapping("/expire/{id}")
-    public ResponseEntity<AbstractApiResponse> disableUser(@PathVariable("id") Long id){
+    public ResponseEntity<AbstractApiResponse> disableUser(@PathVariable("id") Long id) {
         userService.disableUser(id);
         return new ResponseEntity<>(new UserDisabledResponse(id), HttpStatus.OK);
     }

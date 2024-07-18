@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { environment } from 'src/environments/environment.development';
-import { EditUserData, UserAllData } from '../models/user.model';
+import { EditUserData, UserAllData, UserDetails } from '../models/user.model';
 import { AuthResponse, User } from '../models/auth.model';
 
 @Injectable({
@@ -44,6 +44,12 @@ export class UserService {
 
   departments(): Observable<string[]>{
     return this.http.get<string[]>(`${this.apiUrl}/departments`)
+  }
+  
+  getUserDetails():Observable<UserDetails>{
+    return this.http.get<UserDetails>(`${this.apiUrl}/user-details`,
+      {withCredentials: true}
+    )
   }
 }
 

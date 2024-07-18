@@ -17,13 +17,13 @@
     border: none;
     border-radius: 15px;
     color: white;
-    background-color: #0096FF;
+    background-color: #0C723B;
     transition: all .3s ease-in-out;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
 .new-application:hover {
-    background-color: #0086EE;
+    background-color: #1D834C;
 }
 
 .filter-container {
@@ -43,12 +43,12 @@
 }
 
 .btn {
-    background-color: #0096FF;
+    background-color: #0C723B;
     color: white;
     transition: all .3s ease-in-out;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
 .btn:hover {
-    background-color: #0086EE;
+    background-color: #1D834C;
 }

@@ -54,15 +54,19 @@ public class User implements UserDetails {
     @Column(name = "us_updated_at")
     private LocalDateTime updatedAt;
 
+    @Column(name = "us_deactivated_at")
+    private LocalDateTime deactivatedAt;
+
     public User() {
     }
 
-    public User(String firstname, String lastname, String email, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public User(String firstname, String lastname, String email, LocalDateTime createdAt, LocalDateTime updatedAt, LocalDateTime deactivatedAt) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+        this.deactivatedAt = deactivatedAt;
     }
 
     @Override
@@ -181,6 +185,14 @@ public class User implements UserDetails {
         this.updatedAt = updatedAt;
     }
 
+    public LocalDateTime getDeactivatedAt() {
+        return deactivatedAt;
+    }
+
+    public void setDeactivatedAt(LocalDateTime deactivatedAt) {
+        this.deactivatedAt = deactivatedAt;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -193,6 +205,9 @@ public class User implements UserDetails {
                 ", role=" + role +
                 ", department=" + department +
                 ", isEnabled=" + isEnabled +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                ", deactivatedAt=" + deactivatedAt +
                 '}';
     }
 }

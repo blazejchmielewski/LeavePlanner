@@ -38,6 +38,7 @@ nav ul {
     margin: 0;
     display: flex;
     gap: 3rem;
+    
 }
 
 nav ul a {
@@ -45,6 +46,7 @@ nav ul a {
     color: #A1A2A3;
     display: inline-block;
     padding: 1.5rem 0;
+   
 }
 
 nav ul a:hover {
@@ -126,9 +128,10 @@ nav ul a:hover {
 }
 
 button {
+    
     appearance: none;
-    border: 1px solid #9E70EB;
-    color: #9E70EB;
+    border: 1px solid #0C723B;
+    color: #0C723B;
     background-color: transparent;
     border-radius: 10rem;
     padding: .75rem 1.5rem;

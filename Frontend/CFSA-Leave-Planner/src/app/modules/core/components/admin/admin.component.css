@@ -24,7 +24,7 @@
 
 .card-top-content {
     height: 33%;
-    background-color: #9E70EB;
+    background-color: #0c723b;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -85,7 +85,7 @@
     width: 80%;
     height: 30px;
     color: white;
-    background-color: #9E70EB;
+    background-color: #0c723b;
     border-radius: 5px;
     border: none;
     transition: background-color 0.2s ease-in-out;
@@ -93,7 +93,7 @@
 }
 
 .btn-form:hover {
-    background-color: #8D60DA;
+    background-color: #1d835c;
 }
 
 

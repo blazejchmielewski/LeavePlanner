@@ -1,3 +1,14 @@
 .container {
     width: 300px;
 }
+
+.success{
+    background-color: #ddd;
+    color: #ffffff;
+    transition: all .3s ease-in-out;
+}
+
+.success:hover {
+    background-color: #0C723B;
+    color: #fff;
+}

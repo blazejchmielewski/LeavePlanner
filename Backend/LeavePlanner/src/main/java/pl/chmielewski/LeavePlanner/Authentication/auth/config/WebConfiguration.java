@@ -36,6 +36,7 @@ public class WebConfiguration {
             "/test/user",
             "/users/all",
             "/users/get/**",
+            "/users/user-details",
             "/leave/users-to-switch",
             "/leave/add/**",
             "/leave/all-user-leaves",

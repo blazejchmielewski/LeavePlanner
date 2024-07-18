@@ -8,9 +8,9 @@
     <nav>
       <ul>
         <li class="has-submenu">
-          <a href="#">Konto</a>
+          <a routerLink="user-details" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Konto</a>
           <ul>
-            <li><a href="#">Szczegóły</a></li>
+            <li><a routerLink="user-details" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Szczegóły</a></li>
           </ul>
         </li>
         <li><a routerLink="/application" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Wnioski</a></li>

@@ -1,3 +1,14 @@
 .container {
     width: 300px;
 }
+
+.reject{
+    background-color: #ddd;
+    color: #ffffff;
+    transition: all .3s ease-in-out;
+}
+
+.reject:hover {
+    background-color: #DF393B;
+    color: #fff;
+}

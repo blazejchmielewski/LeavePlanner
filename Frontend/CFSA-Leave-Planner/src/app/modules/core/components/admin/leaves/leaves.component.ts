@@ -114,7 +114,7 @@ export class LeavesComponent implements AfterViewInit, OnInit {
 
   openAcceptDialog(leave: LeaveDataDetailsExtended) {
     const dialogRef = this.dialog.open(AcceptLeaveComponent, {
-      width: '400px',
+      width: '500px',
       data: leave
     });
 
@@ -127,7 +127,7 @@ export class LeavesComponent implements AfterViewInit, OnInit {
 
   openRejectDialog(leave: LeaveDataDetailsExtended) {
     const dialogRef = this.dialog.open(RejectLeaveComponent, {
-      width: '400px',
+      width: '500px',
       data: leave
     });
 

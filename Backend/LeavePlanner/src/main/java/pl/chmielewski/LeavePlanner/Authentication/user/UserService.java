@@ -10,8 +10,8 @@ import pl.chmielewski.LeavePlanner.Authentication.api.exception.UserNotFoundByUu
 import pl.chmielewski.LeavePlanner.Authentication.api.request.RegisterUserDTO;
 import pl.chmielewski.LeavePlanner.Authentication.api.request.UpdateUserDTO;
 import pl.chmielewski.LeavePlanner.Authentication.api.response.UserDataResponse;
+import pl.chmielewski.LeavePlanner.Authentication.api.response.UserProfileData;
 import pl.chmielewski.LeavePlanner.Authentication.token.Token;
-import pl.chmielewski.LeavePlanner.Authentication.token.TokenRepository;
 import pl.chmielewski.LeavePlanner.Authentication.token.TokenService;
 
 import java.time.LocalDateTime;
@@ -34,7 +34,7 @@ public class UserService {
 
     public User getUserByToken(HttpServletRequest request) {
         String authorizationHeader = request.getHeader("Authorization");
-        if(authorizationHeader != null && authorizationHeader.startsWith("Bearer ")){
+        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
             return tokenService.getUserByToken(authorizationHeader.substring(7));
         }
         return null;
@@ -58,6 +58,19 @@ public class UserService {
             ));
         });
         return users;
+    }
+
+    public UserProfileData getUserProfileDate(HttpServletRequest request) {
+        User userByToken = getUserByToken(request);
+        return new UserProfileData(
+                userByToken.getFirstname() + " " + userByToken.getLastname(),
+                userByToken.getEmail(),
+                userByToken.getRole().name(),
+                userByToken.getDepartment().name(),
+                userByToken.isEnabled(),
+                userByToken.getCreatedAt(),
+                userByToken.getDeactivatedAt()
+        );
     }
 
     public List<User> getUsersByDepartment(Department department) {
@@ -106,7 +119,8 @@ public class UserService {
                 createUserDTO.lastname(),
                 createUserDTO.email(),
                 LocalDateTime.now(),
-                LocalDateTime.now());
+                LocalDateTime.now(),
+                null);
         user.setUuid(UUID.randomUUID().toString());
         user.setDepartment(Department.valueOf(createUserDTO.department()));
         user.setPassword(passwordEncoder.encode(createUserDTO.password()));
