@@ -1,0 +1,18 @@
+.container {
+    margin: 60px auto;
+    width: 900px;
+    padding: 15px 25px;
+    border-radius: 7px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.btn {
+    width: 40%;
+    margin: 15px 0px;
+    background-color: #0C723B;
+    color: white;
+}
+
+.btn:hover {
+    background-color: #1D834C;
+}

@@ -32,38 +32,32 @@ export class ApplicationDetailsComponent implements OnInit{
     })
   }
 
-  translatorStatus(status: string): string{
-    switch(status){
-      case 'PENDING': return 'OCZEKUJĄCY';
-      case 'APPROVED': return 'ZAAKCEPTOWANY';
-      case 'IN_PROGRESS': return 'ROZPATRYWANY';
-      case 'REJECTED': return 'ODRZUCONY';
-      case 'CANCELLED': return 'ANULOWANY';
-    }
-    return '';
+  translatorStatus(status: string){
+    return this.leaveService.translateStatus(status);
   }
 
-  translatorType(type: string): string{
-    switch(type){
-      case 'SICK_LEAVE': return 'ZDROWOTNY';
-      case 'ANNUAL_LEAVE': return 'WYPOCZYNKOWY';
-      case 'MATERNITY_LEAVE': return 'MACIERZYŃSKI';
-      case 'PATERNITY_LEAVE': return 'OJCOWSKI';
-      case 'UNPAID_LEAVE': return 'NIEPŁATNY';
-      case 'OTHER': return 'INNY';
-    }
-    return ''
+  translatorType(type: string){
+    return this.leaveService.translateType(type);
   }
 
   getStageClass(stage: number): string {
     if (!this.leaveToShow) {
       return '';
     }
-    const status = this.leaveToShow.status;
-    if ((status === LeaveStatus.APPROVED && stage <= 3) || 
-        (status === LeaveStatus.IN_PROGRESS && stage <= 2) || 
-        (status === LeaveStatus.PENDING && stage === 1)) {
-      return 'active';
+    const status = this.leaveToShow;
+
+    if(
+      (stage === 1) ||
+      (this.leaveToShow.status === (LeaveStatus.APPROVED_BY_REPLACER) && this.leaveToShow.settledByReplacerDate && stage <= 2) ||
+      this.leaveToShow.status === (LeaveStatus.REJECTED_BY_ACCEPTOR) && (this.leaveToShow.settledByReplacerDate && this.leaveToShow.settledByAcceptorDate) && stage == 2 ||
+      (this.leaveToShow.status === (LeaveStatus.APPROVED_BY_ACCEPTOR) && (this.leaveToShow.settledByReplacerDate && this.leaveToShow.settledByAcceptorDate) && stage <= 3)
+    ){
+      return 'active'
+    } else if(
+      (this.leaveToShow.status === (LeaveStatus.REJECTED_BY_REPLACER) && this.leaveToShow.settledByReplacerDate && stage <= 2) ||
+      (this.leaveToShow.status === (LeaveStatus.REJECTED_BY_ACCEPTOR) && (this.leaveToShow.settledByReplacerDate && this.leaveToShow.settledByAcceptorDate) && stage == 3 )
+    ){
+      return 'rejected';
     }
     return 'inactive';
   }

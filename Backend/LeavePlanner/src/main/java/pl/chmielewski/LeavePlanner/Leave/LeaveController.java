@@ -55,6 +55,11 @@ public class LeaveController {
         return new ResponseEntity<>(leaveService.getAllUserLeaves(http), HttpStatus.OK);
     }
 
+    @GetMapping("/all-replacements")
+    public ResponseEntity<List<LeaveDataExtendResponse>> getAllReplacements(HttpServletRequest http){
+        return new ResponseEntity<>(leaveService.getAllReplacements(http), HttpStatus.OK);
+    }
+
 
     @PostMapping("/add")
     public ResponseEntity<LeaveCreatedResponse> createLeave(@RequestBody CreateLeaveDTO dto, HttpServletRequest request) {
@@ -72,6 +77,18 @@ public class LeaveController {
     public ResponseEntity<LeaveDeletedResponse> deleteLeave(@PathVariable("id") Long id) {
         leaveService.deleteLeave(id);
         return new ResponseEntity<>(new LeaveDeletedResponse(id), HttpStatus.NO_CONTENT);
+    }
+
+    @PostMapping("/accept-replacement")
+    public ResponseEntity<LeaveAcceptedResponse> acceptReplacement(@RequestBody CreateAcceptLeave createAcceptLeave){
+        leaveService.acceptReplacement(createAcceptLeave.uuid());
+        return new ResponseEntity<>(new LeaveAcceptedResponse(), HttpStatus.OK);
+    }
+
+    @PostMapping("/reject-replacement")
+    public ResponseEntity<LeaveRejectedResponse> rejectReplacement(@RequestBody CreateAcceptLeave createAcceptLeave){
+        leaveService.rejectReplacement(createAcceptLeave.uuid());
+        return new ResponseEntity<>(new LeaveRejectedResponse(), HttpStatus.OK);
     }
 
     @PostMapping("/accept")

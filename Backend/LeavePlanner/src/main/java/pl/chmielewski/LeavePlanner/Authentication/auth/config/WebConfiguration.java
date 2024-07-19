@@ -42,6 +42,9 @@ public class WebConfiguration {
             "/leave/all-user-leaves",
             "/leave/get-by-uuid/**",
             "/leave/add",
+            "/leave/all-replacements",
+            "/leave/accept-replacement",
+            "/leave/reject-replacement",
     };
 
     @Autowired

@@ -30,6 +30,10 @@ public class Leave {
     private LocalDateTime createdAt;
     @Column(name = "lv_updated_at")
     private LocalDateTime updatedAt;
+    @Column(name = "lv_settled_by_replacer_at")
+    private LocalDateTime settledByReplacerAt;
+    @Column(name = "lv_settled_by_acceptor_at")
+    private LocalDateTime settledByAcceptorsAt;
 
     @ManyToOne
     @JoinColumn(name = "lv_us_id")
@@ -42,13 +46,15 @@ public class Leave {
     public Leave() {
     }
 
-    public Leave(LocalDateTime startDate, LocalDateTime endDate, LeaveType type, Status status, LocalDateTime createdAt, LocalDateTime updatedAt, User user, User replacementUser, String uuid) {
+    public Leave(LocalDateTime startDate, LocalDateTime endDate, LeaveType type, Status status, LocalDateTime createdAt, LocalDateTime updatedAt, LocalDateTime settledByReplacerAt, LocalDateTime settledByAcceptorsAt, User user, User replacementUser, String uuid) {
         this.startDate = startDate;
         this.endDate = endDate;
         this.type = type;
         this.status = status;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+        this.settledByReplacerAt = settledByReplacerAt;
+        this.settledByAcceptorsAt = settledByAcceptorsAt;
         this.user = user;
         this.replacementUser = replacementUser;
         this.uuid = uuid;
@@ -132,5 +138,21 @@ public class Leave {
 
     public void setUuid(String uuid) {
         this.uuid = uuid;
+    }
+
+    public LocalDateTime getSettledByReplacerAt() {
+        return settledByReplacerAt;
+    }
+
+    public void setSettledByReplacerAt(LocalDateTime settledByReplacerAt) {
+        this.settledByReplacerAt = settledByReplacerAt;
+    }
+
+    public LocalDateTime getSettledByAcceptorsAt() {
+        return settledByAcceptorsAt;
+    }
+
+    public void setSettledByAcceptorsAt(LocalDateTime settledByAcceptorsAt) {
+        this.settledByAcceptorsAt = settledByAcceptorsAt;
     }
 }

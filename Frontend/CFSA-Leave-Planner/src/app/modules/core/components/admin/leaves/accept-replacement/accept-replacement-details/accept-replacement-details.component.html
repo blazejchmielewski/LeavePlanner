@@ -1,0 +1,14 @@
+<div class="container">
+    <h1 class="text-center">Akceptacja</h1>
+    <p class="text-center">
+        Podczas nieobecności pracownika <span class="fw-bold">{{leaveData.declaringUser}}</span>
+        w okresie od <span class="fw-bold">{{leaveData.startDate | date: 'dd.MM.yyyy'}}</span> do 
+        <span class="fw-bold">{{leaveData.endDate | date: 'dd.MM.yyyy'}}</span> 
+        jego obowiązki służbowe będą pełnione przez <span class="fw-bold">{{leaveData.replacementUser}}</span>. 
+        Osoba zastępująca została poinformowana o obowiązkach i wyraża 
+        zgodę na ich wykonanie w wyżej wymienionym terminie
+    </p>
+    <div class="d-flex justify-content-center">
+        <button class="btn" (click)="onConfirmClick()">Akceptuj</button>
+    </div>
+</div>

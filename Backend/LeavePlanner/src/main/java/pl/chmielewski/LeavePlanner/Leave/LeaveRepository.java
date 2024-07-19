@@ -11,6 +11,10 @@ import java.util.Optional;
 public interface LeaveRepository extends JpaRepository<Leave, Long> {
 
     Optional<Leave> findLeaveById(Long id);
+
     Optional<Leave> findLeaveByUuid(String uuid);
-    Optional<List<Leave>>findLeaveByUser(User user);
+
+    Optional<List<Leave>> findLeaveByUser(User user);
+
+    Optional<List<Leave>> findLeaveByReplacementUser(User replecamentUser);
 }

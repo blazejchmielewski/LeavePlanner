@@ -27,7 +27,9 @@ export interface LeaveDataDetailsExtended {
     replacementUser: string;
     status: string,
     creationDate: Date,
-    lastUpdateDate: Date
+    lastUpdateDate: Date,
+    settledByReplacerDate: Date,
+    settledByAcceptorDate: Date
 }
 
 export enum LeaveType {
@@ -41,9 +43,11 @@ export enum LeaveType {
 
 export enum LeaveStatus {
     PENDING = 'PENDING',
-    APPROVED = 'APPROVED',
+    APPROVED_BY_REPLACER = 'APPROVED_BY_REPLACER',
+    APPROVED_BY_ACCEPTOR = 'APPROVED_BY_ACCEPTOR',
+    REJECTED_BY_REPLACER = 'REJECTED_BY_REPLACER',
+    REJECTED_BY_ACCEPTOR = 'REJECTED_BY_ACCEPTOR',
     IN_PROGRESS = 'IN_PROGRESS',
-    REJECTED = 'REJECTED',
     CANCELLED = 'CANCELLED'
 }
 

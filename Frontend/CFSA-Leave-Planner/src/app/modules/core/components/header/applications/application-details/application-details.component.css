@@ -47,3 +47,6 @@
     background-color: lightgray;
   }
   
+  .rejected .circle{
+    background-color: red;
+  }

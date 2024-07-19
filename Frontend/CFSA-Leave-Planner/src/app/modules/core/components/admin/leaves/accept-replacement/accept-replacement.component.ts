@@ -1,23 +1,25 @@
-import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
-import { LeaveDataDetailsExtended, LeaveStatus, LeaveType } from '../../../models/leave.model';
-import { LeaveService } from '../../../services/leave.service';
-import { Router } from '@angular/router';
+import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSort } from '@angular/material/sort';
-import { AcceptLeaveComponent } from './accept-leave/accept-leave.component';
-import { RejectLeaveComponent } from './reject-leave/reject-leave.component';
+import { MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
+import { LeaveDataDetails, LeaveDataDetailsExtended } from 'src/app/modules/core/models/leave.model';
+import { LeaveService } from 'src/app/modules/core/services/leave.service';
+import { AcceptLeaveComponent } from '../accept-leave/accept-leave.component';
+import { AcceptReplacementDetailsComponent } from './accept-replacement-details/accept-replacement-details.component';
+import { RejectReplacementDetailsComponent } from './reject-replacement-details/reject-replacement-details.component';
 
 @Component({
-  selector: 'app-leaves',
-  templateUrl: './leaves.component.html',
-  styleUrls: ['./leaves.component.css']
+  selector: 'app-accept-replacement',
+  templateUrl: './accept-replacement.component.html',
+  styleUrls: ['./accept-replacement.component.css']
 })
-export class LeavesComponent implements AfterViewInit, OnInit {
+export class AcceptReplacementComponent {
 
-  displayedColumns: string[] = ['lp', 'creator', 'replacing', 'type', 'status', 'from', 'to', 'actions'];
+  replacements: LeaveDataDetails[] = [];
+  displayedColumns: string[] = ['lp', 'replacing', 'creator', 'type', 'status', 'from', 'to', 'actions'];
   leaveToShow: LeaveDataDetailsExtended | null = null;
   leaves: LeaveDataDetailsExtended[] = [];
   dataSource!: MatTableDataSource<LeaveDataDetailsExtended>;
@@ -61,9 +63,9 @@ export class LeavesComponent implements AfterViewInit, OnInit {
   }
 
   refreshData(): void {
-    this.leaveService.getAll().subscribe({
+    this.leaveService.getAllReplacements().subscribe({
       next: (leaves) => {
-        this.leaves = leaves.filter(l=>l.status !== LeaveStatus.REJECTED_BY_REPLACER).slice();
+        this.leaves = leaves.slice();
         this.dataSource = new MatTableDataSource<LeaveDataDetailsExtended>(this.leaves);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
@@ -91,6 +93,18 @@ export class LeavesComponent implements AfterViewInit, OnInit {
     });
   }
 
+  getAllReplacements(){
+    this.leaveService.getAllReplacements().subscribe({
+      next: (resp)=>{
+        if(resp){
+          this.replacements = resp;
+        }
+      }, error: (err) => {
+        console.log(err);
+      }
+    })
+  }
+
   refresh() {
     this.leaveService.getAllUserLeaves().subscribe((res) => {
       this.changeDetectorRefs.detectChanges();
@@ -98,8 +112,8 @@ export class LeavesComponent implements AfterViewInit, OnInit {
   }
 
   openAcceptDialog(leave: LeaveDataDetailsExtended) {
-    const dialogRef = this.dialog.open(AcceptLeaveComponent, {
-      width: '500px',
+    const dialogRef = this.dialog.open(AcceptReplacementDetailsComponent, {
+      width: '1000px',
       data: leave
     });
 
@@ -111,7 +125,7 @@ export class LeavesComponent implements AfterViewInit, OnInit {
   }
 
   openRejectDialog(leave: LeaveDataDetailsExtended) {
-    const dialogRef = this.dialog.open(RejectLeaveComponent, {
+    const dialogRef = this.dialog.open(RejectReplacementDetailsComponent, {
       width: '500px',
       data: leave
     });
@@ -137,3 +151,4 @@ export class LeavesComponent implements AfterViewInit, OnInit {
     return new Date();
   }
 }
+

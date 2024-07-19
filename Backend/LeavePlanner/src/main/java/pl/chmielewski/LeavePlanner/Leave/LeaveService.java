@@ -10,11 +10,14 @@ import pl.chmielewski.LeavePlanner.Leave.api.exception.LeaveNotFoundByIdExceptio
 import pl.chmielewski.LeavePlanner.Leave.api.exception.LeaveNotFoundByUuidException;
 import pl.chmielewski.LeavePlanner.Leave.api.request.CreateLeaveDTO;
 import pl.chmielewski.LeavePlanner.Leave.api.request.UpdateLeaveDTO;
-import pl.chmielewski.LeavePlanner.Leave.api.response.*;
+import pl.chmielewski.LeavePlanner.Leave.api.response.LeaveDataExtendResponse;
+import pl.chmielewski.LeavePlanner.Leave.api.response.LeaveDataResponse;
+import pl.chmielewski.LeavePlanner.Leave.api.response.UsersToSwitchResponse;
 import pl.chmielewski.LeavePlanner.Leave.leave.Status;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -34,7 +37,7 @@ public class LeaveService {
         return leaveRepository.findLeaveById(id).orElseThrow(() -> new LeaveNotFoundByIdException(id));
     }
 
-    private Leave getLeaveByUuid(String uuid){
+    private Leave getLeaveByUuid(String uuid) {
         return leaveRepository.findLeaveByUuid(uuid).orElseThrow(() -> new LeaveNotFoundByUuidException(uuid));
     }
 
@@ -44,7 +47,7 @@ public class LeaveService {
                 leave.getUuid(), leave.getStartDate(), leave.getEndDate(), leave.getType().name(),
                 leave.getUser().getFirstname() + " " + leave.getUser().getLastname(),
                 leave.getReplacementUser().getFirstname() + " " + leave.getReplacementUser().getLastname(),
-                leave.getStatus().name(),leave.getCreatedAt(), leave.getUpdatedAt()
+                leave.getStatus().name(), leave.getCreatedAt(), leave.getUpdatedAt(), leave.getSettledByReplacerAt(), leave.getSettledByAcceptorsAt()
         );
     }
 
@@ -54,7 +57,7 @@ public class LeaveService {
                 leave.getUuid(), leave.getStartDate(), leave.getEndDate(), leave.getType().name(),
                 leave.getUser().getFirstname() + " " + leave.getUser().getLastname(),
                 leave.getReplacementUser().getFirstname() + " " + leave.getReplacementUser().getLastname(),
-                leave.getStatus().name(),leave.getCreatedAt(), leave.getUpdatedAt()
+                leave.getStatus().name(), leave.getCreatedAt(), leave.getUpdatedAt(), leave.getSettledByReplacerAt(), leave.getSettledByAcceptorsAt()
         )).collect(Collectors.toList());
     }
 
@@ -72,13 +75,14 @@ public class LeaveService {
                 Status.PENDING,
                 LocalDateTime.now(),
                 LocalDateTime.now(),
+                null,
+                null,
                 userTakingLeave,
                 replacingUser,
                 UUID.randomUUID().toString()
         );
         leaveRepository.save(leave);
     }
-
 
 
     public void updateLeave(Long id, UpdateLeaveDTO dto) {
@@ -122,21 +126,50 @@ public class LeaveService {
                 .collect(Collectors.toList());
     }
 
-    public void rejectLeave(String uuid) {
-        Leave leave = getLeaveByUuid(uuid);
-
-        if (!leave.getStatus().equals(Status.REJECTED.name())) {
-            leave.setStatus(Status.REJECTED);
-            leaveRepository.save(leave);
-        }
+    public List<LeaveDataExtendResponse> getAllReplacements(HttpServletRequest http) {
+        User userByToken = userService.getUserByToken(http);
+        return leaveRepository.findLeaveByReplacementUser(userByToken)
+                .orElseGet(List::of)
+                .stream()
+                .map(leave -> new LeaveDataExtendResponse(
+                leave.getUuid(), leave.getStartDate(), leave.getEndDate(), leave.getType().name(),
+                leave.getUser().getFirstname() + " " + leave.getUser().getLastname(),
+                leave.getReplacementUser().getFirstname() + " " + leave.getReplacementUser().getLastname(),
+                leave.getStatus().name(), leave.getCreatedAt(), leave.getUpdatedAt(), leave.getSettledByReplacerAt(), leave.getSettledByAcceptorsAt()
+        )).collect(Collectors.toList());
     }
 
-
-    public void acceptLeave(String uuid){
+    public void acceptReplacement(String uuid) {
         Leave leave = getLeaveByUuid(uuid);
-        if (!leave.getStatus().equals(Status.APPROVED.name())) {
-            leave.setStatus(Status.APPROVED);
-            leaveRepository.save(leave);
-        }
+        leave.setStatus(Status.APPROVED_BY_REPLACER);
+        leave.setSettledByReplacerAt(LocalDateTime.now());
+        leave.setUpdatedAt(LocalDateTime.now());
+        leaveRepository.save(leave);
+    }
+
+    public void rejectReplacement(String uuid) {
+        Leave leave = getLeaveByUuid(uuid);
+        leave.setStatus(Status.REJECTED_BY_REPLACER);
+        leave.setSettledByReplacerAt(LocalDateTime.now());
+        leave.setUpdatedAt(LocalDateTime.now());
+        leaveRepository.save(leave);
+
+    }
+
+    public void rejectLeave(String uuid) {
+        Leave leave = getLeaveByUuid(uuid);
+        leave.setStatus(Status.REJECTED_BY_ACCEPTOR);
+        leave.setSettledByAcceptorsAt(LocalDateTime.now());
+        leave.setUpdatedAt(LocalDateTime.now());
+        leaveRepository.save(leave);
+
+    }
+
+    public void acceptLeave(String uuid) {
+        Leave leave = getLeaveByUuid(uuid);
+        leave.setStatus(Status.APPROVED_BY_ACCEPTOR);
+        leave.setSettledByAcceptorsAt(LocalDateTime.now());
+        leave.setUpdatedAt(LocalDateTime.now());
+        leaveRepository.save(leave);
     }
 }

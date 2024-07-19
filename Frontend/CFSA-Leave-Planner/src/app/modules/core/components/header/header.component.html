@@ -7,20 +7,33 @@
     </div>
     <nav>
       <ul>
-        <li class="has-submenu">
-          <a routerLink="user-details" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Konto</a>
-          <ul>
-            <li><a routerLink="user-details" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Szczegóły</a></li>
-          </ul>
-        </li>
-        <li><a routerLink="/application" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Wnioski</a></li>
+        <li>
+          <a routerLink="/application" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Wnioski</a></li>
         <li><a routerLink="/calendar" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Kalendarz</a></li>
         <ng-container *ngIf='user$ | async as user; else notUser'>
+          <li class="has-submenu">
+            <a routerLink="user-details" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+              <div *ngIf="count != 0; else konto" [matBadge]="count" matBadgeOverlap="false" class="demo-section">Konto</div>
+            </a>
+            <ul>
+              <li>
+                <a routerLink="user-details" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                  Szczegóły
+                </a>
+              </li>
+              <li>
+                <a routerLink="accept-replecament" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                  <div *ngIf="count != 0; else akceptacje" [matBadge]="count" matBadgeOverlap="false" class="demo-section">Akceptacje</div>
+                </a>
+              </li>
+            </ul>  
+          </li>
           <li *ngIf='isAdmin(user.role)'><a routerLink='admin'>Administracja</a></li>
           <div class="logout">
             <li><button  (click)='logout()'>Wyloguj się</button></li>
           </div>
         </ng-container>
+        
         <ng-template #notUser>
           <li class="nav-item">
             <a class="nav-link" routerLink="logowanie" routerLinkActive="active">Logowanie</a>
@@ -29,3 +42,11 @@
       </ul>
     </nav>
   </header>
+
+  <ng-template #konto>
+    <span>Konto</span>
+  </ng-template>
+  <ng-template #akceptacje>
+    <span>Akceptacje</span>
+  </ng-template>
+  

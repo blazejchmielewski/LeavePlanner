@@ -24,6 +24,9 @@ import { LeavesComponent } from './components/admin/leaves/leaves.component';
 import { AcceptLeaveComponent } from './components/admin/leaves/accept-leave/accept-leave.component';
 import { RejectLeaveComponent } from './components/admin/leaves/reject-leave/reject-leave.component';
 import { UserDetailsComponent } from './components/user/user-details/user-details.component';
+import { AcceptReplacementComponent } from './components/admin/leaves/accept-replacement/accept-replacement.component';
+import { AcceptReplacementDetailsComponent } from './components/admin/leaves/accept-replacement/accept-replacement-details/accept-replacement-details.component';
+import { RejectReplacementDetailsComponent } from './components/admin/leaves/accept-replacement/reject-replacement-details/reject-replacement-details.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +45,10 @@ import { UserDetailsComponent } from './components/user/user-details/user-detail
     LeavesComponent,
     AcceptLeaveComponent,
     RejectLeaveComponent,
-    UserDetailsComponent
+    UserDetailsComponent,
+    AcceptReplacementComponent,
+    AcceptReplacementDetailsComponent,
+    RejectReplacementDetailsComponent,
   ],
   imports: [
     HttpClientModule,

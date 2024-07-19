@@ -17,6 +17,7 @@ import { AddApplicationFormComponent } from './modules/core/components/header/ap
 import { ApplicationDetailsComponent } from './modules/core/components/header/applications/application-details/application-details.component';
 import { LeavesComponent } from './modules/core/components/admin/leaves/leaves.component';
 import { UserDetailsComponent } from './modules/core/components/user/user-details/user-details.component';
+import { AcceptReplacementComponent } from './modules/core/components/admin/leaves/accept-replacement/accept-replacement.component';
 
 const routes: Routes = [
   { path: '', component: CalendarComponent},
@@ -35,6 +36,7 @@ const routes: Routes = [
   { path: 'application-details/:uuid', component: ApplicationDetailsComponent},
   { path: 'leaves', component: LeavesComponent},
   { path: 'user-details', component: UserDetailsComponent},
+  { path: 'accept-replecament', component: AcceptReplacementComponent},
 ];
 
 @NgModule({

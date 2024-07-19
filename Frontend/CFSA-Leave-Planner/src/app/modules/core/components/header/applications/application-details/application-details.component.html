@@ -2,19 +2,19 @@
   <div class="stage" [ngClass]="getStageClass(1)">
     <div class="circle"></div>
     <div class="label fw-bold">Złóżenie wniosku</div>
-    <div *ngIf="leaveToShow">{{ leaveToShow.creationDate | date: 'dd-MM-yyyy hh:MM'}} </div>
+    <div *ngIf="leaveToShow">{{ leaveToShow.creationDate | date: 'dd-MM-yyyy hh:mm'}} </div>
   </div>
   <div class="line"></div>
   <div class="stage" [ngClass]="getStageClass(2)">
     <div class="circle"></div>
     <div class="label fw-bold">Potwierdzenie zastępstwa</div>
-    <div *ngIf="leaveToShow !== null && (leaveToShow.status == 'IN_PROGRESS' || leaveToShow.status == 'APPROVED')">{{ leaveToShow.creationDate | date: 'dd-MM-yyyy hh:MM' }}</div>
+    <div *ngIf="leaveToShow !== null">{{ leaveToShow.settledByReplacerDate | date: 'dd-MM-yyyy hh:mm' }}</div>
   </div>
   <div class="line"></div>
   <div class="stage" [ngClass]="getStageClass(3)">
     <div class="circle"></div>
     <div class="label fw-bold">Akceptacja przełożonego</div>
-    <div *ngIf="leaveToShow !== null && leaveToShow.status == 'APPROVED'">{{ leaveToShow.lastUpdateDate | date: 'dd-MM-yyyy hh:MM' }}</div>
+    <div *ngIf="leaveToShow !== null">{{ leaveToShow.settledByAcceptorDate | date: 'dd-MM-yyyy hh:mm' }}</div>
   </div>
 </div>
 <div class="container">
@@ -25,8 +25,8 @@
     <p><strong>Do:</strong> {{ leaveToShow.endDate | date: 'dd.MM.yyyy'}}</p>
     <p><strong>Typ:</strong> {{ translatorType(leaveToShow.type)}}</p>
     <p><strong>Status:</strong> {{ translatorStatus(leaveToShow.status) }}</p>
-    <p><strong>Zgłoszono:</strong> {{ leaveToShow.creationDate | date: 'dd-MM-yyyy hh:MM'}}</p>
-    <p><strong>Ostatnia zmiana:</strong> {{ leaveToShow.lastUpdateDate | date : 'dd-MM-yyyy hh:MM'}}</p>
+    <p><strong>Zgłoszono:</strong> {{ leaveToShow.creationDate | date: 'dd-MM-yyyy hh:mm'}}</p>
+    <p><strong>Ostatnia zmiana:</strong> {{ leaveToShow.lastUpdateDate | date : 'dd-MM-yyyy hh:mm'}}</p>
   </div>
 </div>
 

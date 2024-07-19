@@ -11,6 +11,8 @@ public record LeaveDataExtendResponse(
         String replacementUser,
         String status,
         LocalDateTime creationDate,
-        LocalDateTime lastUpdateDate
+        LocalDateTime lastUpdateDate,
+        LocalDateTime settledByReplacerDate,
+        LocalDateTime settledByAcceptorDate
 ) {
 }
