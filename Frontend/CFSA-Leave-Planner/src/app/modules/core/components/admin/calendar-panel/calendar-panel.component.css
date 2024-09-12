@@ -1,0 +1,63 @@
+.container {
+    width: 1000px;
+    margin: 20px auto;
+}
+
+.add-button-container {
+    width: 1000px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.manage-years-container {
+    margin-top: 30px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.add-year-button {
+    width: 50%;
+    height: 50px;
+    font-size: 20px;
+    border: none;
+    border-radius: 15px;
+    color: white;
+    background-color: #0C723B;
+    transition: all .3s ease-in-out;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.year-element-container{
+    border-radius: 10px;
+    padding: 30px 20px;
+    display: flex;
+    align-items: baseline;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.year-element-container p {
+    font-size: 1.5rem;
+    margin-right: 15px;
+}
+
+.btn {
+    width: 160px;
+    color: white;
+    transition: all .3s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+
+.edit:hover{
+    background-color: #6FCC67;
+}
+
+.edit {
+    background-color: #5FBB46;
+}
+

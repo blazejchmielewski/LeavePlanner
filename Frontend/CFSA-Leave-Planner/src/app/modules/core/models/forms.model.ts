@@ -37,3 +37,7 @@ export interface LeaveRequest{
     userUuid: FormControl<string>
 }
 
+export interface DayoffRequest {
+    holyName: FormControl<string>;
+    dayOff: FormControl<Date>;
+}

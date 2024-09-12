@@ -99,6 +99,8 @@ export class LeaveService {
     });
   }
 
+  
+
   translateStatus(status: string): string {
     switch (status) {
       case 'PENDING': return 'OCZEKUJĄCY';

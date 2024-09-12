@@ -18,9 +18,11 @@ import { ApplicationDetailsComponent } from './modules/core/components/header/ap
 import { LeavesComponent } from './modules/core/components/admin/leaves/leaves.component';
 import { UserDetailsComponent } from './modules/core/components/user/user-details/user-details.component';
 import { AcceptReplacementComponent } from './modules/core/components/admin/leaves/accept-replacement/accept-replacement.component';
+import { CalendarPanelComponent } from './modules/core/components/admin/calendar-panel/calendar-panel.component';
+import { YearComponent } from './modules/core/components/admin/calendar-panel/year/year.component';
 
 const routes: Routes = [
-  { path: '', component: CalendarComponent},
+  { path: '', component: AdminComponent},
   { path: 'home', component: HomeComponent},
   { path: 'admin', component: AdminComponent, canActivate: [AuthGuard]},
   { path: 'logowanie', component: LoginComponent, canActivate: [UnauthGuard] },
@@ -37,6 +39,8 @@ const routes: Routes = [
   { path: 'leaves', component: LeavesComponent},
   { path: 'user-details', component: UserDetailsComponent},
   { path: 'accept-replecament', component: AcceptReplacementComponent},
+  { path: 'calendar-panel', component: CalendarPanelComponent},
+  { path: 'year/:id', component: YearComponent},
 ];
 
 @NgModule({

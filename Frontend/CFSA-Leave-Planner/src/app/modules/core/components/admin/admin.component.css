@@ -51,6 +51,13 @@
     border-radius: 50%; 
 }
 
+.circle-container.calendar-icon img {
+    width: 130px;
+    height: 130px;
+    margin-top: 38px;
+    object-fit: cover;  
+}
+
 .circle-container.edit-icon img {
     width: 140px;
     height: 140px;

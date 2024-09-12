@@ -17,4 +17,8 @@ export class AdminComponent {
   navigateToLeaves(){
     this.router.navigate(['/leaves'])
   };
+
+  navigateToCalendarPanel(){
+    this.router.navigate(['/calendar-panel'])
+  };
 }

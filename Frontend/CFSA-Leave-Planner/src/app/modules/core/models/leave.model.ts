@@ -56,3 +56,9 @@ export interface UsersToSwitch {
     firstname: string;
     lastname: string;
 }
+
+export interface Dayoff {
+    holyName: String;
+    dayOff: Date;
+}
+

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { EditUserRequest, LeaveRequest, LoginRequest, PasswordRecoveryRequest, RegisterRequest, ToGetPasswordRecoveryRequest } from '../models/forms.model';
+import { DayoffRequest, EditUserRequest, LeaveRequest, LoginRequest, PasswordRecoveryRequest, RegisterRequest, ToGetPasswordRecoveryRequest } from '../models/forms.model';
 import { equivalentValidator } from '../../shared/validators/equivalent.validator';
 
 @Injectable({
@@ -151,6 +151,21 @@ initToGetPasswordRecoveryForm(): FormGroup<ToGetPasswordRecoveryRequest>{
         nonNullable: true,
       }),
     });
+  }
+
+  initDayoffForm():FormGroup<DayoffRequest>{
+    return new FormGroup({
+      holyName: new FormControl('', {
+        validators: 
+        [Validators.required],
+        nonNullable: true,
+      }),
+      dayOff: new FormControl(new Date, {
+        validators: 
+        [Validators.required],
+        nonNullable: true,
+      }), 
+    })
   }
 
   getErrorMessage(control: FormControl): string{

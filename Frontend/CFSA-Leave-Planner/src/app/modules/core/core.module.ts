@@ -27,6 +27,8 @@ import { UserDetailsComponent } from './components/user/user-details/user-detail
 import { AcceptReplacementComponent } from './components/admin/leaves/accept-replacement/accept-replacement.component';
 import { AcceptReplacementDetailsComponent } from './components/admin/leaves/accept-replacement/accept-replacement-details/accept-replacement-details.component';
 import { RejectReplacementDetailsComponent } from './components/admin/leaves/accept-replacement/reject-replacement-details/reject-replacement-details.component';
+import { CalendarPanelComponent } from './components/admin/calendar-panel/calendar-panel.component';
+import { YearComponent } from './components/admin/calendar-panel/year/year.component';
 
 @NgModule({
   declarations: [
@@ -49,6 +51,8 @@ import { RejectReplacementDetailsComponent } from './components/admin/leaves/acc
     AcceptReplacementComponent,
     AcceptReplacementDetailsComponent,
     RejectReplacementDetailsComponent,
+    CalendarPanelComponent,
+    YearComponent,
   ],
   imports: [
     HttpClientModule,
