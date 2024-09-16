@@ -62,3 +62,18 @@ export interface Dayoff {
     dayOff: Date;
 }
 
+export interface Year {
+    id: number,
+    year: number,
+    holyCount: number
+}
+
+export interface YearRequest{
+    year: number
+}
+
+export interface DayoffDetails{
+    id: number;
+    holyName: String;
+    dayOff: Date;
+}

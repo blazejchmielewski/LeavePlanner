@@ -9,5 +9,6 @@ import java.util.Optional;
 @Repository
 public interface DayOffRepository extends JpaRepository<DayOff, Long> {
 
+
     Optional<DayOff> findByDayOff(LocalDate dayOff);
 }

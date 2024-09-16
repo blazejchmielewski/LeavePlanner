@@ -1,15 +1,20 @@
 <div class="container">
-    <div class="add-button-container">
-        <button class="add-year-button">Dodaj rok</button>
+  <div class="add-button-container">
+    <input type="number" class="year-input" [(ngModel)]="newYear" />
+    <button class="add-year-button" (click)="addNewYear(newYear)">Dodaj rok</button>
+  </div>
+
+  <div *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
+  </div>
+
+  <div class="manage-years-container">
+    <div class="year-element-container" *ngFor="let yearData of years">
+      <p>{{ yearData.year }}</p>
+      <p>|</p>
+      <p>Łącznie świąt: {{ yearData.holyCount }} </p>
+      <p>|</p>
+      <button class="btn edit" (click)="navigateToYear(yearData.year)">Edytuj</button>
     </div>
-    <div class="manage-years-container">
-        <div class="year-element-container">
-            <p>2024</p>
-            <p>|</p>
-            <p>Łącznie świąt: 5 </p>
-            <p>|</p>
-            <p>Łącznie dni: 14</p>
-            <button class="btn edit" (click)="navigateToYear(2024)">Edytuj</button>
-        </div>
-    </div>
+  </div>
 </div>

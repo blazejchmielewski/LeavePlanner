@@ -4,50 +4,55 @@
   </div>
   <div class="bottom-container">
     <div class="form-container">
-      <h2 class="text-center white-text">Dodaj świeto</h2>
+      <h2 class="text-center white-text">Dodaj święto</h2>
       <form [formGroup]="initDayoffForm" (ngSubmit)="onAddNewDayoff()">
-      <div>
-        <mat-form-field class="input-width">
-          <mat-label>Nazwa święta</mat-label>
-          <input type="text" matInput [formControl]="controls.holyName"/>
-          <mat-error *ngIf="controls.holyName.invalid && controls.holyName.touched">
-            Nazwa święta jest wymagana
-          </mat-error>
-        </mat-form-field>
+        <div>
+          <mat-form-field class="input-width">
+            <mat-label>Nazwa święta</mat-label>
+            <input type="text" matInput [formControl]="controls.holyName" />
+            <mat-error *ngIf="controls.holyName.invalid && controls.holyName.touched">
+              Nazwa święta jest wymagana
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field class="input-width">
+            <mat-label>Dzień</mat-label>
+            <input matInput [matDatepicker]="picker" [formControl]="controls.dayOff" 
+                   [min]="minDate" [max]="maxDate" />
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+            <mat-error *ngIf="controls.dayOff.invalid && controls.dayOff.touched">
+              Wprowadź poprawną datę
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="d-flex justify-content-center">
+          <button class="btn add" [disabled]="initDayoffForm.invalid">Dodaj święto</button>
+        </div>
+      </form>
+      <div class="d-flex justify-content-center navigate-container">
+        <button class="btn navigate" type="button" (click)="navigateToCalendarPanel()">Wróć do panelu</button>
       </div>
-      <div>
-        <mat-form-field class="input-width">
-          <mat-label >Dzień</mat-label>
-          <input matInput [matDatepicker]="picker" [formControl]="controls.dayOff" />
-          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-datepicker #picker></mat-datepicker>
-          <mat-error *ngIf="controls.dayOff.invalid && controls.dayOff.touched">
-            Wprowadź poprawną datę
-          </mat-error>
-        </mat-form-field>
-      </div>
-      <div class="d-flex justify-content-center">
-        <button class="btn add" [disabled]="initDayoffForm.invalid">Dodaj święto</button>
-      </div>
-    </form>
-    <div class="d-flex justify-content-center navigate-container">
-      <button class="btn navigate" type="button" (click)="navigateToCalendarPanel()">Wróć do panelu</button>
-    </div>
     </div>
     <div class="days-container">
       <p *ngIf="currentDayOffs.length === 0">Brak dni wolnych na ten rok.</p>
-      <h2 class="text-center">Stałe święta</h2>
+      <h2 class="text-center">Święta</h2>
       <table *ngIf="currentDayOffs.length > 0">
         <thead>
           <tr>
             <th>Święto</th>
             <th>Data</th>
+            <th>Akcja</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let dayOff of currentDayOffs">
             <td>{{ dayOff.holyName }}</td>
             <td>{{ dayOff.dayOff | date: 'dd.MM.yyyy' }}</td>
+            <td>
+              <button class="btn delete" (click)="onDeleteDayOff(dayOff.dayOff)">Usuń</button>
+            </td>
           </tr>
         </tbody>
       </table>
