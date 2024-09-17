@@ -169,4 +169,10 @@ public class UserService {
                 .map(Enum::name)
                 .collect(Collectors.toList());
     }
+
+    public void addAvailableDats(Long id){
+        User userById = getUserById(id);
+        userById.setAvailableDays(userById.getAvailableDays()+20);
+        userRepository.save(userById);
+    }
 }

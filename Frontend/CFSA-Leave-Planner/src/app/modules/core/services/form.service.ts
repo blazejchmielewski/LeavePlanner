@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { DayoffRequest, EditUserRequest, LeaveRequest, LoginRequest, PasswordRecoveryRequest, RegisterRequest, ToGetPasswordRecoveryRequest } from '../models/forms.model';
 import { equivalentValidator } from '../../shared/validators/equivalent.validator';
 
@@ -47,7 +47,8 @@ export class FormService {
       email: new FormControl('', {
         validators: [
           Validators.required, 
-          Validators.email],
+          Validators.email,
+          emailDomainValidator('cfsa.pl')],
         nonNullable: true,
       }),
       password: new FormControl('', {
@@ -191,9 +192,25 @@ initToGetPasswordRecoveryForm(): FormGroup<ToGetPasswordRecoveryRequest>{
     if(control.hasError('email') && control.touched){
       return 'Nie poprawny email';
     }
+    if (control.hasError('domainInvalid') && control.touched) {
+      return 'Email musi kończyć się na @cfsa.pl.';
+    }
     if(control.hasError('passwordNotEqual') && control.touched){
       return 'Hasła muszą być takie same';
     }
     return '';
-  }
+  } 
+}
+
+export function emailDomainValidator(domain: string): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    if (!control.value) {
+      return null; // Nie waliduj, jeśli pole jest puste
+    }
+    
+    const email = control.value as string;
+    const domainPattern = new RegExp(`@${domain}$`);
+    
+    return domainPattern.test(email) ? null : { domainInvalid: true };
+  };
 }

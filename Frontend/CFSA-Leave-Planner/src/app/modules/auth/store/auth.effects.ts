@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { Actions, createEffect, ofType } from '@ngrx/effects'
 import { AuthService } from "../../core/services/auth.service";
 import * as AuthActions from './auth.actions' 
-import { EMPTY, catchError, map, of, switchMap } from "rxjs";
+import { catchError, map, of, switchMap } from "rxjs";
 import { Router } from "@angular/router";
 import { NotifierService } from "angular-notifier";
 

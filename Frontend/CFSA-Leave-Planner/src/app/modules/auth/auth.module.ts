@@ -21,7 +21,8 @@ import { PasswordRecoveryFormComponent } from './components/password-recovery-fo
     AuthRoutingModule,
     SharedModule,
     RouterLink,
-    RouterLinkActive
+    RouterLinkActive,
+    
   ]
 })
 export class AuthModule { }

@@ -74,6 +74,7 @@ public class AuthService {
                 }
             }
         } else {
+
             throw new TokenNotFoundByCookieException();
         }
         User userByToken = tokenService.getUserByToken(token);
