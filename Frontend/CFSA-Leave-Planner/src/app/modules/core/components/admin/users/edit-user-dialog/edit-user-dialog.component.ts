@@ -5,7 +5,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { User } from 'src/app/modules/core/models/auth.model';
 import { EditUserRequest } from 'src/app/modules/core/models/forms.model';
 import { UserAllData } from 'src/app/modules/core/models/user.model';
-import { AuthService } from 'src/app/modules/core/services/auth.service';
 import { FormService } from 'src/app/modules/core/services/form.service';
 import { UserService } from 'src/app/modules/core/services/user.service';
 
@@ -21,7 +20,6 @@ export class EditUserDialogComponent implements OnInit {
 
   constructor(
     private formService: FormService, 
-    private authService: AuthService,
     private userService: UserService,
     private _snackBar: MatSnackBar,
     public dialogRef: MatDialogRef<EditUserDialogComponent>,
@@ -38,6 +36,8 @@ export class EditUserDialogComponent implements OnInit {
         firstname: this.currentUser.firstname,
         lastname: this.currentUser.lastname,
         email: this.currentUser.email,
+        availableDays: this.currentUser.availableDays,
+        yearsOfWork: this.currentUser.yearsOfWork,
         department: this.currentUser.department
       });
     }

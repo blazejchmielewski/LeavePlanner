@@ -6,6 +6,7 @@ public record UserDataResponse(
         String firstname,
         String lastname,
         String email,
+        Integer yearsOfWork,
         Integer availableDays,
         String department,
         String role

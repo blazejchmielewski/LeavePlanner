@@ -17,7 +17,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class UsersComponent implements AfterViewInit {
 
-  displayedColumns: string[] = ['lp', 'firstname', 'lastname', 'email', 'department' , 'actions'];
+  displayedColumns: string[] = ['lp', 'firstname', 'lastname', 'email', 'department', 'days', 'years' , 'actions'];
   
   currentUser!: UserAllData; 
   users: UserAllData[] = [];
@@ -61,7 +61,6 @@ export class UsersComponent implements AfterViewInit {
   }
 
   openEditUserDialog(user: UserAllData) {
-    console.log("robie")
     this.userService.setCurrentUser(user);
     const dialogRef = this.dialog.open(EditUserDialogComponent, {
       width: '700px',
@@ -79,8 +78,6 @@ export class UsersComponent implements AfterViewInit {
       this.changeDetectorRefs.detectChanges();
     });
   }
-
-  
 
   confirmDeactivateUser(user: UserAllData): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {

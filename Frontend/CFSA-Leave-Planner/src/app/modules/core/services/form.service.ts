@@ -89,6 +89,16 @@ export class FormService {
           Validators.required, 
           Validators.email],
         nonNullable: true,
+      }),
+      yearsOfWork: new FormControl(0, {
+        validators: [
+          Validators.required],
+        nonNullable: true,
+      }), 
+      availableDays: new FormControl(0, {
+        validators: [
+          Validators.required],
+        nonNullable: true,
       }), 
       department: new FormControl('', {
         validators:[

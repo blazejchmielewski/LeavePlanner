@@ -35,6 +35,16 @@
         <td mat-cell *matCellDef="let row"> {{row.email}} </td>
       </ng-container>
 
+      <ng-container matColumnDef="days">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Dni wolne </th>
+        <td mat-cell *matCellDef="let row"> {{row.availableDays}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="years">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Lata pracy </th>
+        <td mat-cell *matCellDef="let row"> {{row.yearsOfWork}} </td>
+      </ng-container>
+
       <ng-container matColumnDef="department">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Dział </th>
         <td mat-cell *matCellDef="let row"> {{row.department}} </td>

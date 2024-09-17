@@ -4,6 +4,8 @@ export interface UserAllData {
     firstname: string;
     lastname: string;
     email: string;
+    yearsOfWork: number;
+    availableDays: number;
     department: string;
     role: string;
 }

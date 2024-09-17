@@ -17,6 +17,16 @@
           <mat-label>E-mail</mat-label>
           <input matInput formControlName="email" [value]="currentUser?.email">
           <mat-error *ngIf="controls.email.invalid">{{ getErrorMessage(controls.email) }}</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="form-input">
+          <mat-label>Dni wolne</mat-label>
+          <input matInput formControlName="availableDays" [value]="currentUser?.availableDays">
+          <mat-error *ngIf="controls.availableDays.invalid">{{ getErrorMessage(controls.availableDays) }}</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="form-input">
+          <mat-label>Lata pracy</mat-label>
+          <input matInput formControlName="yearsOfWork" [value]="currentUser?.yearsOfWork">
+          <mat-error *ngIf="controls.yearsOfWork.invalid">{{ getErrorMessage(controls.yearsOfWork) }}</mat-error>
         </mat-form-field>          
         <h3>Wybierz dział:</h3>
         <mat-radio-group aria-label="Select an option" formControlName="department">

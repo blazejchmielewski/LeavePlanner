@@ -17,6 +17,8 @@ export interface RegisterRequest{
 export interface EditUserRequest{
     firstname: FormControl<string>;
     lastname: FormControl<string>;
+    availableDays: FormControl<number>;
+    yearsOfWork: FormControl<number>;
     email: FormControl<string>
     department: FormControl<string>
 }

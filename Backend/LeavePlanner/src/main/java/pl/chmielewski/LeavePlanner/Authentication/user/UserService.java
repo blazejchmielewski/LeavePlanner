@@ -53,6 +53,7 @@ public class UserService {
                     u.getFirstname(),
                     u.getLastname(),
                     u.getEmail(),
+                    u.getYearsOfWork(),
                     u.getAvailableDays(),
                     u.getDepartment().name(),
                     u.getRole().name()
@@ -135,6 +136,7 @@ public class UserService {
         userById.setEmail(updateUserDTO.email());
         userById.setFirstname(updateUserDTO.firstname());
         userById.setLastname(updateUserDTO.lastname());
+        userById.setYearsOfWork(updateUserDTO.yearsOfWork());
         userById.setAvailableDays(updateUserDTO.availableDays());
         userById.setDepartment(Department.valueOf(updateUserDTO.department()));
         userById.setUpdatedAt(LocalDateTime.now());

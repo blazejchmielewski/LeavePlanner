@@ -45,6 +45,9 @@ public class User implements UserDetails {
     @Column(name = "us_available_days")
     private int availableDays;
 
+    @Column(name = "us_years_of_work")
+    private int yearsOfWork;
+
     @Column(name = "us_department")
     private Department department;
 
@@ -69,6 +72,7 @@ public class User implements UserDetails {
         this.email = email;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+        this.yearsOfWork = 0;
         this.availableDays = 0;
         this.deactivatedAt = deactivatedAt;
     }
@@ -180,6 +184,14 @@ public class User implements UserDetails {
         this.availableDays = availableDays;
     }
 
+    public int getYearsOfWork() {
+        return yearsOfWork;
+    }
+
+    public void setYearsOfWork(int yearsOfWork) {
+        this.yearsOfWork = yearsOfWork;
+    }
+
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }
@@ -214,6 +226,8 @@ public class User implements UserDetails {
                 ", password='" + password + '\'' +
                 ", uuid='" + uuid + '\'' +
                 ", role=" + role +
+                ", availableDays=" + availableDays +
+                ", yearsOfWork=" + yearsOfWork +
                 ", department=" + department +
                 ", isEnabled=" + isEnabled +
                 ", createdAt=" + createdAt +
