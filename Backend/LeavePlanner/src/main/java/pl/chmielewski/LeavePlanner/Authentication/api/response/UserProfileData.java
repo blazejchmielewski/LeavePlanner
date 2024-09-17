@@ -7,6 +7,8 @@ public record UserProfileData(
         String email,
         String role,
         String department,
+        Integer yearsOfWork,
+        Integer availableDays,
         boolean status,
         LocalDateTime createdAt,
         LocalDateTime deactivatedAt

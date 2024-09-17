@@ -69,6 +69,8 @@ public class UserService {
                 userByToken.getEmail(),
                 userByToken.getRole().name(),
                 userByToken.getDepartment().name(),
+                userByToken.getYearsOfWork(),
+                userByToken.getAvailableDays(),
                 userByToken.isEnabled(),
                 userByToken.getCreatedAt(),
                 userByToken.getDeactivatedAt()

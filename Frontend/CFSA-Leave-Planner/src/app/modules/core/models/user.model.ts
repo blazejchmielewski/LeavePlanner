@@ -15,6 +15,8 @@ export interface UserDetails{
     email: string,
     role: string,
     department: string,
+    yearsOfWork: number;
+    availableDays: number;
     status: boolean,
     createdAt: Date,
     deactivatedAt: Date,

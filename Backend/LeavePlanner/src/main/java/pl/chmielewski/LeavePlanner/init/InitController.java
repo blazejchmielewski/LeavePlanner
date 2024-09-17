@@ -30,7 +30,14 @@ public class InitController {
         RegisterUserDTO registerUserDTO = new RegisterUserDTO(
                 "Błażej",
                 "Chmielewski",
-                "blazejchmielewski01@gmail.com",
+                "blazej.chmielewski@cfsa.pl",
+                "haslo123",
+                Department.BI.name()
+        );
+        RegisterUserDTO registerUserDTO1 = new RegisterUserDTO(
+                "Anna",
+                "Nolbrzak-Jasińska",
+                "anna.nolbrzak-jasinska@cfsa.pl",
                 "haslo123",
                 Department.BI.name()
         );
@@ -50,9 +57,11 @@ public class InitController {
         );
         try {
             UserRegisterSuccessedDTO register = authService.register(registerUserDTO, response);
+            UserRegisterSuccessedDTO register1 = authService.register(registerUserDTO1, response);
             UserRegisterSuccessedDTO register2 = authService.register(registerUserDTO2, response);
             UserRegisterSuccessedDTO register3 = authService.register(registerUserDTO3, response);
             authService.enableUser(register.uuid());
+            authService.enableUser(register1.uuid());
             authService.enableUser(register2.uuid());
             authService.enableUser(register3.uuid());
         } catch (Exception e) {
