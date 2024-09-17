@@ -10,11 +10,12 @@ import { UserDetails } from '../../../models/user.model';
 export class UserDetailsComponent implements OnInit{
 
   userDetails!: UserDetails;
-
+  profileImagePath: string = '';
   constructor(private userService: UserService){}
   
   ngOnInit(): void {
     this.getUserDetails();
+    
   }
 
   getUserDetails(){
@@ -22,6 +23,7 @@ export class UserDetailsComponent implements OnInit{
       next: (resp)=>{
         if(resp){
           this.userDetails = resp
+          this.setProfileImageBasedOnEmail(resp.email)
         }
         
       }, error: (err) => {
@@ -36,4 +38,15 @@ export class UserDetailsComponent implements OnInit{
       case false: return 'Nie aktywny'
     }
   }
+
+  setProfileImageBasedOnEmail(email: string) {
+    const dotIndex = email.indexOf('.');
+
+    if (dotIndex > 0 && email[dotIndex - 1] === 'a') {
+      this.profileImagePath = '../../../../../../assets/avatar-woman.png';
+    } else {
+      this.profileImagePath = '../../../../../../assets/avatar-man.png';
+    }
+  }
+
 }
