@@ -1,4 +1,4 @@
-package pl.chmielewski.LeavePlanner.Leave;
+package pl.chmielewski.LeavePlanner.Leave.leave;
 
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -13,11 +13,9 @@ import pl.chmielewski.LeavePlanner.Leave.api.request.UpdateLeaveDTO;
 import pl.chmielewski.LeavePlanner.Leave.api.response.LeaveDataExtendResponse;
 import pl.chmielewski.LeavePlanner.Leave.api.response.LeaveDataResponse;
 import pl.chmielewski.LeavePlanner.Leave.api.response.UsersToSwitchResponse;
-import pl.chmielewski.LeavePlanner.Leave.leave.Status;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 

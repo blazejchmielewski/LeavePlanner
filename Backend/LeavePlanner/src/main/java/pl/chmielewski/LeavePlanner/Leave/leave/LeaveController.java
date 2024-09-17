@@ -1,4 +1,4 @@
-package pl.chmielewski.LeavePlanner.Leave;
+package pl.chmielewski.LeavePlanner.Leave.leave;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -5,8 +5,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pl.chmielewski.LeavePlanner.Authentication.api.AbstractApiResponse;
 import pl.chmielewski.LeavePlanner.Leave.api.request.AddDayOffRequest;
 import pl.chmielewski.LeavePlanner.Leave.api.request.DateRequest;
+import pl.chmielewski.LeavePlanner.Leave.api.response.AllYearsWithHolyCount;
 import pl.chmielewski.LeavePlanner.Leave.api.response.DayOffAddedResponse;
 
 import java.time.LocalDate;
@@ -33,10 +35,18 @@ public class DayOffController {
         return dayOffService.getDaysoffsByYear(Integer.parseInt(yearRequest));
     }
 
+    @GetMapping("/all-years")
+    public List<AllYearsWithHolyCount> getAllYears(){
+        return dayOffService.getAllYears();
+    }
+
     @PostMapping("/add")
-    public ResponseEntity<DayOffAddedResponse> addDayOff(@RequestBody AddDayOffRequest[] request) {
-        dayOffService.addNewDayOff(request);
-        return new ResponseEntity<>(new DayOffAddedResponse(), HttpStatusCode.valueOf(201));
+    public ResponseEntity<AbstractApiResponse> addDayOff(@RequestBody AddDayOffRequest request) {
+        AbstractApiResponse abstractApiResponse = dayOffService.addNewDayOff(request);
+        if(abstractApiResponse instanceof DayOffAddedResponse){
+            return new ResponseEntity<>(abstractApiResponse, HttpStatusCode.valueOf(201));
+        }
+        return new ResponseEntity<>(abstractApiResponse, HttpStatusCode.valueOf(409));
     }
 
     @DeleteMapping("/delete")
@@ -46,7 +56,16 @@ public class DayOffController {
 
     @PostMapping("/get-by-date")
     public ResponseEntity<DayOff> getDayOffByDate(@RequestBody DateRequest dateRequest) {
-        LocalDate date = dateRequest.date();
-        return new ResponseEntity<>(dayOffService.getDayOffByDate(date), HttpStatus.OK);
+        return new ResponseEntity<>(dayOffService.getDayOffByDate(dateRequest.date()), HttpStatus.OK);
+    }
+
+    @GetMapping("/get-by-year/{year}")
+    public long getHolyCountByYear(@PathVariable("year") int year){
+        return dayOffService.getHolidaysNumberByYear(year);
+    }
+
+    @GetMapping("/year-exists")
+    public boolean isYearExisting(Integer year){
+        return dayOffService.isYearExisting(year);
     }
 }

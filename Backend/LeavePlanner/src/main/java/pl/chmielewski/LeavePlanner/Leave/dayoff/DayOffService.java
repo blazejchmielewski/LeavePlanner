@@ -2,13 +2,13 @@ package pl.chmielewski.LeavePlanner.Leave.dayoff;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pl.chmielewski.LeavePlanner.Authentication.api.AbstractApiResponse;
 import pl.chmielewski.LeavePlanner.Leave.api.request.AddDayOffRequest;
+import pl.chmielewski.LeavePlanner.Leave.api.response.AllYearsWithHolyCount;
 import pl.chmielewski.LeavePlanner.Leave.api.response.DayOffAddedResponse;
-import pl.chmielewski.LeavePlanner.Leave.year.YearService;
+import pl.chmielewski.LeavePlanner.Leave.api.response.DayOffNotAddedResponse;
 
 import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -17,60 +17,60 @@ import java.util.stream.Collectors;
 public class DayOffService {
 
     private final DayOffRepository dayOffRepository;
-    private final YearService yearService;
 
     @Autowired
-    public DayOffService(DayOffRepository dayOffRepository, YearService yearService) {
+    public DayOffService(DayOffRepository dayOffRepository) {
         this.dayOffRepository = dayOffRepository;
-        this.yearService = yearService;
+
     }
 
     List<DayOff> getAllDayOffs() {
         return dayOffRepository.findAll();
     }
 
-    DayOffAddedResponse addNewDayOff(AddDayOffRequest[] addDayOffRequest) {
-
-        List<LocalDate> allDayOffs = getAllDayOffs().stream().map(DayOff::getDayOff).toList();
-
-        if (addDayOffRequest.length > 0) {
-            int year = addDayOffRequest[0].dayOff().getYear();
-            yearService.addToHolyCount(year);
+    AbstractApiResponse addNewDayOff(AddDayOffRequest request) {
+        if (!dayOffRepository.existsByDayOff(request.dayOff())) {
+            dayOffRepository.save(new DayOff(request.holyName(), request.dayOff().getYear(), request.dayOff()));
+            return new DayOffAddedResponse();
         }
-
-        List<DayOff> dayOffsToSave = Arrays.stream(addDayOffRequest)
-                .filter(d -> !allDayOffs.contains(d.dayOff()))
-                .map(r -> new DayOff(r.holyName(), r.dayOff()))
-                .collect(Collectors.toList());
-
-        dayOffRepository.saveAll(dayOffsToSave);
-
-        return new DayOffAddedResponse();
+        return new DayOffNotAddedResponse();
     }
 
-    DayOff getDayOffByDate(LocalDate date){
-        return dayOffRepository.findByDayOff(date).orElseThrow(()->new RuntimeException("Nie znaleziono"));
+    // TODO 1. Błąd własny
+    DayOff getDayOffByDate(LocalDate date) {
+        return dayOffRepository.findByDayOff(date).orElseThrow(() -> new RuntimeException("Nie znaleziono"));
     }
 
+    // TODO 2. Błąd własny
     List<DayOff> getDaysoffsByYear(int year) {
-        return getAllDayOffs()
-                .stream()
-                .filter(dayOff -> dayOff.getDayOff().toString().startsWith(String.valueOf(year)))
-                .sorted(Comparator.comparing(DayOff::getDayOff))
-                .collect(Collectors.toList());
+        return dayOffRepository.findAllByYear(year).orElseThrow(() -> new RuntimeException("Nie znaleziono"));
     }
 
-    Long getHolidaysNumberByYear(int year){
-        return getAllDayOffs().stream()
-                .filter(d -> d.getDayOff().toString().startsWith(String.valueOf(year)))
-                .count();
+    Long getHolidaysNumberByYear(int year) {
+        return dayOffRepository.findAllByYear(year).stream().count();
     }
 
-    String deleteHolyById(Long id){
+    //TODO return -> jako rekord
+    String deleteHolyById(Long id) {
         Optional<DayOff> byId = dayOffRepository.findById(id);
         dayOffRepository.deleteById(id);
-        byId.ifPresent(dayOff -> yearService.reduceHolyCount(dayOff.getDayOff().getYear()));
         return "Usunieto święto";
     }
 
+    List<AllYearsWithHolyCount> getAllYears() {
+        return dayOffRepository.findAll()
+                .stream()
+                .collect(Collectors.groupingBy(DayOff::getYear, Collectors.counting()))
+                .entrySet()
+                .stream()
+                .map(entry -> new AllYearsWithHolyCount(entry.getKey(), entry.getValue().intValue()))
+                .collect(Collectors.toList());
+    }
+
+    public boolean isYearExisting(Integer year) {
+        if (year == null) {
+            return false;
+        }
+        return dayOffRepository.findAllByYear(year).isPresent();
+    }
 }

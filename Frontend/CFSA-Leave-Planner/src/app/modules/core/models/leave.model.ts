@@ -57,23 +57,19 @@ export interface UsersToSwitch {
     lastname: string;
 }
 
-export interface Dayoff {
-    holyName: String;
-    dayOff: Date;
-}
-
-export interface Year {
-    id: number,
-    year: number,
-    holyCount: number
-}
-
-export interface YearRequest{
-    year: number
-}
-
-export interface DayoffDetails{
+export interface Dayoff{
     id: number;
     holyName: String;
+    year: string;
     dayOff: Date;
+}
+
+export interface DayoffModel{
+    holyName: String;
+    dayOff: Date;
+}
+
+export interface YearWithHolyCount{
+    year: number;
+    holyCount: number;
 }

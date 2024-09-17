@@ -12,13 +12,15 @@ public class DayOff {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String holyName;
+    private int year;
     @Column(unique = true)
     private LocalDate dayOff;
     public DayOff() {
     }
 
-    public DayOff(String holyName, LocalDate dayOff) {
+    public DayOff(String holyName, int year, LocalDate dayOff) {
         this.holyName = holyName;
+        this.year = year;
         this.dayOff = dayOff;
     }
 
@@ -36,6 +38,14 @@ public class DayOff {
 
     public Long getId() {
         return id;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
     }
 
     public void setId(Long id) {

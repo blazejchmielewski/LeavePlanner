@@ -1,4 +1,4 @@
-package pl.chmielewski.LeavePlanner.Leave;
+package pl.chmielewski.LeavePlanner.Leave.leave;
 
 import jakarta.persistence.*;
 import pl.chmielewski.LeavePlanner.Authentication.user.User;

@@ -1,4 +1,4 @@
-package pl.chmielewski.LeavePlanner.Leave;
+package pl.chmielewski.LeavePlanner.Leave.leave;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
