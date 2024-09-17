@@ -42,6 +42,9 @@ public class User implements UserDetails {
     @Column(name = "us_role")
     private Role role;
 
+    @Column(name = "us_available_days")
+    private int availableDays;
+
     @Column(name = "us_department")
     private Department department;
 
@@ -66,6 +69,7 @@ public class User implements UserDetails {
         this.email = email;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+        this.availableDays = 0;
         this.deactivatedAt = deactivatedAt;
     }
 
@@ -168,6 +172,13 @@ public class User implements UserDetails {
         isEnabled = enabled;
     }
 
+    public int getAvailableDays() {
+        return availableDays;
+    }
+
+    public void setAvailableDays(int availableDays) {
+        this.availableDays = availableDays;
+    }
 
     public LocalDateTime getCreatedAt() {
         return createdAt;

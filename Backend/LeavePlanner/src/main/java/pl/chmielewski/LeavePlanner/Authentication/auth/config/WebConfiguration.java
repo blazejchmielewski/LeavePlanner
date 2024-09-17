@@ -7,6 +7,7 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.SecurityFilterChain;
@@ -28,12 +29,12 @@ public class WebConfiguration {
 
     private final String[] WHITE_LIST_URL = {
             "/auth/**",
-            "/users/departments"
+            "/users/departments",
+            "/h2-console/**",
+            "/h2-console",
     };
 
     private final String[] USER_LIST_URL = {
-            "/test/razem",
-            "/test/user",
             "/users/all",
             "/users/get/**",
             "/users/user-details",
@@ -76,6 +77,7 @@ public class WebConfiguration {
                         l.logoutUrl("/logout")
                                 .addLogoutHandler(logoutService)
                                 .logoutSuccessHandler((request, response, authentication) -> SecurityContextHolder.clearContext()));
+                http.headers(h->h.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable));
         return http.build();
     }
 }

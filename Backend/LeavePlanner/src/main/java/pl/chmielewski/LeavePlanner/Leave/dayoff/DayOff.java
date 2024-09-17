@@ -10,8 +10,11 @@ public class DayOff {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "doff_id")
     private Long id;
     private String holyName;
+
+    @Column(name = "holiday_year")
     private int year;
     @Column(unique = true)
     private LocalDate dayOff;

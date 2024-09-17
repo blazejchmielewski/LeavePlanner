@@ -53,6 +53,7 @@ public class UserService {
                     u.getFirstname(),
                     u.getLastname(),
                     u.getEmail(),
+                    u.getAvailableDays(),
                     u.getDepartment().name(),
                     u.getRole().name()
             ));
@@ -134,6 +135,7 @@ public class UserService {
         userById.setEmail(updateUserDTO.email());
         userById.setFirstname(updateUserDTO.firstname());
         userById.setLastname(updateUserDTO.lastname());
+        userById.setAvailableDays(updateUserDTO.availableDays());
         userById.setDepartment(Department.valueOf(updateUserDTO.department()));
         userById.setUpdatedAt(LocalDateTime.now());
         userRepository.save(userById);
