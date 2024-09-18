@@ -1,24 +1,20 @@
 package pl.chmielewski.LeavePlanner.Leave.jobs;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import pl.chmielewski.LeavePlanner.Authentication.user.UserService;
 
 @Service
-public class JobService {
+public interface JobService {
 
-    private final UserService userService;
+    // 1. (codziennie 22:00:00:000) | Dodaje dni urlopowe
+    @Scheduled(cron = "0 0 22 * *?")
+    String addDays();
 
-    @Autowired
-    public JobService(UserService userService) {
-        this.userService = userService;
-    }
+    // 2. (01.01.XXXX 00:00:00:000) | Zmniejszam liczbe dni po skończeniu urlopu
+    @Scheduled(cron = "0 0 0 1 1?")
+    String reduceAvailableDaysAfterLeave();
 
-    // Codzinnie o 19:40 - Dodanie wolnych dni pracownikom
-    @Scheduled(cron = "0 40 19 * * *")
-    public void addDays(){
-        userService.addAvailableDats(1L);
-        System.out.println("Wykonuję zadanie codziennie o 19:40");
-    }
+    // 3. (codziennie 22:00:00:000) | Codziennie ustaw status urlopu jako "trwa" gdzie date = getdate()
+    @Scheduled(cron = "0 0 22 * *?")
+    String setLeaveStatusPending();
 }

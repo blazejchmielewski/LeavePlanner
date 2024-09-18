@@ -24,7 +24,7 @@ public class DayOffService {
 
     }
 
-    List<DayOff> getAllDayOffs() {
+    public List<DayOff> getAllDayOffs() {
         return dayOffRepository.findAll();
     }
 
@@ -37,27 +37,27 @@ public class DayOffService {
     }
 
     // TODO 1. Błąd własny
-    DayOff getDayOffByDate(LocalDate date) {
+    public DayOff getDayOffByDate(LocalDate date) {
         return dayOffRepository.findByDayOff(date).orElseThrow(() -> new RuntimeException("Nie znaleziono"));
     }
 
     // TODO 2. Błąd własny
-    List<DayOff> getDaysoffsByYear(int year) {
+    public List<DayOff> getDaysoffsByYear(int year) {
         return dayOffRepository.findAllByYear(year).orElseThrow(() -> new RuntimeException("Nie znaleziono"));
     }
 
-    Long getHolidaysNumberByYear(int year) {
+    public Long getHolidaysNumberByYear(int year) {
         return dayOffRepository.findAllByYear(year).stream().count();
     }
 
     //TODO return -> jako rekord
-    String deleteHolyById(Long id) {
+    public String deleteHolyById(Long id) {
         Optional<DayOff> byId = dayOffRepository.findById(id);
         dayOffRepository.deleteById(id);
         return "Usunieto święto";
     }
 
-    List<AllYearsWithHolyCount> getAllYears() {
+    public List<AllYearsWithHolyCount> getAllYears() {
         return dayOffRepository.findAll()
                 .stream()
                 .collect(Collectors.groupingBy(DayOff::getYear, Collectors.counting()))

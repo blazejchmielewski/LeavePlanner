@@ -175,4 +175,9 @@ public class UserService {
         userById.setAvailableDays(userById.getAvailableDays()+20);
         userRepository.save(userById);
     }
+
+    public void reduceUserAvailableDays(User user, int days){
+        user.setAvailableDays(user.getAvailableDays() - days);
+        saveUser(user);
+    }
 }

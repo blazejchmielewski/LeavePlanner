@@ -26,6 +26,8 @@ public class Leave {
     private LeaveType type;
     @Column(name = "lv_status")
     private Status status;
+    @Column(name = "lv_days")
+    private int days;
     @Column(name = "lv_created_at")
     private LocalDateTime createdAt;
     @Column(name = "lv_updated_at")
@@ -46,7 +48,7 @@ public class Leave {
     public Leave() {
     }
 
-    public Leave(LocalDateTime startDate, LocalDateTime endDate, LeaveType type, Status status, LocalDateTime createdAt, LocalDateTime updatedAt, LocalDateTime settledByReplacerAt, LocalDateTime settledByAcceptorsAt, User user, User replacementUser, String uuid) {
+    public Leave(LocalDateTime startDate, LocalDateTime endDate, LeaveType type, Status status, LocalDateTime createdAt, LocalDateTime updatedAt, LocalDateTime settledByReplacerAt, int days, LocalDateTime settledByAcceptorsAt, User user, User replacementUser, String uuid) {
         this.startDate = startDate;
         this.endDate = endDate;
         this.type = type;
@@ -55,6 +57,7 @@ public class Leave {
         this.updatedAt = updatedAt;
         this.settledByReplacerAt = settledByReplacerAt;
         this.settledByAcceptorsAt = settledByAcceptorsAt;
+        this.days = days;
         this.user = user;
         this.replacementUser = replacementUser;
         this.uuid = uuid;
@@ -146,6 +149,14 @@ public class Leave {
 
     public void setSettledByReplacerAt(LocalDateTime settledByReplacerAt) {
         this.settledByReplacerAt = settledByReplacerAt;
+    }
+
+    public int getDays() {
+        return days;
+    }
+
+    public void setDays(int days) {
+        this.days = days;
     }
 
     public LocalDateTime getSettledByAcceptorsAt() {
