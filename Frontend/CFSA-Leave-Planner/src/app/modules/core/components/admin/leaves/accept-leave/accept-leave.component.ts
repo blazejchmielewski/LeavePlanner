@@ -1,8 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { DialogData } from '../../users/confirm-dialog/confirm-dialog.component';
-import { Router } from '@angular/router';
 import { LeaveService } from 'src/app/modules/core/services/leave.service';
 import { LeaveDataDetailsExtended, UuidObject } from 'src/app/modules/core/models/leave.model';
 
@@ -18,7 +16,6 @@ export class AcceptLeaveComponent {
   constructor(
     public dialogRef: MatDialogRef<AcceptLeaveComponent>,
     private _snackBar: MatSnackBar,
-    private router: Router,
     private leaveService: LeaveService,
     @Inject(MAT_DIALOG_DATA) public data: LeaveDataDetailsExtended
   ) {}
@@ -38,7 +35,6 @@ export class AcceptLeaveComponent {
             duration: 2000,
           });
           this.dialogRef.close('success');
-          this.router.navigate(['/leaves']);
         }, 
         error: (err) => {
           console.log(err);

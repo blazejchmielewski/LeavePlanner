@@ -15,7 +15,7 @@ export class RejectLeaveComponent {
   uid: UuidObject = { uuid: '' };
 
   constructor(
-    public dialogRef: MatDialogRef<AcceptLeaveComponent>,
+    public dialogRef: MatDialogRef<RejectLeaveComponent>,
     private _snackBar: MatSnackBar,
     private router: Router,
     private leaveService: LeaveService,
@@ -23,7 +23,6 @@ export class RejectLeaveComponent {
   ) {}
 
   onNoClick(): void {
-    this.data.leaveUuid
     this.dialogRef.close(false);
   }
 
@@ -34,15 +33,14 @@ export class RejectLeaveComponent {
         next: (resp) => {
           console.log(resp);
           this._snackBar.open('Odrzucono urlop pomyślnie', 'Zamknij', {
-            duration: 2000,
+            duration: 1000,
           });
           this.dialogRef.close('success');
-          this.router.navigate(['/leaves']);
         }, 
         error: (err) => {
           console.log(err);
           this._snackBar.open('Nie udało się odrzucić urlopu', 'Zamknij', {
-            duration: 2000,
+            duration: 1000,
           });
         }
       });

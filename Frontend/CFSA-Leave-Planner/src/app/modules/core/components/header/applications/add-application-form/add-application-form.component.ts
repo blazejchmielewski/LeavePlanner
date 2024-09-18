@@ -34,6 +34,9 @@ export class AddApplicationFormComponent {
         type: this.addApplicationForm.value.type ?? '',
         userUuid: this.addApplicationForm.value.userUuid ?? ''
       };
+      body.startDate.setDate(body.startDate.getDate() + 1);
+      body.endDate.setDate(body.endDate.getDate() + 1);
+      
       this.leaveService.addLeave(body).subscribe({
         next: (resp) => {
           this.router.navigate(['/application'])

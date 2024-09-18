@@ -64,3 +64,16 @@
 .reject:hover {
     background-color: #DF393B;
 }
+
+.accepted {
+    color: green;
+  }
+  
+.rejected {
+    color: red;
+}
+  
+.pending {
+    color: orange;
+}
+  

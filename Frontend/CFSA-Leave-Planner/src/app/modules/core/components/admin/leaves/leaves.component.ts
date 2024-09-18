@@ -105,7 +105,7 @@ export class LeavesComponent implements AfterViewInit, OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result === 'success') {
-        this.refresh();
+        this.refreshData();
       }
     });
   }
@@ -118,7 +118,7 @@ export class LeavesComponent implements AfterViewInit, OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result === 'success') {
-        this.refresh();
+        this.refreshData();
       }
     });
   }
@@ -135,5 +135,15 @@ export class LeavesComponent implements AfterViewInit, OnInit {
 
   getDate(): Date {
     return new Date();
+  }
+
+  getStatusClass(status: string): string {
+    if (status === 'ZAAKCEPTOWANY PRZEZ ZARZĄD') {
+      return 'accepted';
+    } else if (status === 'ODRZUCONY PRZEZ ZARZĄD') {
+      return 'rejected';
+    } else {
+      return 'pending';
+    }
   }
 }
