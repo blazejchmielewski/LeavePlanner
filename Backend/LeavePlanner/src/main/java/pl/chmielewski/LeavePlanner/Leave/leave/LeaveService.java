@@ -202,7 +202,6 @@ public class LeaveService {
                     !dayOffDates.contains(currentDate)
             ) {
                 days++;
-                System.out.println("Dodaje dla dnia : " + currentDate);
             }
             currentDate = currentDate.plusDays(1);
         }

@@ -56,7 +56,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(TokenNotFoundByCookieException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ApiResponse tokenNotFoundByCookieHandler(TokenNotFoundByCookieException ex) {
-        return new ApiResponse(ex.getMessage(), HttpStatus.NOT_FOUND.value());
+        return new ApiResponse(ex.getMessage(), 401);
     }
 
     @ResponseBody

@@ -5,9 +5,11 @@ public enum Department {
     BFIR,
     DWWZ,
     DWWD,
+    DWWDP,
     ZWSWD,
     ZWSWZ,
     BP,
     BAIO,
-    BI
+    BI,
+    ZARZAD
 }
