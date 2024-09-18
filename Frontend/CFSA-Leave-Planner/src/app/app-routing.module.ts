@@ -22,7 +22,7 @@ import { CalendarPanelComponent } from './modules/core/components/admin/calendar
 import { YearComponent } from './modules/core/components/admin/calendar-panel/year/year.component';
 
 const routes: Routes = [
-  { path: '', component: AdminComponent},
+  { path: '', component: HomeComponent},
   { path: 'home', component: HomeComponent},
   { path: 'admin', component: AdminComponent, canActivate: [AuthGuard]},
   { path: 'logowanie', component: LoginComponent, canActivate: [UnauthGuard] },

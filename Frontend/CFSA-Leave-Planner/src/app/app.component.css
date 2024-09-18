@@ -1,7 +1,7 @@
 app-header {
-    position: relative; /* Ustawienie na stałe */
+    position: relative;
     top: 0;
     left: 0;
     right: 0;
-    z-index: 1000; /* Ustawienie wartości wyższej niż dla innych elementów */
+    z-index: 1000;
   }

@@ -3,12 +3,18 @@ import {
   HttpRequest,
   HttpHandler,
   HttpEvent,
-  HttpInterceptor
+  HttpInterceptor,
+  HttpErrorResponse
 } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+import { Store } from '@ngrx/store';
+import * as AuthActions from '../../auth/store/auth.actions'
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
+  constructor(private store: Store) {}
+
   intercept(
     req: HttpRequest<any>,
     next: HttpHandler
@@ -20,12 +26,18 @@ export class AuthInterceptor implements HttpInterceptor {
         headers: req.headers.set('Authorization', `Bearer ${authToken}`)
       });
 
-      console.log('Request with token:', authReq);
-
-      return next.handle(authReq);
+      return next.handle(authReq).pipe(
+        catchError((error: HttpErrorResponse) => {
+          if (
+            error.error &&
+            error.error.exception === 'TokenNotFoundByCookieException'
+          ) {
+            this.logout();
+          }
+          return throwError(() => error);
+        })
+      );
     } else {
-      console.log('Request without token:', req);
-
       return next.handle(req);
     }
   }
@@ -39,5 +51,9 @@ export class AuthInterceptor implements HttpInterceptor {
       }
     }
     return '';
+  }
+
+  private logout() {
+    this.store.dispatch(AuthActions.logout());
   }
 }
