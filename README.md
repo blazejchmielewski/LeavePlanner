@@ -26,7 +26,7 @@ ___
 ___
 **1. Klonowanie repozytorium**:
 
-`git clone https://github.com/BlazejChmielewskiCFSA/Leave-Planner.git`  
+`git clone https://github.com/blazejchmielewski/LeavePlanner.git`  
 
 **2. Backend (Java Spring Boot)**:  
 Uruchom aplikacje w ulubionym ide, domyślne aplikacja startuje na http://localhost:8080.  
